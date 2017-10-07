@@ -1,10 +1,10 @@
 ﻿---
 title: Review of October
 date: 2017-10-06 20:34:34
-updated: 2017-10-06 20:34:34
+updated: 2017-10-07 15:15:00
 categories:
 - oi
-- review & plans
+- reviews & plans
 tags:
 - review
 ---
@@ -13,7 +13,7 @@ tags:
 
 by zhu siji
 
-A: 圆的并, 扫描线, ???(std? 不存在的)
+A: 圆的并, 扫描线, ???
 
 B: 代数式化简, 通过**组合数的意义**优化含阶乘的代数式. (std: 旋转坐标轴..)
 
@@ -27,7 +27,7 @@ B: 类数位DP.
 
 C: 树上贪心. 或 树上DP.
 
-## Ocr 6th - T50
+## Oct 6th - T50
 
 by Yali.
 
@@ -39,11 +39,11 @@ C: 代数式恒等变化, 狄利克雷卷积的应用, 前缀和分块优化.
 
 附: Proof of C: (id(x) = x, 1(x) = 1)
 
-` 令G(i) = sigma(d | n) g(d);
+令G(i) = sigma(d | n) g(d);
 
-设n = p1 ^ a1 * p2 ^ a2 * ...
+设n = p1 ^ a1 \* p2 ^ a2 \* ...
 
-则: G(i) = sigma(i = 0..a1) (-1)^i * sigma(i = 0..a2) (-1)^i;
+则: G(i) = sigma(i = 0..a1) (-1)^i \* sigma(i = 0..a2) (-1)^i;
 
 显然, 当ax 为奇数 第二个sigma为0, 反之为1.
 
@@ -51,4 +51,26 @@ C: 代数式恒等变化, 狄利克雷卷积的应用, 前缀和分块优化.
 
 即G(i) = i == a ^ 2.
 
-所以原式 = sigma f(i) = sigma g * h = sigma g * id * 1 = sigma g * 1 * id = sigma (sigma (d | n) g(d) * 1(n / d)) * id = sigma (sigma(d | n) g(d) * id) = sigma(G(d) * id) = sigma(sigma [j == x ^ 2] * (i / j) = sigma (i = 1..n) (sigma(j = 1..sqrt(x)) (i / j ^ 2))`
+所以原式 = sigma f(i) = sigma g \* h = sigma g \* id \* 1 = sigma g \* 1 \* id 
+= sigma (sigma (d | n) g(d) \* 1(n / d)) \* id = sigma (sigma(d | n) g(d) \* id) = sigma(G(d) \* id) 
+= sigma(sigma [j == x ^ 2] \* (i / j) = sigma (i = 1..n) (sigma(j = 1..sqrt(x)) (i / j ^ 2))
+
+## Oct 7th - T51
+
+by Yali.  
+
+(这套题是在搞笑吗??)
+
+A: 平面图的面: (通俗解释:能用画图的填充工具填满的一块) 平面的一块，它用边做边界线，不能再分成更小的块。存在有限面 = 存在环. 最大生成树.
+
+B: 用对称性解决博弈论. (算法与数据范围不符系列...)
+
+C: ???(std看不懂系列)
+
+### Codeforces Round 439 (\#869)
+ 
+A: 暴力, 或结论: xor的可逆性. B: 略
+
+C: 乘法原理.
+
+E: 差分, 使用`rand()` 来表示不同的差分内容. 二维树状数组的使用方法. 

@@ -3,7 +3,7 @@ title: Review of September
 date: 2017-10-06 20:23:23
 categories:
 - oi
-- review & plans
+- reviews & plans
 tags:
 - review
 ---
