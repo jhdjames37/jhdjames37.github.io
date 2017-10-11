@@ -1,0 +1,8 @@
+<div class="widget-wrap">
+  <h3 class="widget-title"><%= "links" %></h3>
+    <div class="widget">
+       <% for (var link in site.data.links) { %>
+         <a href="<%= site.data.links[link] %>"> <%= link %> </a>
+       <% } %>
+  </div>
+</div>
