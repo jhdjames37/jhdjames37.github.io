@@ -1,7 +1,7 @@
 ﻿---
 title: Review of October
 date: 2017-10-06 20:34:34
-updated: 2017-10-10 17:38s:00
+updated: 2017-10-11 16:15:00
 categories:
 - oi
 - reviews & plans
@@ -109,3 +109,62 @@ C: dijk + 求**关键路径** + 差分扫描线维护答案.
 A: 表达式运算 - 括号只在算优先级时有用, 之后就可以ignore了.
 
 B: 关键路径, C: 贪心(std错误系列) D: 略 E: 爆搜 F: 树的重心 G: 凸包(极角序的细节问题, 或者用水平序).
+
+## Oct 11th - T55
+
+模板题专场 *2
+
+A: **基数排序**
+
+~~最简单方法: `std::sort()`~~ (雾)
+
+正经的模板: (假设数据范围在int范围)
+
+```cpp radix_sort
+//BASE为基数
+int a[MAXN], b[MAXN], cnt[BASE];
+int tmp = 1;
+for (int i = 1; i <= 2; i++) {
+	memset(cnt, 0, sizeof cnt);
+	for (int j = l; j <= r; j++) cnt[a[j] / tmp % BASE]++;
+	for (int j = 1; j < BASE; j++) cnt[j] += cnt[j - 1];
+	for (int j = r; j >= l; j--) b[cnt[a[j] / tmp % BASE]--] = a[j];
+	for (int j = l; j <= r; j++) a[j] = b[j];
+	tmp *= BASE; 
+}
+```
+
+原理: 逐位排序, 本轮排序的结果将会用来确定下一轮中键值相同情况的排列顺序(按照前一轮的顺序排)
+
+这玩意毕竟复杂度为O(n). 时间比较: (n = 1e7, 单位ms)
+int 范围内:
+	Array STL_sort: 13498
+	Array quick_sort: 12856
+	Array radix_sort: 11570
+
+long long 范围内:
+	Array STL_sort: 20783
+	Array normal_sort: 19726
+	Array radix_sort: 20909 (基数1e5)
+(如果范围为1e18, 且基数设为1e6, 还可以优化一些常数)
+	Array STL_sort: 20964
+	Array normal_sort: 21252
+	Array radix_sort: 20860
+
+B: Huffman编码, C: 连通分量(DFS/并查集), **双向边** D: 大模拟
+
+E: 最近点对:
+
+法一: 暴力(及其优化) 
+按x轴排序, 之后枚举每一个点对: 若第二层枚举时, x的距离超过ans时就可以剪枝.
+对于随机数据, 效果良好.
+
+如果想更稳定一些, 可以将所有点强制旋转一个随机角度, 这样hack数据也可以变成随机数据. (加上快读, HDU1007有人成功卡进100ms)
+
+结论: **随机化数据**
+
+法二: 扫描线 + 数据结构维护
+
+法三: 分治
+
+F: 模拟(DAG) G: MST.
