@@ -22,16 +22,20 @@ tags
 	- 相关知识点...
 - 其它之后再说.
 
-**另: 需要加入Mathjax功能.(未完成)**
+Mathjax test: (加载速度较慢, 但已经能够正确识别.)
 
-Mathjax test:   
+Mathjax 用法: http://blog.csdn.net/zoe_su/article/details/52506219
 
-123 `$\sigma$` 344
+123 $\sigma$ 344
+
+$$ 
+\sigma 
+\frac{\partial u}{\partial t} = h^2 \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}\right)
+$$
 
 233
 ``` bash
-npm uninstall hexo-renderer-marked --save
-npm install hexo-renderer-kramed --save
+npm install hexo-renderer-mathjax
 ```
 
 git deployment
