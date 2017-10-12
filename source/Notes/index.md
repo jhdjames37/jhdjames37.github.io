@@ -22,6 +22,10 @@ tags
 	- 相关知识点...
 - 其它之后再说.
 
+---
+
+## 关于Mathjax
+
 Mathjax test: (加载速度较慢, 但已经能够正确识别.)
 
 Mathjax 用法: http://blog.csdn.net/zoe_su/article/details/52506219
@@ -31,10 +35,13 @@ Mathjax 用法: http://blog.csdn.net/zoe_su/article/details/52506219
 $$ 
 \sigma 
 \frac{\partial u}{\partial t} = h^2 \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}\right)
+\sum_{i = 1}^{n} a_i
 $$
 
 233
 ``` bash
+npm uninstall hexo-renderer-marked
+npm install hexo-renderer-kramed
 npm install hexo-renderer-mathjax
 ```
 
@@ -46,6 +53,9 @@ script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?conf
 script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 ```
 
+但是对于部分行内式, 需要在` $ `前加` ` `.
+
+---
 git deployment
 ``` bash
 npm install hexo-deployer-git --save

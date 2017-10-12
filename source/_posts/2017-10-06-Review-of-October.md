@@ -39,21 +39,31 @@ C: 代数式恒等变化, 狄利克雷卷积的应用, 前缀和分块优化.
 
 附: Proof of C: (id(x) = x, 1(x) = 1)
 
-令G(i) = sigma(d | n) g(d);
+令$G(i) = \sum_{d | n} g(d)$
 
-设n = p1 ^ a1 \* p2 ^ a2 \* ...
+设$n = p_1^{a_1} \cdot p_2^{a_2} \cdot \ldots$
 
-则: G(i) = sigma(i = 0..a1) (-1)^i \* sigma(i = 0..a2) (-1)^i;
+则:  `$G(i) = \sum_{i=0}^{a_1}(-1)^i\cdot \sum_{i = 0}^{a_2} (-1)^i \cdot \ldots$`
 
-显然, 当ax 为奇数 第二个sigma为0, 反之为1.
+显然, 当$a_x$ 为奇数 第二个sigma为0, 反之为1.
 
-故当且仅当所有ax均为偶数时原式为1, 反之为0
+故当且仅当所有$a_x$均为偶数时原式为1, 反之为0
 
-即G(i) = i == a ^ 2.
+即$G(i) = [i == a ^ 2]$
 
-所以原式 = sigma f(i) = sigma g \* h = sigma g \* id \* 1 = sigma g \* 1 \* id 
-= sigma (sigma (d | n) g(d) \* 1(n / d)) \* id = sigma (sigma(d | n) g(d) \* id) = sigma(G(d) \* id) 
-= sigma(sigma [j == x ^ 2] \* (i / j) = sigma (i = 1..n) (sigma(j = 1..sqrt(x)) (i / j ^ 2))
+所以原式
+
+$$
+= \sum_{i \le n} f(i) \\
+= \sum g \ast h  \\
+= \sum g \ast id \ast 1 \\
+= \sum g \ast 1 \ast id  \\
+= \sum_{i \le n} (\sum_{d | i} g(d) \cdot 1(\frac {i} {d})) \ast id  \\
+= \sum_{i \le n} \sum_{d | i} g(d) \ast id \\
+= \sum_{i \le n} G \ast id \\
+= \sum_{i \le n} \sum_{j | i} G(j) \cdot \frac i j \\
+= \sum_{i ^ 2 \le n} \sum_{j = 1}^{\lfloor \frac {n} {i ^ 2} \rfloor} j
+$$
 
 ## Oct 7th - T51
 
