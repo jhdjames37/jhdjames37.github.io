@@ -1,6 +1,7 @@
 ---
 title: Notes
 date: 2017-10-12 08:55:08
+mathjax: true
 ---
 
 这里将会写一些零碎的东西(没有必要放到post里的)
@@ -21,8 +22,22 @@ tags
 	- 相关知识点...
 - 其它之后再说.
 
-**另: 需要加入Mathjax功能.**
+**另: 需要加入Mathjax功能.(未完成)**
 
+Mathjax test:   
+
+123 `$\sigma$` 344
+
+233
+``` bash
+npm uninstall hexo-renderer-marked --save
+npm install hexo-renderer-kramed --save
+```
+
+git deployment
+``` bash
+npm install hexo-deployer-git --save
+```
 ---
 
 ## 关于初赛
