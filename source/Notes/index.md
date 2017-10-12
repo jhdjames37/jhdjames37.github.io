@@ -37,11 +37,13 @@ $$
 ``` bash
 npm install hexo-renderer-mathjax
 ```
+
 并修改`\node_modules\hexo-renderer-mathjax`下的`index.html`:
-```
 
 ```
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+//alter
+script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 ```
 
 git deployment
