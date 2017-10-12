@@ -80,3 +80,7 @@ deploy:
   type: git
   repo: https://github.com/jhdjames37/jhdjames37.github.io
   branch: master
+
+mathjax:
+  cdn: https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+ 

@@ -26,9 +26,9 @@ tags
 
 ## 关于Mathjax
 
-Mathjax test: (加载速度较慢, 但已经能够正确识别.)
-
 Mathjax 用法: http://blog.csdn.net/zoe_su/article/details/52506219
+
+Mathjax test: (加载速度较慢, 但已经能够正确识别.)
 
 123 $\sigma$ 344
 
@@ -42,15 +42,13 @@ $$
 ``` bash
 npm uninstall hexo-renderer-marked
 npm install hexo-renderer-kramed
-npm install hexo-renderer-mathjax
+npm install hexo-renderer-mathjax2
 ```
 
-并修改`\node_modules\hexo-renderer-mathjax`下的`index.html`:
-
-```
-script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-//alter
-script src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+并在`_config.yml`后添加:
+``` yml
+mathjax:
+  cdn: https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 ```
 
 但是对于部分行内式, 需要在` $ `前加` ` `.
