@@ -1,7 +1,7 @@
 <% function print(elet, ref) {%>
 	<li>
 	<% if (typeof (ref) === "object") { %>
-		<p> <%= col %> </p>
+		<p> <%= elet %> </p>
 		<ul>
 		<% for (var link in ref) { %>
 			<% print(link, ref[link]) %>
