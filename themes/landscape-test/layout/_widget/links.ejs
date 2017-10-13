@@ -1,23 +1,42 @@
+<% function print(elet, ref) {%>
+	<li>
+	<% if (typeof (ref) === "object") { %>
+		<p> <%= col %> </p>
+		<ul>
+		<% for (var link in ref) { %>
+			<% print(link, ref[link]) %>
+		<% } %>
+		</ul>
+	<% } else { %>
+		<a href="<%= ref %>"> <%= elet %> </a>
+	<% } %>
+	</li>
+<% } %>
+
 <% if (site.data.links) { %>
 	<div class="widget-wrap">
 		<h3 class="widget-title"><%= "links" %></h3>
 		<div class="widget">
 			<ul>
 			<% for (var col in site.data.links) { %>
-				<li>
-				<% if (typeof(site.data.links[col]) === "object") { %>
-					<%= col %>
-					<ul>
-					<% for (var link in site.data.links[col]) { %>
-						<li> <a href="<%= site.data.links[col][link] %>"> <%= link %> </a> </li>
-					<% } %>
-					</ul>
-				<% } else { %>
-					<p> <a href="<%= site.data.links[col] %>"> <%= col %> </a> </p>
-				<% } %>
-				</li>
+				<% print(col, site.data.links[col]) %>
+				
 			<% } %>
 			</ul>
 		</div>
 	</div>
 <% } %>
+<!--
+<li>
+<% if (typeof(site.data.links[col]) === "object") { %>
+	<p> <%= col %> </p>
+	<ul>
+	<% for (var link in site.data.links[col]) { %>
+		<li> <a href="<%= site.data.links[col][link] %>"> <%= link %> </a> </li>
+	<% } %>
+	</ul>
+<% } else { %>
+	<p> <a href="<%= site.data.links[col] %>"> <%= col %> </a> </p>
+<% } %>
+</li>
+-->
