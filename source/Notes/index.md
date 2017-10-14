@@ -53,7 +53,7 @@ mathjax:
   cdn: https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 ```
 
-修改:
+修改: ([参考](http://www.cnblogs.com/Ai-heng/p/7282110.html)
 
 ``` javascript /node_modules/kramed/lib/rules/inline.js
 //escape: /^\\([\\`*{}\[\]()#$+\-.!_>])/,      第11行，将其修改为
