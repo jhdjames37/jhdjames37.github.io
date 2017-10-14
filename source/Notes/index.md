@@ -32,6 +32,8 @@ Mathjax test: (加载速度较慢, 但已经能够正确识别.)
 
 123 $\sigma$ 344
 
+$G(i) = \sum_{i=0}^{a_1}(-1)^i\cdot \sum_{i = 0}^{a_2} (-1)^i \cdot \ldots$
+
 $$ 
 \sigma 
 \frac{\partial u}{\partial t} = h^2 \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}\right)
@@ -51,8 +53,14 @@ mathjax:
   cdn: https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 ```
 
-但是对于部分行内式, 需要在` $ `前加` ` `.
+修改:
 
+``` javascript /node_modules/kramed/lib/rules/inline.js
+//escape: /^\\([\\`*{}\[\]()#$+\-.!_>])/,      第11行，将其修改为
+escape: /^\\([`*\[\]()#$+\-.!_>])/,
+//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,    第20行，将其修改为
+em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
+```
 ---
 git deployment
 ``` bash

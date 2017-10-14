@@ -43,7 +43,7 @@ C: 代数式恒等变化, 狄利克雷卷积的应用, 前缀和分块优化.
 
 设$n = p_1^{a_1} \cdot p_2^{a_2} \cdot \ldots$
 
-则:  `$G(i) = \sum_{i=0}^{a_1}(-1)^i\cdot \sum_{i = 0}^{a_2} (-1)^i \cdot \ldots$`
+则:  $G(i) = \sum_{i=0}^{a_1}(-1)^i\cdot \sum_{i = 0}^{a_2} (-1)^i \cdot \ldots$
 
 显然, 当$a_x$ 为奇数 第二个sigma为0, 反之为1.
 
