@@ -10,16 +10,16 @@ mathjax: true
 
 category 的大致想法
 - oi系列
-	- reviews & plans
-	- algorithms & data structures
-	- solutions
+  - reviews & plans
+  - algorithms & data structures
+  - solutions
 - 其它之后再说.
 
 tags
 - oi这边的tags
-	- review
-	- plan
-	- 相关知识点...
+  - review
+  - plan
+  - 相关知识点...
 - 其它之后再说.
 
 ---
@@ -34,7 +34,7 @@ Mathjax test: (加载速度较慢, 但已经能够正确识别.)
 
 $G(i) = \sum_{i=0}^{a_1}(-1)^i\cdot \sum_{i = 0}^{a_2} (-1)^i \cdot \ldots$
 
-$$ 
+$$
 \sigma 
 \frac{\partial u}{\partial t} = h^2 \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}\right)
 \sum_{i = 1}^{n} a_i
@@ -64,8 +64,10 @@ em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
 ---
 ## About Modifying Theme
 
-Reference: [Fonts](http://www.jianshu.com/p/ffcdc4fec6ec) [Others](http://www.jianshu.com/p/b96fd206571a)
+Reference: [Fonts](http://www.jianshu.com/p/ffcdc4fec6ec) [Others](http://www.jianshu.com/p/b96fd206571a) [Details of Theme](http://blog.csdn.net/shi0090/article/details/48087353)
+
 ---
+
 git deployment
 ``` bash
 npm install hexo-deployer-git --save
