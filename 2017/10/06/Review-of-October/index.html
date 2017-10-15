@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Review of October | jhdjames37&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Review of October">
+<meta name="keywords" content="review">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Review of October">
+<meta property="og:url" content="jhdjames37.github.io/2017/10/06/Review-of-October/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="Review of October">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-10-11T08:15:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Review of October">
+<meta name="twitter:description" content="Review of October">
+  
+    <link rel="alternate" href="/atom.xml" title="jhdjames37&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+   <!-- <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css"> -->
+  
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">jhdjames37&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="jhdjames37.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Review-of-October" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/06/Review-of-October/" class="article-date">
+  <time datetime="2017-10-06T12:34:34.000Z" itemprop="datePublished">2017-10-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/oi/">oi</a>►<a class="article-category-link" href="/categories/oi/reviews-plans/">reviews & plans</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Review of October
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Review of October</p>
+<a id="more"></a>
+<h2 id="Oct-1st-T48"><a href="#Oct-1st-T48" class="headerlink" title="Oct 1st - T48"></a>Oct 1st - T48</h2><p>by zhu siji</p>
+<p>A: 圆的并, 扫描线, ???</p>
+<p>B: 代数式化简, 通过<strong>组合数的意义</strong>优化含阶乘的代数式. (std: 旋转坐标轴..)</p>
+<p>C: 贪心(非负权值) 或 DP(权值可为负). </p>
+<h2 id="Oct-2nd-T49"><a href="#Oct-2nd-T49" class="headerlink" title="Oct 2nd - T49"></a>Oct 2nd - T49</h2><p>A: 爆搜 + 剪枝 + 细节.</p>
+<p>B: 类数位DP.</p>
+<p>C: 树上贪心. 或 树上DP.</p>
+<h2 id="Oct-6th-T50"><a href="#Oct-6th-T50" class="headerlink" title="Oct 6th - T50"></a>Oct 6th - T50</h2><p>by Yali.</p>
+<p>A: 观察特殊性质, 染色问题.</p>
+<p>B: 询问满足条件的数 =&gt; 对每个数求满足的询问. <strong>数值相关 =&gt; 平面上的点, 区间覆盖 =&gt; 线段</strong> 主席树.</p>
+<p>C: 代数式恒等变化, 狄利克雷卷积的应用, 前缀和分块优化.</p>
+<p>附: Proof of C: (id(x) = x, 1(x) = 1)</p>
+<p>令$G(i) = \sum_{d | n} g(d)$</p>
+<p>设$n = p_1^{a_1} \cdot p_2^{a_2} \cdot \ldots$</p>
+<p>则:  $G(i) = \sum_{i=0}^{a_1}(-1)^i\cdot \sum_{i = 0}^{a_2} (-1)^i \cdot \ldots$</p>
+<p>显然, 当$a_x$ 为奇数 第二个sigma为0, 反之为1.</p>
+<p>故当且仅当所有$a_x$均为偶数时原式为1, 反之为0</p>
+<p>即$G(i) = [i == a ^ 2]$</p>
+<p>所以原式</p>
+<script type="math/tex; mode=display">
+= \sum_{i \le n} f(i) \\
+= \sum g \ast h  \\
+= \sum g \ast id \ast 1 \\
+= \sum g \ast 1 \ast id  \\
+= \sum_{i \le n} (\sum_{d | i} g(d) \cdot 1(\frac {i} {d})) \ast id  \\
+= \sum_{i \le n} \sum_{d | i} g(d) \ast id \\
+= \sum_{i \le n} G \ast id \\
+= \sum_{i \le n} \sum_{j | i} G(j) \cdot \frac i j \\
+= \sum_{i ^ 2 \le n} \sum_{j = 1}^{\lfloor \frac {n} {i ^ 2} \rfloor} j</script><h2 id="Oct-7th-T51"><a href="#Oct-7th-T51" class="headerlink" title="Oct 7th - T51"></a>Oct 7th - T51</h2><p>by Yali.  </p>
+<p>(这套题是在搞笑吗??)</p>
+<p>A: 平面图的面: (通俗解释:能用画图的填充工具填满的一块) 平面的一块，它用边做边界线，不能再分成更小的块。存在有限面 = 存在环. 最大生成树.</p>
+<p>B: 用对称性解决博弈论. (算法与数据范围不符系列…)</p>
+<p>C: <del>???(std看不懂系列)</del> 各类快速数论算法..</p>
+<h3 id="Codeforces-Round-439-869"><a href="#Codeforces-Round-439-869" class="headerlink" title="Codeforces Round 439 (#869)"></a>Codeforces Round 439 (#869)</h3><p>A: 暴力, 或结论: xor的可逆性. B: 略</p>
+<p>C: 乘法原理.</p>
+<p>E: 差分, 使用<code>rand()</code> 来表示不同的差分内容. 二维树状数组的使用方法. </p>
+<h2 id="Oct-8th-T52"><a href="#Oct-8th-T52" class="headerlink" title="Oct 8th - T52"></a>Oct 8th - T52</h2><p>Big GG.</p>
+<p>By wcz</p>
+<p>General: </p>
+<ol>
+<li><p>所有的优化(特别是会增加代码复杂度的优化) 必须以<strong>对优化时间或空间</strong>有贡献! 不要忘记<strong>KISS</strong>原则, <strong>Keep It Simple &amp; Stupid</strong>!!<br>如B题的离散化就对优化没有贡献, 反倒会增加转移时的代码复杂度, 或者引入bug.</p>
+</li>
+<li><p>关于<code>#ifdef</code>: 除了会影响输出结果,时空复杂度的内容, 其余不应放入<code>#ifdef</code>, 所有加入<code>#ifdef</code>的程序应关闭编译选项重新编译.</p>
+</li>
+</ol>
+<p>A: 计算几何.</p>
+<p>B: <strong>状态设计的重要性</strong> 选择更容易的状态.</p>
+<p>C: gcd整点计数, 前缀和优化, 容斥.</p>
+<h2 id="Oct-9th-T53"><a href="#Oct-9th-T53" class="headerlink" title="Oct 9th - T53"></a>Oct 9th - T53</h2><p>A: 规律, 递推式转通项.</p>
+<p>B: 状压DP.</p>
+<p>C: dijk + 求<strong>关键路径</strong> + 差分扫描线维护答案.</p>
+<h2 id="Oct-10th-T54"><a href="#Oct-10th-T54" class="headerlink" title="Oct 10th - T54"></a>Oct 10th - T54</h2><p>模板题专场</p>
+<p>A: 表达式运算 - 括号只在算优先级时有用, 之后就可以ignore了.</p>
+<p>B: 关键路径, C: 贪心(std错误系列) D: 略 E: 爆搜 F: 树的重心 G: 凸包(极角序的细节问题, 或者用水平序).</p>
+<h2 id="Oct-11th-T55"><a href="#Oct-11th-T55" class="headerlink" title="Oct 11th - T55"></a>Oct 11th - T55</h2><p>模板题专场 *2</p>
+<p>A: <strong>基数排序</strong></p>
+<p><del>最简单方法: <code>std::sort()</code></del> (雾)</p>
+<p>正经的模板: (假设数据范围在int范围)</p>
+<figure class="highlight cpp"><figcaption><span>radix_sort</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//BASE为基数</span></div><div class="line"><span class="keyword">int</span> a[MAXN], b[MAXN], cnt[BASE];</div><div class="line"><span class="keyword">int</span> tmp = <span class="number">1</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="number">2</span>; i++) &#123;</div><div class="line">	<span class="built_in">memset</span>(cnt, <span class="number">0</span>, <span class="keyword">sizeof</span> cnt);</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = l; j &lt;= r; j++) cnt[a[j] / tmp % BASE]++;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; BASE; j++) cnt[j] += cnt[j - <span class="number">1</span>];</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = r; j &gt;= l; j--) b[cnt[a[j] / tmp % BASE]--] = a[j];</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> j = l; j &lt;= r; j++) a[j] = b[j];</div><div class="line">	tmp *= BASE; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>原理: 逐位排序, 本轮排序的结果将会用来确定下一轮中键值相同情况的排列顺序(按照前一轮的顺序排)</p>
+<p>这玩意毕竟复杂度为O(n). 时间比较: (n = 1e7, 单位ms)<br>int 范围内:<br>    Array STL_sort: 13498<br>    Array quick_sort: 12856<br>    Array radix_sort: 11570</p>
+<p>long long 范围内:<br>    Array STL_sort: 20783<br>    Array normal_sort: 19726<br>    Array radix_sort: 20909 (基数1e5)<br>(如果范围为1e18, 且基数设为1e6, 还可以优化一些常数)<br>    Array STL_sort: 20964<br>    Array normal_sort: 21252<br>    Array radix_sort: 20860</p>
+<p>B: Huffman编码, C: 连通分量(DFS/并查集), <strong>双向边</strong> D: 大模拟</p>
+<p>E: 最近点对:</p>
+<p>法一: 暴力(及其优化)<br>按x轴排序, 之后枚举每一个点对: 若第二层枚举时, x的距离超过ans时就可以剪枝.<br>对于随机数据, 效果良好.</p>
+<p>如果想更稳定一些, 可以将所有点强制旋转一个随机角度, 这样hack数据也可以变成随机数据. (加上快读, HDU1007有人成功卡进100ms)</p>
+<p>结论: <strong>随机化数据</strong></p>
+<p>法二: 扫描线 + 数据结构维护</p>
+<p>法三: 分治</p>
+<p>F: 模拟(DAG) G: MST.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="jhdjames37.github.io/2017/10/06/Review-of-October/" data-id="cj8sd2mj900010zwxeq20itsy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/review/">review</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/13/POJ-Problems/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          POJ Problems
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/10/06/Review-of-September/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Review of September</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/oi/">oi</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/oi/reviews-plans/">reviews & plans</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/oi/solutions/">solutions</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/POJ/">POJ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/review/">review</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/POJ/" style="font-size: 10px;">POJ</a> <a href="/tags/review/" style="font-size: 20px;">review</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">2017年 10月</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/10/13/POJ-Problems/">POJ Problems</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/06/Review-of-October/">Review of October</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/06/Review-of-September/">Review of September</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+
+	<div class="widget-wrap">
+		<h3 class="widget-title">links</h3>
+		<div class="widget">
+			<ul>
+			
+				
+	<li>
+	
+		<p> Useful links </p>
+		<ul>
+		
+			
+	<li>
+	
+		<a href="http://www.baidu.com"> Test </a>
+	
+	</li>
+
+		
+			
+	<li>
+	
+		<a href="http://www.baidu.com"> Test2 </a>
+	
+	</li>
+
+		
+		</ul>
+	
+	</li>
+
+				
+			
+				
+	<li>
+	
+		<p> Friends </p>
+		<ul>
+		
+			
+	<li>
+	
+		<a href="http://jhdjames37.github.io"> Test </a>
+	
+	</li>
+
+		
+		</ul>
+	
+	</li>
+
+				
+			
+				
+	<li>
+	
+		<a href="http://www.baidu.com"> Test </a>
+	
+	</li>
+
+				
+			
+			</ul>
+		</div>
+	</div>
+
+<!--
+<li>
+
+	<p> <a href="http://www.baidu.com"> Test </a> </p>
+
+</li>
+-->
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 jhdjames37<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
