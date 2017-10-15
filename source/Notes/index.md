@@ -62,6 +62,10 @@ escape: /^\\([`*\[\]()#$+\-.!_>])/,
 em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
 ```
 ---
+## About Modifying Theme
+
+Reference: [Fonts](http://www.jianshu.com/p/ffcdc4fec6ec) [Others](http://www.jianshu.com/p/b96fd206571a)
+---
 git deployment
 ``` bash
 npm install hexo-deployer-git --save

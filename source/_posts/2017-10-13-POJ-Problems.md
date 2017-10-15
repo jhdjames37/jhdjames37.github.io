@@ -10,6 +10,8 @@ tags:
 
 POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/11714009).
 
+<!-- more -->
+
 ## 初期:
 
 ### 一.基本算法:

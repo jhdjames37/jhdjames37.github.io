@@ -9,6 +9,10 @@ tags:
 - review
 ---
 
+Review of October
+
+<!-- more -->
+
 ## Oct 1st - T48
 
 by zhu siji
