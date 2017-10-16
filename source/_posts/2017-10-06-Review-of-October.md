@@ -182,3 +182,25 @@ E: 最近点对:
 法三: 分治
 
 F: 模拟(DAG) G: MST.
+
+(--以下应该为初赛总结--)
+keywords: pascal, 数学题, Fortran & OOP, sortings, 王选, 手模游戏, 最小割, xy + langsike 猜中题目. 
+(--以上应该为初赛总结--)
+
+## Oct 16th - VJ Contest经典问题1
+
+A - HDU1028: 分解整数DP.
+
+B - POJ2442: 归并, 优先队列.
+
+C - HDU1010: DFS + 奇偶剪枝.
+
+D - POJ1742: bitset乱搞?
+
+E - POJ2411: 状压DP
+
+F - POJ2255: 二叉树遍历 
+
+G - SGU199: $n \log n$ LIS, 输出方案.
+
+H - POJ2413: 高精度`+`, `<=`.
