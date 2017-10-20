@@ -108,7 +108,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 2. 广度优先搜索
 	- POJ 3278
-	- POJ 1426 
+	- POJ 1426: 不需要用队列，用类似DP的思路记录长度和%n的余数，并记录转移。用×10+1和×10的转移可以避免前导零的判断。 
 	- POJ 3126
 	- POJ 3087
 	- POJ 3414
@@ -146,7 +146,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 	- POJ 3252
 	- POJ 1850
-	- POJ 1019
+	- POJ 1019: 暴力枚举每一个1～n串的长度，再在最后一个串中枚举
 	- POJ 1942
 2. 数论.(素数与整除问题, 进制位, 同余模运算)
 	- POJ 2635
