@@ -1,12 +1,13 @@
 ---
 title: POJ Problems
 date: 2017-10-13 20:21:20
-updated: 2017-10-15 21:00:00
+updated: 2017-10-22 20:45:00
 categories: 
 - oi
 - solutions
 tags:
 - POJ
+mathjax: true
 ---
 
 POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/11714009).
@@ -23,7 +24,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 2. 贪心
 	- POJ 1328
-	- POJ 2109
+	- POJ 2109: 1. 高精度 + 二分， 2. 用`double`存p，直接用`pow(p, 1.0 / n)`求根号。精度证明见[这里](http://blog.csdn.net/synapse7/article/details/11672691)
 	- POJ 2586
 
 3. 递归和分治法.
@@ -115,7 +116,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 3. 简单搜索技巧和剪枝
 	- POJ 2531
-	- POJ 1416
+	- POJ 1416: 枚举所有剪断的方式， 暴力用`map`维护总和以及剪断方式。
 	- POJ 2676
 	- POJ 1129
 
@@ -175,14 +176,14 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 4. 凸包. 
 	- POJ 2187
-	- POJ 1113
+	- POJ 1113： 凸包周长 +$2\pi l$, 鬼畜输出格式
 
 ## 中级:
 
 ### 一.基本算法: 
 
 1. C++的标准模版库的应用. 
-	- poj3096
+	- poj3096: 随便开个`bool`数组记录是否出现。（居然输出末尾有句点！！）
 	- poj3007
 	
 2. 较为复杂的模拟题的训练
