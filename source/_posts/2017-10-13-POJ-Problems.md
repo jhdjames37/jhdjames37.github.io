@@ -1,7 +1,7 @@
 ---
 title: POJ Problems
 date: 2017-10-13 20:21:20
-updated: 2017-10-22 20:45:00
+updated: 2017-10-24 22:19:00
 categories: 
 - oi
 - solutions
@@ -23,7 +23,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 2965
 
 2. 贪心
-	- POJ 1328
+	- POJ 1328: 求最小点覆盖区间。
 	- POJ 2109: 1. 高精度 + 二分， 2. 用`double`存p，直接用`pow(p, 1.0 / n)`求根号。精度证明见[这里](http://blog.csdn.net/synapse7/article/details/11672691)
 	- POJ 2586
 
@@ -216,7 +216,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 ### 三.数据结构. 
 
 1. 线段树. 
-	- poj2528
+	- poj2528: 区间覆盖（注意`pushdown`的写法，原tag清零）。
 	- poj2828
 	- poj2777
 	- poj2886
@@ -270,7 +270,11 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- poj2411
 	- poj1185 
 3. 树型动态规划
-	- poj2057
+	- poj2057 
+	设`leaves[i]`为i子树的叶节点数，`sz[i]`为遍历整棵i子树的代价，设$h(x) =  \begin {cases} sz[x] + 2, & \text{$x$ doesn't have a worm }\\2, & \text{$x$ has a worm} \end{cases} $
+	法一： 直接用期望计算， 转移时再利用一次状压DP来确定遍历顺序， 转移时分别计算该子树内找到和找不到的情况对答案的贡献。
+	法二： 用平均值计算。此时可以同样用状压DP确定遍历顺序（转移时加上该子树的操作数和之前未找到情况对答案的影响）。
+	优化（贪心）：考虑到转移的后半部分为(S表示已经遍历过的子树集合, cur为目前枚举的)$(\sum_{x \in S}h(x)) \cdot leaves[cur]$， 将它整个展开后可以得到（`perm[]`表示枚举顺序）：$\sum leaves[perm[i]] \sum_{j \lt i} h(perm[j])$， 可以通过交换相邻元素法证明$h(x)/leaves[x]$较小的应该先枚举。那么我们就可以根据这个排序计算答案。
 	- poj1947
 	- poj2486
 	- poj3140
@@ -285,7 +289,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 		- poj2409
 		- poj3270
 		- poj1026 
-	4. 递推关系和母函数.  
+	4. 递推关系和母函数. 
 	
 2. 数学. 
 	1. 高斯消元法 
