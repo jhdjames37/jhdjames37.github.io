@@ -176,7 +176,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 4. 凸包. 
 	- POJ 2187
-	- POJ 1113： 凸包周长 +$2\pi l$, 鬼畜输出格式
+	- POJ 1113： 凸包周长 + $2\pi l$, 鬼畜输出格式
 
 ## 中级:
 
@@ -191,7 +191,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- poj1472
 	- poj3371
 	- poj1027
-	- poj2706 
+	- poj2706: 模拟每次加入一个点时，能够与那些点连线，并用并查集维护连通性，最后看一下是否连通
 
 ### 二.图算法: 
 1. 差分约束系统的建立和求解. 

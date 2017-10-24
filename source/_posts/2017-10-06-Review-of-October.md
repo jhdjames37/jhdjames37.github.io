@@ -1,7 +1,7 @@
 ﻿---
 title: Review of October
 date: 2017-10-06 20:34:34
-updated: 2017-10-22 18:22:00
+updated: 2017-10-24 15:55:00
 categories:
 - oi
 - reviews & plans
@@ -298,3 +298,64 @@ B: DP。单调栈处理相同类型的转移（或计算每一个转移的影响
 
 C: 字符串拼接+匹配： 只需要考虑交界处的字符对答案的影响。
 
+## Oct 23rd - T61
+
+评价：
+![:(](/images/pic1.png)
+
+A: 恶心的日期题。 居然不能一天一天模拟。按照400年为1周期求答案。(没讨论2.29竟然A了。。233）
+
+B: DP + 输出方案。 **更改枚举范围的时候要记得改数组！！！**
+
+C: lca + 差分 + `map + set` 启发式合并（`map`维护差分值， `set`维护最大值） 或 `可合并线段树` LCA写炸（**循环到0！！**) （原题：2115 - 秋天的尾巴）
+
+可合并线段树：
+```cpp
+struct Node {
+  int ls, rs, val;
+}tree[MAXNODE];
+int root[MAXN];
+int cnt = 0;
+//std::queue <int> free;
+void init() {
+  //for (int i = 1; i < MAXNODE; i++) free.push(i); //内存池， 本题不需要
+  tree[0].val = -1e9;
+  cnt = 0;
+}
+inline int new_node() {
+  //int ret = free.front(); free.pop();
+  int ret = ++cnt;
+  if (cnt >= MAXNODE) throw;
+  tree[ret] = (Node) {0, 0, 0};
+  return ret;
+}
+inline void del_node(int node) {
+  //free.push(node);
+}
+// update, query, modify函数略。
+void _merge(int& to, int from, int l, int r) {
+  if (!from) return;
+  if (!to) {to = from; return;}
+  if (l == r) {
+    tree[to].val += tree[from].val;
+    //del_node(from);
+    return;
+  }
+  int mid = (l + r) >> 1;
+  _merge(tree[to].ls, tree[from].ls, l, mid);
+  _merge(tree[to].rs, tree[from].rs, mid + 1, r);
+  //del_node(from);
+  update(tree[to]);
+}
+void merge(int to_id, int from_id) {
+  _merge(root[to_id], root[from_id], 1, N);
+}
+```
+
+## Oct 24th - T62
+
+A: 结论题。
+
+B: 利用子树的size优化dp， 在DFS序上DP（类似覆盖区间）
+
+C: **注意初始值设定**
