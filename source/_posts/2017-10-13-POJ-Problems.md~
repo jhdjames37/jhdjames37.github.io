@@ -1,7 +1,7 @@
 ---
 title: POJ Problems
 date: 2017-10-13 20:21:20
-updated: 2017-10-24 22:19:00
+updated: 2017-10-25 19:00:00
 categories: 
 - oi
 - solutions
@@ -14,6 +14,8 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 <!-- more -->
 
+**注意： POJ上G++编译器小数输出用`%.f`,C++编译器用`%.lf`!** 
+
 ## 初期:
 
 ### 一.基本算法:
@@ -23,8 +25,8 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 2965
 
 2. 贪心
-	- POJ 1328
-	- POJ 2109: 1. 高精度 + 二分， 2. 用`double`存p，直接用`pow(p, 1.0 / n)`求根号。精度证明见[这里](http://blog.csdn.net/synapse7/article/details/11672691)
+	- POJ 1328: 求最小点覆盖区间。
+	- POJ 2109: 1. 高精度 + 二分(POJ数据开根不一定为整数，二分比较奇怪）， 2. 用`double`存p，直接用`pow(p, 1.0 / n)`求根号。精度证明见[这里](http://blog.csdn.net/synapse7/article/details/11672691)
 	- POJ 2586
 
 3. 递归和分治法.
@@ -75,7 +77,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 1. 串 
 	- POJ 1035
 	- POJ 3080: 建一棵trie, 插入所有的后缀, 维护每一个子串被哪几个字符串包含, 最后遍历trie, 更新答案. (把len<3输出无解看成len<=3...)
-	- POJ 1936
+	- POJ 1936: 扫描匹配串，维护模式串匹配到的位数
 
 2. 排序(快排、归并排(与逆序数有关)、堆排) 
 	- POJ 2388
@@ -89,7 +91,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 2151
 	- POJ 1840
 	- POJ 2002
-	- POJ 2503
+	- POJ 2503： 可以直接用`map<string, string>`, 注意读入(POJ 卡cin， 要关闭同步）。
 	
 5. 哈夫曼树
 	- POJ 3253
@@ -124,7 +126,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 1. 背包问题. 
 	- POJ 1837
-	- POJ 1276
+	- POJ 1276： 同[经典问题1](/2017/10/06/Review-of-October#Oct-16th-VJ-Contest经典问题1) D题。
 
 2. 型如下表的简单DP(可参考lrj的书 page149):
 	- E[j]=opt{D+w(i,j)} 
