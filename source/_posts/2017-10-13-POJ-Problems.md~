@@ -1,7 +1,6 @@
 ---
 title: POJ Problems
 date: 2017-10-13 20:21:20
-updated: 2017-10-25 19:00:00
 categories: 
 - oi
 - solutions
@@ -25,9 +24,9 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 2965
 
 2. 贪心
-	- POJ 1328: 求最小点覆盖区间。
+	- POJ 1328: 求用最少的点覆盖区间。
 	- POJ 2109: 1. 高精度 + 二分(POJ数据开根不一定为整数，二分比较奇怪）， 2. 用`double`存p，直接用`pow(p, 1.0 / n)`求根号。精度证明见[这里](http://blog.csdn.net/synapse7/article/details/11672691)
-	- POJ 2586
+	- POJ 2586: 贪心的选取最中间的作为亏损月。
 
 3. 递归和分治法.
 
@@ -38,10 +37,10 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 6. 模拟法.
 	- POJ 1068
-	- POJ 2632
+	- POJ 2632: 按照题意逐步模拟。（输出信息抄错了！！！！！！）
 	- POJ 1573
 	- POJ 2993
-	- POJ 2996
+	- POJ 2996：直接按题意读入，排序，输出。
 
 ### 二.图算法:
 
@@ -59,7 +58,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 1789
 	- POJ 2485
 	- POJ 1258
-	- POJ 3026
+	- POJ 3026: 对`S`，`A`点求最小生成树，用bfs求各点的距离
 
 4. 拓扑排序 
 	- POJ 1094
@@ -132,7 +131,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- E[j]=opt{D+w(i,j)} 
 		- POJ 3267
 		- POJ 1836
-		- POJ 1260
+		- POJ 1260： （显然一定是一段区间被合并）1.`f[i][j]`表示处理到第i位， 还剩j颗珠子未处理 2.`f[i][j]` 表示处理到第i位， 前j类珠子已经合并。转移易得。
 		- POJ 2533
 	- E[i,j]=opt{D[i-1,j]+xi,D[i,j-1]+yj,D[i-1][j-1]+zij} (最长公共子序列)
 		- POJ 3176
@@ -211,7 +210,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- poj2186
 	
 5. 图的割边和割点
-	- poj3352 
+	- poj3352: 先求出边双并缩点，显然是一棵树。设叶节点数量为x，则答案为$\lfloor {x + 1} \over 2 \rfloor$ (证明思路：每加一条边，可以使2个度为1的点变成度为2的。
 6. 最小割模型、网络流规约
 	- poj3308
 
@@ -237,7 +236,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- poj3368
 	
 5. 并查集的高级应用. 
-	- poj1703
+	- poj1703： 并查集维护种类信息。（维护的应该是与`fa[]`数组对应点的关系！）
 	- poj2492 
 	
 6. KMP算法.
@@ -265,7 +264,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- poj2029
 	- poj2948
 	- poj1925
-	- poj3034
+	- poj3034： 同[T42](/2017/10/06/Review-of-September#Sept-25th-T42) B题， 将坐标作为状态来转移。
 	
 2. 记录状态的动态规划. 
 	- POJ3254
@@ -277,8 +276,11 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	法一： 直接用期望计算， 转移时再利用一次状压DP来确定遍历顺序， 转移时分别计算该子树内找到和找不到的情况对答案的贡献。
 	法二： 用平均值计算。此时可以同样用状压DP确定遍历顺序（转移时加上该子树的操作数和之前未找到情况对答案的影响）。
 	优化（贪心）：考虑到转移的后半部分为(S表示已经遍历过的子树集合, cur为目前枚举的)$(\sum_{x \in S}h(x)) \cdot leaves[cur]$， 将它整个展开后可以得到（`perm[]`表示枚举顺序）：$\sum leaves[perm[i]] \sum_{j \lt i} h(perm[j])$， 可以通过交换相邻元素法证明$h(x)/leaves[x]$较小的应该先枚举。那么我们就可以根据这个排序计算答案。
+
 	- poj1947
 	- poj2486
+	设`f[i][j][0/1]`表示第i棵子树中用j步操作，是否需要返回根结点时所能获得最大值。在转移时考虑该子节点是否返回父节点分别求值。
+
 	- poj3140
 
 ### 六.数学 
@@ -351,7 +353,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 ## 高级: 
 
 ### 一.基本算法要求:   
-1. 代码快速写成,精简但不失风格   
+1. 代码快速写成,精简但不失风格
           (poj2525,poj1684,poj1421,poj1048,poj2050,poj3306) 
 2. 保证正确性和高效性. poj3434 
 
