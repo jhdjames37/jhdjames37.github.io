@@ -49,7 +49,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 2. 最短路径算法(dijkstra,bellman-ford,floyd,heap+dijkstra) 
 	- POJ 1860
 	- POJ 3259
-	- POJ 1062
+	- POJ 1062: 枚举地位值范围`[lb,rb]`（显然$l[0] \in [lb,rb]$), 对于直接购买（且地位值在取值范围内），从该点向n+1建价值的边， 对于py购买，从该点向py对象连价值的边。然后跑最短路。
 	- POJ 2253
 	- POJ 1125
 	- POJ 2240
@@ -65,7 +65,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 5. 二分图的最大匹配 (匈牙利算法) 
 	- POJ 3041
-	- POJ 3020
+	- POJ 3020: 1. 状压DP(类似骨牌覆盖）， f[i][j][S]为(i,j)及其之后(m-1)个点是否被覆盖（`o`点认为已经被覆盖），转移时枚举覆盖方式。$O(2^mnm)$ 2.将相邻的`*`连边，因其奇偶性不同，建成的一定是二分图。然后求最小边覆盖（用边覆盖所有点，=顶点数-匹配数）$O((nm)^2)$
 	
 6. 最大流的增广路算法(KM算法). 
 	- POJ 1459
@@ -109,7 +109,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 2251
 
 2. 广度优先搜索
-	- POJ 3278
+	- POJ 3278: 直接爆搜。
 	- POJ 1426: 不需要用队列，用类似DP的思路记录长度和%n的余数，并记录转移。用×10+1和×10的转移可以避免前导零的判断。 
 	- POJ 3126
 	- POJ 3087
@@ -130,12 +130,12 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 2. 型如下表的简单DP(可参考lrj的书 page149):
 	- E[j]=opt{D+w(i,j)} 
 		- POJ 3267
-		- POJ 1836
+		- POJ 1836： 两遍LIS，然后枚举切断的点。
 		- POJ 1260： （显然一定是一段区间被合并）1.`f[i][j]`表示处理到第i位， 还剩j颗珠子未处理 2.`f[i][j]` 表示处理到第i位， 前j类珠子已经合并。转移易得。
 		- POJ 2533
 	- E[i,j]=opt{D[i-1,j]+xi,D[i,j-1]+yj,D[i-1][j-1]+zij} (最长公共子序列)
 		- POJ 3176
-		- POJ 1080
+		- POJ 1080: LCS变形，按照上下串是否用`-`填充转移。
 		- POJ 1159
 	- C[i,j]=w[i,j]+opt{C[i,k-1]+C[k,j]}.(最优二分检索树问题)
 
@@ -154,7 +154,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 2635
 	- POJ 3292
 	- POJ 1845
-	- POJ 2115
+	- POJ 2115: 原题即求$cx \equiv b - a (mod\ 2 ^ k)$的最小非负整数解。令$b - a = t, 2 ^ k = m$，则$cx + my = t$，则当$\gcd(c, m) | t$时方程有解。用exgcd求即可。输出最小值：显然若$x = x_0$为解，则$x_0 + k \frac {m} {\gcd(c, m)}, k \in Z$ 均为解。则最小非负整数解为$x_0 \mod {\frac {m} {\gcd(c, m)}}$, 若$x_0$为负数同理易推。
 
 3. 计算方法.二分法求解单调函数相关知识.
 	
@@ -210,7 +210,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- poj2186
 	
 5. 图的割边和割点
-	- poj3352: 先求出边双并缩点，显然是一棵树。设叶节点数量为x，则答案为$\lfloor {x + 1} \over 2 \rfloor$ (证明思路：每加一条边，可以使2个度为1的点变成度为2的。
+	- poj3352: 先求出边双并缩点，显然是一棵树。设叶节点数量为x，则答案为$\lfloor \frac {x + 1} {2} \rfloor$ (证明思路：每加一条边，可以使2个度为1的点变成度为2的。
 6. 最小割模型、网络流规约
 	- poj3308
 
@@ -218,7 +218,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 1. 线段树. 
 	- poj2528: 区间覆盖（注意`pushdown`的写法，原tag清零）。
-	- poj2828
+	- poj2828: 离线操作，逆序操作。则每次只需要知道第`pos[i] + 1`个空位即可。用线段树维护即可。
 	- poj2777
 	- poj2886
 	- poj2750
@@ -229,7 +229,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	
 3. 树状树组
 	- poj1195
-	- poj3321
+	- poj3321: 对树进行dfs序（在进入时增加计数器）， 设x子树进入时间戳和离开时间戳为`st[x]`和`en[x]`, 那么一个子树所对应区间为`[st[x], en[x]]`, 那么只需要在BIT上单点修改， 询问上述区间即可。
 	
 4. RMQ. 
 	- poj3264
@@ -259,7 +259,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 1. 较为复杂的动态规划(如动态规划解特别的施行商问题等) 
     - poj1191
-	- poj1054
+	- poj1054（IOI2002）: 直接枚举直线的前两个点, 如果它上一步不在区间外， 或区间内长度小于目前， 或路径上有点未被覆盖，则剪枝。
 	- poj3280
 	- poj2029
 	- poj2948
@@ -323,7 +323,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 4. 随机化算法
 	- poj3318
-	- poj2454 
+	- poj2454:神奇的随机化。。可以选前2k个数，然后random其分配顺序（具体就是先确定一个排列，然后随机交换两个元素），直至出解。（应用范围：在可行答案较多，且搜索过不去的情况下）
 5. 杂题. 
 	- poj1870
 	- poj3296
