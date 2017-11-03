@@ -47,7 +47,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 1. 图的深度优先遍历和广度优先遍历.
 
 2. 最短路径算法(dijkstra,bellman-ford,floyd,heap+dijkstra) 
-	- POJ 1860
+	- POJ 1860: SPFA 判负环（因为原图为双向边，所以一定能从负环上回来， 若是单向边，问题就会更复杂）
 	- POJ 3259
 	- POJ 1062: 枚举地位值范围`[lb,rb]`（显然$l[0] \in [lb,rb]$), 对于直接购买（且地位值在取值范围内），从该点向n+1建价值的边， 对于py购买，从该点向py对象连价值的边。然后跑最短路。
 	- POJ 2253
@@ -55,7 +55,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 2240: 用`floyd`求负环（在本题中就是找乘积大于1的环）
 
 3. 最小生成树算法(prim,kruskal) 
-	- POJ 1789
+	- POJ 1789: 用`prim`求最小生成树。
 	- POJ 2485
 	- POJ 1258
 	- POJ 3026: 对`S`，`A`点求最小生成树，用bfs求各点的距离
@@ -74,12 +74,12 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 ### 三.数据结构.
 
 1. 串 
-	- POJ 1035
+	- POJ 1035: 对于每一个串与字典串匹配可以在O(len)时间内完成， 对于长度相同的，可以维护其不相同字符数，对于长度相差1的， 可以求出其从开头和从结尾开始的公共序列长度，若其和大于等于较短的串，那么就合法。
 	- POJ 3080: 建一棵trie, 插入所有的后缀, 维护每一个子串被哪几个字符串包含, 最后遍历trie, 更新答案. (把len<3输出无解看成len<=3...)
 	- POJ 1936: 扫描匹配串，维护模式串匹配到的位数
 
 2. 排序(快排、归并排(与逆序数有关)、堆排) 
-	- POJ 2388
+	- POJ 2388: 排序+取中位数
 	- POJ 2299
 
 3. 简单并查集的应用.
@@ -88,7 +88,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 3349: 直接对六个数hash，判断相等应该6×2种同时判断，不要分开插入hash表中（否则会T)。hash函数要保证12种情况hash值相同（不同hash值选用方式看[这里](http://poj.org/showmessage?message_id=115742))
 	- POJ 3274
 	- POJ 2151
-	- POJ 1840
+	- POJ 1840: `meeting in the middle.` + `hash / map`
 	- POJ 2002
 	- POJ 2503： 可以直接用`map<string, string>`, 注意读入(POJ 卡cin， 要关闭同步）。
 	
@@ -103,7 +103,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 1. 深度优先搜索 
 	- POJ 2488
-	- POJ 3083
+	- POJ 3083: 对于第一问，我们直接模拟（如果手的那一侧没有障碍，就转弯，如果前方有障碍，就向反方向转），第二问直接BFS。
 	- POJ 3009
 	- POJ 1321
 	- POJ 2251
@@ -147,17 +147,16 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- 递推关系.
 
 	- POJ 3252
-	- POJ 1850
+	- POJ 1850: 用类似数位DP的方法求出f[i][j]:i长度，首位为j的方案数。求解时分别计算长度小于n以及字典序比s小的数量，注意无解特判。
 	- POJ 1019: 暴力枚举每一个1～n串的长度，再在最后一个串中枚举
 	- POJ 1942
 2. 数论.(素数与整除问题, 进制位, 同余模运算)
 	- POJ 2635
-	- POJ 3292
+	- POJ 3292: 很有趣的数学题。设$h(x) = 4x+1$，则根据定义可以得到一些性质：$h(a) \cdot h(b) = h(4ab + a + b)$, 设P为H-prime集合，S为H-Semi-prime集合， 则$\forall a, b \in N, h(a) \cdot h(b) \notin P$ 那么我们可以用这一条性质用埃氏筛筛H-prime. $\forall h(a), h(b) \in P, h(a) \cdot h(b) \in S$, 那么我们可以枚举两个H-prime，来求H-Semi-prime. 
 	- POJ 1845
 	- POJ 2115: 原题即求$cx \equiv b - a (mod\ 2 ^ k)$的最小非负整数解。令$b - a = t, 2 ^ k = m$，则$cx + my = t$，则当$\gcd(c, m) | t$时方程有解。用exgcd求即可。输出最小值：显然若$x = x_0$为解，则$x_0 + k \frac {m} {\gcd(c, m)}, k \in Z$ 均为解。则最小非负整数解为$x_0 \mod {\frac {m} {\gcd(c, m)}}$, 若$x_0$为负数同理易推。
 
 3. 计算方法.二分法求解单调函数相关知识.
-	
 	- POJ 3273
 	- POJ 3258: 最大化最小值二分， 注意在二分最大值的时候， mid的求法以及更新区间方法和二分最小值有所不同。(但是似乎还是在二分时顺便更新答案较方便。）
 	- POJ 1905
@@ -169,7 +168,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 2. 叉积和点积的运用(如线段相交的判定,点到线段的距离等). 
 	- POJ 2031
-	- POJ 1039
+	- POJ 1039: 计算几何1.0中的题目， 枚举直线，判断是否越界。
 	
 3. 多边型的简单算法(求面积)和相关判定(点在多边型内,多边型是否相交) 
 	- POJ 1408
@@ -185,12 +184,12 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 1. C++的标准模版库的应用. 
 	- poj3096: 随便开个`bool`数组记录是否出现。（居然输出末尾有句点！！）
-	- poj3007
+	- poj3007: 枚举8种拼接方式，存到set/hash_table中。
 	
 2. 较为复杂的模拟题的训练
 	- poj3393
 	- poj1472
-	- poj3371
+	- poj3371: 根据题意找句号 + 删标点 + 删后缀（以及特判）再求音节数（把原题题面扔进标算答案小于40。。。）
 	- poj1027: DFS 求联通块 + 按题意模拟行列移动 + 卡STL。
 	- poj2706: 模拟每次加入一个点时，能够与那些点连线（判断距离 + 是否有相交），并用并查集维护连通性，最后看一下是否连通
 
@@ -267,7 +266,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- poj3034： 同[T42](/2017/10/06/Review-of-September#Sept-25th-T42) B题， 将坐标作为状态来转移。
 	
 2. 记录状态的动态规划. 
-	- POJ3254
+	- POJ3254: 类似于骨牌覆盖，状压自己及之后m个格子哪些格子不能选。
 	- poj2411
 	- poj1185 
 3. 树型动态规划
@@ -304,7 +303,7 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 		- poj1222
 
 	2. 概率问题. 
-		- poj3071
+		- poj3071: 概率DP，f[i][j]表示第i轮第j队胜出的概率。根据淘汰赛赛制可知它有可能的对手是固定的$2^{i-1}$个，可以推一下（整张比赛图中每个点的取值就类似于一棵线段树）， 那么转移就是（设其对手集合为S）: $f[i][j] = f[i - 1][j] \cdot \sum_{k \in S} f[i - 1][k] \cdot p[j][k]$
 		- poj3440
 
 	3. GCD、扩展的欧几里德(中国剩余定理) 
@@ -312,7 +311,10 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 3. 计算方法. 
 	1. 0/1分数规划. 
-		- poj2976
+		- poj2976: 其实01分数规划就是二分 + 不等式变换。 应用范围： 求一个分式的最值，且无法通过数学方法分析。 （参见 [T25](/2017/10/06/Review-of-September#Sept-5th-T25) A题) 
+		就本题而言，设S为选的元素集合，设$f(x) = \exists S \frac {\sum_{i \in S} {a_i}} {\sum_{i \in S} {b_i}} \geq x$ 。显然可以通过这个进行二分。但左边很难求，那么将不等式变换得： 
+		$$\frac {\sum_{i \in S} {a_i}} {\sum_{i \in S} {b_i}} \geq x \\ \sum_{i \in S} {a_i} \geq  x \cdot \sum_{i \in S} {b_i} \\ \sum_{i \in S} {a_i}- x \cdot \sum_{i \in S} {b_i} \geq 0 \\ \sum_{i \in S} (a_i - b_ix) \geq 0$$ 
+		那么我们就可以贪心地选择$a_i - b_ix$最大的(n - k)个数，判断其和是否大于零。
 	2. 三分法求解单峰(单谷)的极值. 
 	3. 矩阵法
 		- poj3150
