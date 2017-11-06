@@ -86,8 +86,11 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 
 4. 哈希表和二分查找等高效查找法(数的Hash,串的Hash) 
 	- POJ 3349: 直接对六个数hash，判断相等应该6×2种同时判断，不要分开插入hash表中（否则会T)。hash函数要保证12种情况hash值相同（不同hash值选用方式看[这里](http://poj.org/showmessage?message_id=115742))
+
 	- POJ 3274
-	- POJ 2151
+
+	- POJ 2151:(你确定是hash???) 概率DP, 首先计算出每一个人A掉x道题目的概率f[x]（用递推）。然后计算总概率：设g0[i]为前i人都A了1题的概率， g1[i]为前i人都A了1题的概率且前i人中至少1人A了至少n题的概率，显然转移为$g1[i] = g1[i - 1] \cdot \sum{j = 1} ^ {n - 1} f[j]  + g0[i - 1] \cdot \sum_{j = n} ^ m g[j], g0[i] = g0[i - 1] \cdot (1 - f[0])$
+
 	- POJ 1840: `meeting in the middle.` + `hash / map`
 	- POJ 2002
 	- POJ 2503： 可以直接用`map<string, string>`, 注意读入(POJ 卡cin， 要关闭同步）。
@@ -152,8 +155,11 @@ POJ刷题记录, 参照[某题单](http://blog.csdn.net/a1dark/article/details/1
 	- POJ 1942
 2. 数论.(素数与整除问题, 进制位, 同余模运算)
 	- POJ 2635
+
 	- POJ 3292: 很有趣的数学题。设$h(x) = 4x+1$，则根据定义可以得到一些性质：$h(a) \cdot h(b) = h(4ab + a + b)$, 设P为H-prime集合，S为H-Semi-prime集合， 则$\forall a, b \in N, h(a) \cdot h(b) \notin P$ 那么我们可以用这一条性质用埃氏筛筛H-prime. $\forall h(a), h(b) \in P, h(a) \cdot h(b) \in S$, 那么我们可以枚举两个H-prime，来求H-Semi-prime. 
-	- POJ 1845
+
+	- POJ 1845: 对于求一个数的约数和：设数x的质因数分解为$x = \prod p_i^{a_i}$, 则根据约数的生成方式可得其约数和$sum = \prod_{i} \sum_{j = 0} ^ {a_i} p_i ^ {j}$, 那么一个数的k次的约数和$sum_k = \prod_i \sum_{j = 0} ^ {ka_i} p_i ^{j} = \prod_i \frac {p_i ^ {ka_i + 1} - 1} {p_i - 1}$, 那么在筛质数时顺便求一下即可。但是要注意：$p_i - 1$ 有可能是MOD（9901）的倍数， 这时逆元不存在，要特判一下。 
+
 	- POJ 2115: 原题即求$cx \equiv b - a (mod\ 2 ^ k)$的最小非负整数解。令$b - a = t, 2 ^ k = m$，则$cx + my = t$，则当$\gcd(c, m) | t$时方程有解。用exgcd求即可。输出最小值：显然若$x = x_0$为解，则$x_0 + k \frac {m} {\gcd(c, m)}, k \in Z$ 均为解。则最小非负整数解为$x_0 \mod {\frac {m} {\gcd(c, m)}}$, 若$x_0$为负数同理易推。
 
 3. 计算方法.二分法求解单调函数相关知识.
