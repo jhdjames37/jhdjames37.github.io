@@ -74,7 +74,19 @@ C: 反向BFS: 最小值直接更新（并push 到队列中）， 最大值待所
 
 ## Nov 9th - Pre-Final2-Day2
 
+I feel terrible.
 
+A: 暴力/倍增LCA， 注意不要交错版本。
+
+B: 70'容斥。100' 用FMT(`Fast Mobius Tranfer`??)优化容斥。
+
+理解1:（2015某集训队论文）
+设$A(S)$为S集合元素的体积交, 其中$A(\varnothing ) = 0$， $f(S) = A(S) (-1) ^ {|S| + 1}$, 则我们答案就是$\sum_{T \subseteq S} f(T)$, 考虑$g(S, i) = \sum_{T \subseteq S, S - T \subseteq \{1, 2, \ldots i\}} f(T)$, 即$\forall x \in S且 x \in [i + 1, n], x \in T$.则由定义得$g(S, 0) = f(S), g(S, n) = Ans(S)$, 那么我们考虑如何转移。对于所有满足条件的$T$, 若$i \in T$, 则会在$g(S, i - 1)$被计算到， 反之会在$g(S - \{i\}, i - 1)$被计算，所以$g(S, i) = g(S, i - 1) + g(S - \{i\}, i - 1)$.
+
+理解2:（by 517）
+类似于`floyd`, 可以先枚举i再枚举子集， 这样每一个A(S)被转移到对应后继状态的方法是固定的，那么就可以避免重复计算。
+
+C: **和边有关的变量都要乘2！！**, 直接爆搜+剪枝（标算：将BFS的queue中的内容作为状态爆搜，有多个儿子的时候，就递归搜索）。
 
 ## Nov 11th & 12th - [NOIP2017](/2017/11/11/NOIP2017)
 
