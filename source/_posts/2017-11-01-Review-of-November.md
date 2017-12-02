@@ -8,7 +8,7 @@ tags:
 - review
 ---
 
-Review of November
+Review of November (and December)
 
 <!-- more -->
 
@@ -90,6 +90,16 @@ C: **和边有关的变量都要乘2！！**, 直接爆搜+剪枝（标算：将
 
 ## Nov 11th & 12th - [NOIP2017](/2017/11/11/NOIP2017)
 
-（先把坑挖好）
+---
+
+# Review of December
+
+## Dec 2nd - NOIP18 T1
+
+A: 贪心， 交换元素法
+
+B: 计算几何， 用极角离散化， BIT求前缀和，二分 + 凸包上DP
+
+C: 分段考虑贡献， 细节。
 
 
