@@ -6,6 +6,12 @@ mathjax: true
 
 这里将会写一些零碎的东西(没有必要放到post里的)
 
+## 一些记录
+
+2018.1.13: 调整主题显示样式。
+
+banner 来源： [pilotseye背景](http://pilotseye.tv/en/download-wallpapers/)
+
 ## 关于category & tag
 
 category 的大致想法
