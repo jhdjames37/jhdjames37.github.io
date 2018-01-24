@@ -12,6 +12,11 @@ mathjax: true
 
 banner 来源： [pilotseye背景](http://pilotseye.tv/en/download-wallpapers/)
 
+1.24: 
+删除私人性总结（不适合公开发布）。
+添加文章管理插件(hexo-admin)
+`npm install hexo-admin`
+
 ## 关于category & tag
 
 category 的大致想法

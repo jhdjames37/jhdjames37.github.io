@@ -1,13 +1,12 @@
----
 title: Review of January
-date: 2018-01-21 14:40:56
 categories:
-- oi
-- solutions
+  - oi
+  - solutions
 tags:
-- review
-- Codeforces
-- Atcoder
+  - review
+  - Codeforces
+  - Atcoder
+date: 2018-01-21 14:40:00
 ---
 
 Review of January.
