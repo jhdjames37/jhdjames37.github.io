@@ -4,7 +4,7 @@
 
 # Site
 title: jhdjames37's blog
-subtitle: A OIer's blog
+subtitle: An OIer's blog
 description: This is a blog to express my thoughts and summary.
 author: jhdjames37
 language: zh-CN
@@ -73,7 +73,8 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape-modify
+## theme: landscape-modify
+theme: tranquilpeak
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -83,5 +84,5 @@ deploy:
   branch: master
 
 mathjax:
-  cdn: https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  cdn: https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML
  
