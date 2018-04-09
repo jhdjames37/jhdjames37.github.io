@@ -141,8 +141,10 @@
     <% } %>
     <% if (theme.gravatar_email) { %>
         <meta property="og:image" content="<%- gravatar(theme.gravatar_email, 640) %>"/>
+        <link rel="shortcut icon" href="<%- gravatar(theme.gravatar_email, 640) %>" >
     <% } else if (theme.author.picture) { %>
         <meta property="og:image" content="<%= resolve_asset_url(theme.image_dir, theme.author.picture) %>"/>
+        <link rel="shortcut icon" href="<%= resolve_asset_url(theme.image_dir, theme.author.picture) %>" >
     <% } %>
     <% if (page.thumbnailImage && page.thumbnailImage.length) { %>
         <meta property="og:image" content="<%= resolve_asset_url(page.path, page.thumbnailImage) %>"/>

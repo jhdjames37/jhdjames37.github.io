@@ -46,16 +46,16 @@ sidebar:
             title: global.archives
             url: /all-archives
             icon: archive
-        # search:
-        #    title: global.search
-        #    url: /#search
-        #    icon: search
-        #    # `open-algolia-search` classes are used to open algolia search modal
-        #    class: open-algolia-search
-        # about:
-        #    title: global.about
-        #    url: /#about
-        #    icon: question
+        search:
+           title: global.search
+           url: /#search
+           icon: search
+           # `open-algolia-search` classes are used to open algolia search modal
+           class: open-algolia-search
+        about:
+           title: global.about
+           url: /#about
+           icon: question
     author_links:
         github:
             title: global.github
@@ -211,7 +211,7 @@ google_analytics_id:
 # Your Baidu analystics web property ID : 9505a5af654a2478f93fd6c0ae4f687d
 baidu_analytics_id:
 # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
-gravatar_email:
+gravatar_email: "jianghaodi@hotmail.com"
 # Your Facebook user ids used to connect your blog with your facebook user accounts (Facebook Insights). Separate ids with comma. e.g : 9830047,1003342
 fb_admin_ids:
 # Your Facebook app id used to connect your blog with your facebook app account (Facebook Insights). E.g : 9841307
