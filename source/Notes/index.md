@@ -8,6 +8,10 @@ mathjax: true
 
 ## 一些记录
 
+**2018.4.12: 请注意，2月，3月，4月的好题总结以及其它总结应该在二试之前补充完毕（周末，休息时间），最晚不超过CTSC/APIO。**
+
+2018.4.10: 更换主题至tranquilpeak。
+
 2018.1.13: 调整主题显示样式。
 
 banner 来源： [pilotseye背景](http://pilotseye.tv/en/download-wallpapers/)
