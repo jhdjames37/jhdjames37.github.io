@@ -8,6 +8,8 @@ mathjax: true
 
 ## 一些记录
 
+2018.4.15 添加标题样式说明。
+
 **2018.4.12: 请注意，2月，3月，4月的好题总结以及其它总结应该在二试之前补充完毕（周末，休息时间），最晚不超过CTSC/APIO。**
 
 2018.4.10: 更换主题至tranquilpeak。
@@ -20,6 +22,20 @@ banner 来源： [pilotseye背景](http://pilotseye.tv/en/download-wallpapers/)
 删除私人性总结（不适合公开发布）。
 添加文章管理插件(hexo-admin)
 `npm install hexo-admin`
+
+## 关于文章标题
+
+考虑到编码问题，将尽量避免使用中文，转而使用英文翻译。
+
+对于题解来说，因为英文名不一定存在，可能会使用拼音（未定）。
+
+尽量不在URL中使用OJ编号（未定）
+
+在标题中应尽量提供多个OJ的题号，以供参考（暂时提供UOJ/LOJ/luogu/BZOJ题号）
+
+效果不会太差（主题支持长标题）
+
+Reference：https://ruanx.pw/bzojch/bzojno.html
 
 ## 关于category & tag
 
