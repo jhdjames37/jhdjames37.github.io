@@ -31,7 +31,7 @@ banner 来源： [pilotseye背景](http://pilotseye.tv/en/download-wallpapers/)
 
 尽量不在URL中使用OJ编号（未定）
 
-在标题中应尽量提供多个OJ的题号，以供参考（暂时提供UOJ/LOJ/luogu/BZOJ题号）
+在标题中应尽量提供多个OJ的题号，以供参考（暂时提供UOJ/LOJ/luogu/BZOJ题号, 按OJ字典序排列BZOJ/LOJ/luogu/UOJ（我不是故意的。。。））
 
 效果不会太差（主题支持长标题）
 
