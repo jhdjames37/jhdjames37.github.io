@@ -27,6 +27,8 @@
         
     
     
+        <meta property="og:image" content="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=640"/>
+    
     
     
     
@@ -44,8 +46,10 @@
 
 
     
+        
+    
 
-<header id="header" data-behavior="3">
+<header id="header" data-behavior="2">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
@@ -56,6 +60,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=90" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -63,8 +69,21 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="3">
+    
+
+<nav id="sidebar" data-behavior="2">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>An OIer.</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -85,7 +104,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/categories"
+                             href="/all-categories"
                             
                             title="分类"
                         >
@@ -98,7 +117,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/tags"
+                             href="/all-tags"
                             
                             title="标签"
                         >
@@ -111,7 +130,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/archives"
+                             href="/all-archives"
                             
                             title="归档"
                         >
@@ -121,39 +140,22 @@
                     </a>
             </li>
             
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
         </ul>
         
             <ul class="sidebar-buttons">
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
-                            
-                            title="RSS"
-                        >
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
             
         </ul>
         
@@ -161,7 +163,7 @@
 </nav>
 
             
-            <div id="main" data-behavior="3"
+            <div id="main" data-behavior="2"
                  class="
                         hasCoverMetaIn
                         ">
@@ -314,7 +316,9 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2018 jhdjames37. All Rights Reserved.
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
     </span>
 </footer>
 
@@ -324,25 +328,28 @@
         
 
 
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-remove"></i>
         </div>
         
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=110" alt="作者的图片"/>
+        
             <h4 id="about-card-name">jhdjames37</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>An OIer.</p>
 </div>
         
         
-            <div id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>author.job</p>
-
-            </div>
         
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
         
     </div>
 </div>

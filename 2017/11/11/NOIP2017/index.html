@@ -11,7 +11,7 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":[]},"articleBody":"NOIP2017 爆零记 参赛总结。\n（先flag立在这里）。。。\n\n问题是，真的爆炸了。。。\nDay1T1 - 小凯的疑惑(math)竟然开场先来一道数学题，算到一半突然开始看样例解释，就给蒙出来了。。。\nT2 - 时间复杂度(complexity)爆炸的根源。本身是一道不算复杂的模拟，但是我考虑错了平行的for循环，爆30。。\n但是讲道理，样例2应该能把我给hack的(我Day2的时候莫名其妙地找到了没有删掉的Day1样例文件)， 难道是我bash写错了?? 要真是这样的话，那就真完了。。。\n最大的问题是：这个问题是我在Day2进场前发现的，差点心态爆炸。。。\nT3 - 逛公园(park)又一道爆成10分的题，原因不明。\nUPD: 首先-1就判错了，又没有删。。 而且有数组没有清零。。。 好吧，其实是n和cnt(dijkstra序中的最大标号)写错了。。。（话说，我在想标算的时候已经想到了这个问题，怎么忘记改了呢？？）\nDay2T1 - 奶酪(cheese)这道题挺正常的，我估算出来可能平方的时候要开unsigned long long（似乎很多人没考虑到）, 但是luogu的数据没卡这种情况。\nT2 - 宝藏(treasure)40分贪心挺好骗的， 70分暴力我也想到了， 但是胡乱算了一圈复杂度好像是$O(n \\cdot n ^ n)$, 似乎过不去，放弃。(实际上是极不满的$O(n ^ n)$, 也许是$O(n ^ {n - 2})$?, 反正打了就有70分了)\nUPD: 实测十分钟写的dfs暴力就能过大部分随机数据，加最优性剪枝就稳70了。。。\nT3 - 列队(phalanx)30 + 30（可能被卡常）， 也没什么可说的。\n总结NOIP就这样结束了， 下场似乎有点惨(也许这些问题都避免就能够拿100 + 100 + 70 + 100 + 70 + 60 = 500的， 却实际只有100 + 30 + 10 + 100 + 40 + 60 = 340(luogu数据))，但是这已经无力改变了，只能明年再来了。\n总结如下：\n1. 跑样例的bash一定要检查循环数是否等于样例数(这件事一定要放到和检查文件名同一高度上！！！) （其实有一次也是脚本出错导致爆炸的。。。）\n2. 一定要多拍样例，不但要测编代码时想到的hack，调试的时候一定要想想“还有其它hack吗？”\n3. 其实D2T3 60分打完还有30分钟左右时间，应该是足够打T2的70分的（至少不加剪枝的应该写的出来），却因为复杂度而望而却步。所以不能被复杂度束缚，而应该看实际运行时间！！！\nUPD: 4.注意变量名，注意所有对算法的修改要落实到每一个实现中！\n正如我在初三总结出来的月考经验：只要每一门学科都发挥正常（没有弱智丢分），总成绩就会比较理想。只要每一道题目都不出偏差，就能取得满意的成绩！但是，这却很难。（按照考试评级方法，我每次总会有个C）也许在接下来的一年，需要克服的就是这些问题\\\nUPD: (11.25)\n官方数据好水，竟然D1T2骗到90分，D1T3骗到50分。(100 + 90 + 50 + 100 + 40 + 60 = 440, 多骗到100分233…)\n原来我测了D1T2的大样例啊。。。\n顺便写一发题解：\nD1T3: dijkstra求最短路 + 拓扑判0环 + dp（按照dijkstra序 + 拓扑序）\nD2T2: 状压DP， 将深度作为阶段转移。（在保证不漏正解的情况下减少状态，虽然可能会增加不优的方案。换句话说，增加错解没有关系，只需要保证正解存在即可）\nD2T3: 将最后一行单独处理，线段树（平衡树）优化链表（单点修改 + 求第k大）。动态开点, 如果用树状数组的话，就是先离线求出对于每一行（以及最后一行）每一个询问所对应的位置（这个可以离线后用一个树状数组处理），然后再处理每一个位置上的具体答案。\n— The END —\n要上文化课了！\njhdjames37\n2017.11\n","dateCreated":"2017-11-11T08:30:00+08:00","dateModified":"2018-01-13T20:45:12+08:00","datePublished":"2017-11-11T08:30:00+08:00","description":"NOIP2017 爆零记 参赛总结。\n（先flag立在这里）。。。","headline":"NOIP2017","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2017/11/11/NOIP2017/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":[]},"url":"/jhdjames37.github.io/2017/11/11/NOIP2017/","keywords":"review, NOIP"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"NOIP2017 爆零记 参赛总结。\n（先flag立在这里）。。。\n\n问题是，真的爆炸了。。。\nDay1T1 - 小凯的疑惑(math)竟然开场先来一道数学题，算到一半突然开始看样例解释，就给蒙出来了。。。\nT2 - 时间复杂度(complexity)爆炸的根源。本身是一道不算复杂的模拟，但是我考虑错了平行的for循环，爆30。。\n但是讲道理，样例2应该能把我给hack的(我Day2的时候莫名其妙地找到了没有删掉的Day1样例文件)， 难道是我bash写错了?? 要真是这样的话，那就真完了。。。\n最大的问题是：这个问题是我在Day2进场前发现的，差点心态爆炸。。。\nT3 - 逛公园(park)又一道爆成10分的题，原因不明。\nUPD: 首先-1就判错了，又没有删。。 而且有数组没有清零。。。 好吧，其实是n和cnt(dijkstra序中的最大标号)写错了。。。（话说，我在想标算的时候已经想到了这个问题，怎么忘记改了呢？？）\nDay2T1 - 奶酪(cheese)这道题挺正常的，我估算出来可能平方的时候要开unsigned long long（似乎很多人没考虑到）, 但是luogu的数据没卡这种情况。\nT2 - 宝藏(treasure)40分贪心挺好骗的， 70分暴力我也想到了， 但是胡乱算了一圈复杂度好像是$O(n \\cdot n ^ n)$, 似乎过不去，放弃。(实际上是极不满的$O(n ^ n)$, 也许是$O(n ^ {n - 2})$?, 反正打了就有70分了)\nUPD: 实测十分钟写的dfs暴力就能过大部分随机数据，加最优性剪枝就稳70了。。。\nT3 - 列队(phalanx)30 + 30（可能被卡常）， 也没什么可说的。\n总结NOIP就这样结束了， 下场似乎有点惨(也许这些问题都避免就能够拿100 + 100 + 70 + 100 + 70 + 60 = 500的， 却实际只有100 + 30 + 10 + 100 + 40 + 60 = 340(luogu数据))，但是这已经无力改变了，只能明年再来了。\n总结如下：\n1. 跑样例的bash一定要检查循环数是否等于样例数(这件事一定要放到和检查文件名同一高度上！！！) （其实有一次也是脚本出错导致爆炸的。。。）\n2. 一定要多拍样例，不但要测编代码时想到的hack，调试的时候一定要想想“还有其它hack吗？”\n3. 其实D2T3 60分打完还有30分钟左右时间，应该是足够打T2的70分的（至少不加剪枝的应该写的出来），却因为复杂度而望而却步。所以不能被复杂度束缚，而应该看实际运行时间！！！\nUPD: 4.注意变量名，注意所有对算法的修改要落实到每一个实现中！\n正如我在初三总结出来的月考经验：只要每一门学科都发挥正常（没有弱智丢分），总成绩就会比较理想。只要每一道题目都不出偏差，就能取得满意的成绩！但是，这却很难。（按照考试评级方法，我每次总会有个C）也许在接下来的一年，需要克服的就是这些问题\\\nUPD: (11.25)\n官方数据好水，竟然D1T2骗到90分，D1T3骗到50分。(100 + 90 + 50 + 100 + 40 + 60 = 440, 多骗到100分233…)\n原来我测了D1T2的大样例啊。。。\n顺便写一发题解：\nD1T3: dijkstra求最短路 + 拓扑判0环 + dp（按照dijkstra序 + 拓扑序）\nD2T2: 状压DP， 将深度作为阶段转移。（在保证不漏正解的情况下减少状态，虽然可能会增加不优的方案。换句话说，增加错解没有关系，只需要保证正解存在即可）\nD2T3: 将最后一行单独处理，线段树（平衡树）优化链表（单点修改 + 求第k大）。动态开点, 如果用树状数组的话，就是先离线求出对于每一行（以及最后一行）每一个询问所对应的位置（这个可以离线后用一个树状数组处理），然后再处理每一个位置上的具体答案。\n— The END —\n要上文化课了！\njhdjames37\n2017.11\n","dateCreated":"2017-11-11T08:30:00+08:00","dateModified":"2018-01-13T20:45:12+08:00","datePublished":"2017-11-11T08:30:00+08:00","description":"NOIP2017 爆零记 参赛总结。\n（先flag立在这里）。。。","headline":"NOIP2017","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2017/11/11/NOIP2017/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2017/11/11/NOIP2017/","keywords":"review, NOIP"}</script>
     <meta name="description" content="NOIP2017 爆零记 参赛总结。 （先flag立在这里）。。。">
 <meta name="keywords" content="review,NOIP">
 <meta property="og:type" content="blog">
@@ -28,6 +28,8 @@
     
         
     
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=640"/>
     
     
     
@@ -46,8 +48,10 @@
 
 
     
+        
+    
 
-<header id="header" data-behavior="3">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
@@ -58,6 +62,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=90" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -65,8 +71,21 @@
             <!-- Define author's picture -->
 
 
-<nav id="sidebar" data-behavior="3">
+    
+
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>An OIer.</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -87,7 +106,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/categories"
+                             href="/all-categories"
                             
                             title="分类"
                         >
@@ -100,7 +119,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/tags"
+                             href="/all-tags"
                             
                             title="标签"
                         >
@@ -113,7 +132,7 @@
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/archives"
+                             href="/all-archives"
                             
                             title="归档"
                         >
@@ -123,39 +142,22 @@
                     </a>
             </li>
             
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
-                    </a>
-            </li>
-            
-        </ul>
-        
-            <ul class="sidebar-buttons">
-            
         </ul>
         
             <ul class="sidebar-buttons">
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link "
-                             href="/atom.xml"
-                            
-                            title="RSS"
-                        >
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">RSS</span>
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
             
         </ul>
         
@@ -163,7 +165,7 @@
 </nav>
 
             
-            <div id="main" data-behavior="3"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
@@ -271,7 +273,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -305,7 +307,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -325,13 +327,15 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2018 jhdjames37. All Rights Reserved.
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
     </span>
 </footer>
 
             </div>
             
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
                     <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
@@ -357,7 +361,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -391,7 +395,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -401,7 +405,7 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
     <i id="btn-close-shareoptions" class="fa fa-close"></i>
     <ul class="share-options">
         
@@ -437,25 +441,28 @@
         
 
 
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-remove"></i>
         </div>
         
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=110" alt="作者的图片"/>
+        
             <h4 id="about-card-name">jhdjames37</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>An OIer.</p>
 </div>
         
         
-            <div id="about-card-job">
-                <i class="fa fa-briefcase"></i>
-                <br/>
-                <p>author.job</p>
-
-            </div>
         
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
         
     </div>
 </div>
