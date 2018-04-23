@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>Stirling Number - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"最近在CF上出现了一道斯特林数(Stirling Number)的题（CF960G， HDU上有解法相同的一道题）,（在ZJOI Day1讲课的时候也提到了）。\n所以先来总结一波公式。\n\n文中所用记号组合数$\\binom{n}{m}$不用讲了吧。\n定义$x$的$n$阶下降幂$x ^ {\\underline{n}} = \\prod_{i = 0}^{n - 1} (x - i)$，当$x$为正整数时就等于$A_{x} ^ {n}$，A就是排列数。$x$的$n$阶上升幂$x ^ {\\overline{n}} = \\prod_{i = 0} ^ {n - 1} (x + i)$。\n定义$[x ^ i]f(x)$ 为多项式$f(x)$中$x ^ i$项前的系数。\n则易证$[x ^ i]x ^ {\\underline{n}} = (-1) ^ {n - i} [x ^ i]x ^ {\\overline{n}}$\n第一类Stirling数定义定义第一类Stirling数$\\left[ {n \\atop m} \\right]$ 或 $s(n, m)$ ($0 \\le m \\le n$)：\n\n\\left[ {n \\atop m} \\right] = s(n, m) = \\begin{cases}\n\\left[ {n - 1 \\atop m - 1} \\right] + \\left[ {n - 1 \\atop m} \\right] \\times (n - 1), & m < n \\\\\n1, & m = n \\\\\n0, & m = 0, n \\ne 0\n\\end{cases}组合意义：将$n$个点组成$m$个有向环的方案数（考虑第一个点独立成环，或插入到原有环的某个地方）。\n一些性质\n\\left[ {n \\atop 0} \\right] = 0, \\\\\n\\left[ {n \\atop 1} \\right] = (n - 1)!, \\\\\n\\sum_{i = 1}^{n} \\left[ {n \\atop i} \\right] = n!最后一项可以由其组合意义得到。\n将递推式后面一项展开，可以得到\n\\left[  {n \\atop m} \\right] \n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] \\binom{n - 1}{i - 1} (i - 1)! \\\\\n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] \\frac {(n - 1)!} {(n - i)!} \\\\\n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] (n - 1)^{\\underline{i - 1}}也说明了其组合意义。\n计算根据递推式计算是$O(n ^ 2)$的, 考虑如何优化。\n观察$x ^ {\\overline{n}}$的各项系数：\n首先可以发现$x ^ \\overline{n} = (x + n - 1) \\times x ^ {\\overline{n - 1}} = x \\times x ^ {\\overline{n - 1}} + (n - 1) \\times x ^ {\\overline{n - 1}} (n \\ge 1)$.则$[x ^ i]x ^ {\\overline{n}}=[x ^ {i - 1}]x ^ {\\overline{n - 1}} + (n - 1) [x ^ i]x ^ {\\overline{n - 1}}$显然有$[x ^ 0]x ^ {\\overline{n}} = 0, [x ^ n]x ^ {\\overline{n}} = 1$\n观察发现，它与第一类Stirling数的定义相同。即$[x ^ i]x ^ {\\overline{n}} = \\left[ {n \\atop i} \\right]$.\n而上升幂可以用两两合并FFT在$O(n \\log ^ 2 n)$内计算，那么我们就得到了$O(n \\log ^ 2 n)$的解法。\n然而这玩意还能继续优化（虽然从常数意义来说不一定优）：\n首先假设$n$为偶数（如果是奇数最后手动乘一项）。\n假设我们已经知道了$x ^ {\\overline{\\frac{n}{2}}}$的各项系数，记$f_i = [x ^ i]x ^ {\\overline{\\frac{n}{2}}}$。\n则$x ^ {\\overline{n}} = x ^ {\\overline{\\frac{n}{2}}} \\times (x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}$\n所以我们只需要知道$(x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}$即可。\n令$t = x + \\frac{n}{2}$, 则$(x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}} = t ^ {\\overline{\\frac{n}{2}}}$\n由二项式定理得$t ^ i = (x + \\frac{n}{2}) ^ i =\\sum_{j = 0} ^ {i} \\binom{i}{j} x ^ j \\left( \\frac{n}{2} \\right) ^ {i - j}$\n则\n[x^i] (x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}\n= [x^i] t ^ {\\overline{\\frac{n}{2}}} \\\\\n= \\sum_{j = i} ^ {\\frac{n}{2}} [t^j]{t ^ {\\overline{\\frac{n}{2}}}} \\times [x^i]t^j \\\\\n= \\sum_{j = i} ^ {\\frac{n}{2}} f_j \\binom{j}{i} \\left( \\frac{n}{2} \\right) ^ {j - i}这又是一个卷积式，继续FFT。总复杂度$T(n) = T(\\frac{n}{2}) + O(n \\log n) = O(n \\log n)$\n第二类Stirling数定义定义第二类Stirling数$\\{ {n \\atop m} \\}$或$S(n, m)$ ($0 \\le m \\le n$): \n\n\\left\\{ {n \\atop m} \\right\\} = \\begin{cases}\n\\left\\{ {n - 1 \\atop m - 1} \\right\\} + m\\left\\{ {n - 1 \\atop m} \\right\\}, & n < m\\\\\n1, &n = m \\\\\n0, &m = 0, n \\ne 0\n\\end{cases}组合意义：将n个球分成m组的方案数（球有标号，分组没有标号，盒子非空）。（同样考虑第一个球的分组状况）\n一些性质\n\\left\\{ {n \\atop 0} \\right\\} = 0 \\\\\n\\left\\{ {n \\atop 1} \\right\\} = \\left\\{ {n \\atop n} \\right\\} = 1根据其组合意义，还可以得到其它一些组合问题的解（可以参考《离散数学》）。\n将$n$个球放到$m$个盒子中，球有标号.\n\n盒子有标号，盒子非空：$m! \\left\\{ {n \\atop m} \\right\\}$\n盒子没有标号，盒子可空：$\\sum_{i = 1}^{m} \\left\\{ {n \\atop m} \\right\\}$\n盒子有标号，盒子可空：$\\sum_{i = 1}^{m} \\left\\{ {n \\atop i} \\right\\} i! \\binom{m}{i} = \\sum_{i = 1}^{m} \\left\\{ {n \\atop i} \\right\\} m ^ {\\underline{i}} = m ^ n$\n\n其中最后一点说明，可以将乘方用下降幂形式表示。\n(根据前面的公式，其实第一类Stirling数也可以将下降幂用乘方表示。)\n这一点的好处在于从$x ^ {\\underline{n}}$ 变成 $(x + 1) ^ {\\underline{n}}$ 比将$x ^ n$变成$(x + 1) ^ n$方便（前者$O(1)$, 后者$O(n)$）。\n计算考虑第三个问题的组合意义，我们可以得到一个容斥的式子（从所有方案中减去有空盒子的方案，最后去除标号）：\n\n\\left\\{ {n \\atop m} \\right\\} = \\frac{1}{m!} \\sum_{k = 0} ^ m (-1) ^ k \\binom{m}{k} (m - k) ^ n \\\\\n= \\sum_{k = 0}^m (-1) ^ k \\frac{1}{k!} \\frac{1}{(m - k)!} (m - k) ^ n也是一个卷积式，继续FFT。\n\nReference &amp; Notes:一些公式是从这里找到的。（包括Stirling数$O(n \\log n)$的计算方法，其中也有一些关于Stirling数的例题。）\n《离散数学》中介绍了Stirling数的一些性质。\n关于如何输入Stirling数，参考了Wikipedia相关词条的原代码，这里也给出。\n12\\left[ &#123;n \\atop m&#125; \\right] \\left\\&#123; &#123;n \\atop m&#125; \\right\\&#125;\n（我说，我怎么都把这种东西写了出来）\n\n","dateCreated":"2018-04-13T22:05:18+08:00","dateModified":"2018-04-14T18:38:52+08:00","datePublished":"2018-04-13T22:05:18+08:00","description":"最近在CF上出现了一道斯特林数(Stirling Number)的题（CF960G， HDU上有解法相同的一道题）,（在ZJOI Day1讲课的时候也提到了）。\n所以先来总结一波公式。","headline":"Stirling Number","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/13/Stirling-Number/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/13/Stirling-Number/","keywords":"math"}</script>
+    <meta name="description" content="最近在CF上出现了一道斯特林数(Stirling Number)的题（CF960G， HDU上有解法相同的一道题）,（在ZJOI Day1讲课的时候也提到了）。 所以先来总结一波公式。">
+<meta name="keywords" content="math">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Stirling Number">
+<meta property="og:url" content="jhdjames37.github.io/2018/04/13/Stirling-Number/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="最近在CF上出现了一道斯特林数(Stirling Number)的题（CF960G， HDU上有解法相同的一道题）,（在ZJOI Day1讲课的时候也提到了）。 所以先来总结一波公式。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-14T10:38:52.025Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stirling Number">
+<meta name="twitter:description" content="最近在CF上出现了一道斯特林数(Stirling Number)的题（CF960G， HDU上有解法相同的一道题）,（在ZJOI Day1讲课的时候也提到了）。 所以先来总结一波公式。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Stirling Number
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-04-13T22:05:18+08:00">
+	
+		    4月 13, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/algorithms-data-structures/">algorithms & data structures</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>最近在CF上出现了一道斯特林数(Stirling Number)的题（<a href="http://codeforces.com/contest/960/problem/G" target="_blank" rel="noopener">CF960G</a>， <a href="http://acm.hdu.edu.cn/showproblem.php?pid=4372" target="_blank" rel="noopener">HDU上</a>有解法相同的一道题）,（在ZJOI Day1讲课的时候也提到了）。</p>
+<p>所以先来总结一波公式。</p>
+<a id="more"></a>
+<h2 id="文中所用记号"><a href="#文中所用记号" class="headerlink" title="文中所用记号"></a>文中所用记号</h2><p>组合数$\binom{n}{m}$不用讲了吧。</p>
+<p>定义$x$的$n$阶下降幂$x ^ {\underline{n}} = \prod_{i = 0}^{n - 1} (x - i)$，当$x$为正整数时就等于$A_{x} ^ {n}$，A就是排列数。<br>$x$的$n$阶上升幂$x ^ {\overline{n}} = \prod_{i = 0} ^ {n - 1} (x + i)$。</p>
+<p>定义$[x ^ i]f(x)$ 为多项式$f(x)$中$x ^ i$项前的系数。</p>
+<p>则易证$[x ^ i]x ^ {\underline{n}} = (-1) ^ {n - i} [x ^ i]x ^ {\overline{n}}$</p>
+<h2 id="第一类Stirling数"><a href="#第一类Stirling数" class="headerlink" title="第一类Stirling数"></a>第一类Stirling数</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>定义第一类Stirling数$\left[ {n \atop m} \right]$ 或 $s(n, m)$ ($0 \le m \le n$)：</p>
+<script type="math/tex; mode=display">
+\left[ {n \atop m} \right] = s(n, m) = \begin{cases}
+\left[ {n - 1 \atop m - 1} \right] + \left[ {n - 1 \atop m} \right] \times (n - 1), & m < n \\
+1, & m = n \\
+0, & m = 0, n \ne 0
+\end{cases}</script><p>组合意义：将$n$个点组成$m$个有向环的方案数（考虑第一个点独立成环，或插入到原有环的某个地方）。</p>
+<h3 id="一些性质"><a href="#一些性质" class="headerlink" title="一些性质"></a>一些性质</h3><script type="math/tex; mode=display">
+\left[ {n \atop 0} \right] = 0, \\
+\left[ {n \atop 1} \right] = (n - 1)!, \\
+\sum_{i = 1}^{n} \left[ {n \atop i} \right] = n!</script><p>最后一项可以由其组合意义得到。</p>
+<p>将递推式后面一项展开，可以得到</p>
+<script type="math/tex; mode=display">\left[  {n \atop m} \right] 
+= \sum_{i} \left[ {n - i \atop m - 1} \right] \binom{n - 1}{i - 1} (i - 1)! \\
+= \sum_{i} \left[ {n - i \atop m - 1} \right] \frac {(n - 1)!} {(n - i)!} \\
+= \sum_{i} \left[ {n - i \atop m - 1} \right] (n - 1)^{\underline{i - 1}}</script><p>也说明了其组合意义。</p>
+<h3 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h3><p>根据递推式计算是$O(n ^ 2)$的, 考虑如何优化。</p>
+<p>观察$x ^ {\overline{n}}$的各项系数：</p>
+<p>首先可以发现$x ^ \overline{n} = (x + n - 1) \times x ^ {\overline{n - 1}} = x \times x ^ {\overline{n - 1}} + (n - 1) \times x ^ {\overline{n - 1}} (n \ge 1)$.<br>则$<br>[x ^ i]x ^ {\overline{n}}<br>=[x ^ {i - 1}]x ^ {\overline{n - 1}} + (n - 1) [x ^ i]x ^ {\overline{n - 1}}<br>$<br>显然有$[x ^ 0]x ^ {\overline{n}} = 0, [x ^ n]x ^ {\overline{n}} = 1$</p>
+<p>观察发现，它与第一类Stirling数的定义相同。即$[x ^ i]x ^ {\overline{n}} = \left[ {n \atop i} \right]$.</p>
+<p>而上升幂可以用两两合并FFT在$O(n \log ^ 2 n)$内计算，那么我们就得到了$O(n \log ^ 2 n)$的解法。</p>
+<p>然而这玩意还能继续优化（虽然从常数意义来说不一定优）：</p>
+<p>首先假设$n$为偶数（如果是奇数最后手动乘一项）。</p>
+<p>假设我们已经知道了$x ^ {\overline{\frac{n}{2}}}$的各项系数，记$f_i = [x ^ i]x ^ {\overline{\frac{n}{2}}}$。</p>
+<p>则$<br>x ^ {\overline{n}} = x ^ {\overline{\frac{n}{2}}} \times (x + \frac{n}{2}) ^ {\overline{\frac{n}{2}}}<br>$</p>
+<p>所以我们只需要知道$(x + \frac{n}{2}) ^ {\overline{\frac{n}{2}}}$即可。</p>
+<p>令$t = x + \frac{n}{2}$, 则$<br>(x + \frac{n}{2}) ^ {\overline{\frac{n}{2}}} = t ^ {\overline{\frac{n}{2}}}<br>$</p>
+<p>由二项式定理得$t ^ i = (x + \frac{n}{2}) ^ i =<br>\sum_{j = 0} ^ {i} \binom{i}{j} x ^ j \left( \frac{n}{2} \right) ^ {i - j}$</p>
+<p>则</p>
+<script type="math/tex; mode=display">[x^i] (x + \frac{n}{2}) ^ {\overline{\frac{n}{2}}}
+= [x^i] t ^ {\overline{\frac{n}{2}}} \\
+= \sum_{j = i} ^ {\frac{n}{2}} [t^j]{t ^ {\overline{\frac{n}{2}}}} \times [x^i]t^j \\
+= \sum_{j = i} ^ {\frac{n}{2}} f_j \binom{j}{i} \left( \frac{n}{2} \right) ^ {j - i}</script><p>这又是一个卷积式，继续FFT。总复杂度$T(n) = T(\frac{n}{2}) + O(n \log n) = O(n \log n)$</p>
+<h2 id="第二类Stirling数"><a href="#第二类Stirling数" class="headerlink" title="第二类Stirling数"></a>第二类Stirling数</h2><h3 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h3><p>定义第二类Stirling数$\{ {n \atop m} \}$或$S(n, m)$ ($0 \le m \le n$): </p>
+<script type="math/tex; mode=display">
+\left\{ {n \atop m} \right\} = \begin{cases}
+\left\{ {n - 1 \atop m - 1} \right\} + m\left\{ {n - 1 \atop m} \right\}, & n < m\\
+1, &n = m \\
+0, &m = 0, n \ne 0
+\end{cases}</script><p>组合意义：将n个球分成m组的方案数（球有标号，分组没有标号，盒子非空）。（同样考虑第一个球的分组状况）</p>
+<h3 id="一些性质-1"><a href="#一些性质-1" class="headerlink" title="一些性质"></a>一些性质</h3><script type="math/tex; mode=display">
+\left\{ {n \atop 0} \right\} = 0 \\
+\left\{ {n \atop 1} \right\} = \left\{ {n \atop n} \right\} = 1</script><p>根据其组合意义，还可以得到其它一些组合问题的解（可以参考《离散数学》）。</p>
+<p>将$n$个球放到$m$个盒子中，球有标号.</p>
+<ol>
+<li>盒子有标号，盒子非空：$m! \left\{ {n \atop m} \right\}$</li>
+<li>盒子没有标号，盒子可空：$\sum_{i = 1}^{m} \left\{ {n \atop m} \right\}$</li>
+<li>盒子有标号，盒子可空：$\sum_{i = 1}^{m} \left\{ {n \atop i} \right\} i! \binom{m}{i} = \sum_{i = 1}^{m} \left\{ {n \atop i} \right\} m ^ {\underline{i}} = m ^ n$</li>
+</ol>
+<p>其中最后一点说明，可以将乘方用下降幂形式表示。</p>
+<p>(根据前面的公式，其实第一类Stirling数也可以将下降幂用乘方表示。)</p>
+<p>这一点的好处在于从$x ^ {\underline{n}}$ 变成 $(x + 1) ^ {\underline{n}}$ 比将$x ^ n$变成$(x + 1) ^ n$方便（前者$O(1)$, 后者$O(n)$）。</p>
+<h3 id="计算-1"><a href="#计算-1" class="headerlink" title="计算"></a>计算</h3><p>考虑第三个问题的组合意义，我们可以得到一个容斥的式子（从所有方案中减去有空盒子的方案，最后去除标号）：</p>
+<script type="math/tex; mode=display">
+\left\{ {n \atop m} \right\} = \frac{1}{m!} \sum_{k = 0} ^ m (-1) ^ k \binom{m}{k} (m - k) ^ n \\
+= \sum_{k = 0}^m (-1) ^ k \frac{1}{k!} \frac{1}{(m - k)!} (m - k) ^ n</script><p>也是一个卷积式，继续FFT。</p>
+<hr>
+<h2 id="Reference-amp-Notes"><a href="#Reference-amp-Notes" class="headerlink" title="Reference &amp; Notes:"></a>Reference &amp; Notes:</h2><p>一些公式是从<a href="https://blog.csdn.net/liutian429073576/article/details/53727939" target="_blank" rel="noopener">这里</a>找到的。（包括Stirling数$O(n \log n)$的计算方法，其中也有一些关于Stirling数的例题。）</p>
+<p>《离散数学》中介绍了Stirling数的一些性质。</p>
+<p>关于如何输入Stirling数，参考了Wikipedia相关词条的原代码，这里也给出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\left[ &#123;n \atop m&#125; \right] </span><br><span class="line">\left\&#123; &#123;n \atop m&#125; \right\&#125;</span><br></pre></td></tr></table></figure>
+<p><del>（我说，我怎么都把这种东西写了出来）</del></p>
+<!---
+题外话：
+其实关于第二类Stirling数，在许多算法入门书的递归/递推章节都提到了（放在Fibnacci和Catalan后面）。
+一些初赛题的复习资料（似乎）也有。
+
+不知道有没有人和我一样，说有第二类Stirling数，那第一类Stirling数呢？（笑）
+--->
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/math/">math</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/14/Topcoder-SRMs/" data-tooltip="Topcoder SRMs" aria-label="上一篇: Topcoder SRMs">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/SDOI2014-LIS/" data-tooltip="BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS" aria-label="下一篇: BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/13/Stirling-Number/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/13/Stirling-Number/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/13/Stirling-Number/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/14/Topcoder-SRMs/" data-tooltip="Topcoder SRMs" aria-label="上一篇: Topcoder SRMs">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/SDOI2014-LIS/" data-tooltip="BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS" aria-label="下一篇: BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/13/Stirling-Number/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/13/Stirling-Number/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/13/Stirling-Number/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/13/Stirling-Number/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/13/Stirling-Number/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/13/Stirling-Number/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

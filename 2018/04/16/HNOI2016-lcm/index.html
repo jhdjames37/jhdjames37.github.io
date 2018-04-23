@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>BZOJ4537/LOJ2048/luogu3247 - 【HNOI2016】 最小公倍数 - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：给定一张$n$个顶点$m$条边的无向图(顶点编号为$1,2,\\ldots,n$)，每条边上带有权值。所有权值都可以分解成$2^a \\times 3^b$的形式。\n现在有$q$个询问，每次询问给定四个参数$u$、$v$、$a$和$b$，请你求出是否存在一条顶点$u$到$v$之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为$2 ^ a \\times 3 ^ b$\n$1 \\le n,q \\le 50000、1 \\le m \\le 100000、0 \\le a,b \\le 10^9$\n\n题解：显然询问的是是否存在一条路径$max_a = a, max_b = b$。\n因为不是简单路径，所以可以视作连通分量。\n而且一个询问Q有解当且仅当将所有$a \\le Q_a, b \\le Q_b$的边相连，$u$, $v$连通且$max_a = Q_a, max_b = Q_b$。\n因为没有更好的方法（233）， 考虑分块。\n二维分块一般按照一维分块(排序后，每块$sz$个元素)，块内按照第二维排序。\n这里按照边$a$排序并分块。\n分完块之后找到每一块$a$值的范围$[l, r]$。有个细节，如果有一个$a$跨越了两个块，应该记在后面。将询问插入$a$值的相应块中。\n考虑块$[l, r]$, 首先需要将$a_i &lt; l$的边按照$b$排序。对于每个询问$q_j$，在$a_i &lt; l$的边中找到$b_i \\le b_{q_j}$的边。因为已经按$b$递增，所以用一个指针扫过去，用并查集维护。\n对于$a_i \\in [l, r]$的边，每次询问暴力扫一遍，将合法的插入并查集。因为完成每次询问后需要将它们清除，所以需要可撤销并查集（只按秩合并，不路径压缩，并记录操作，维护$max_a, max_b$）。\n复杂度$O(sz \\log n + \\frac{n}{sz} \\log n)$，但块大小不是设$\\sqrt{n}$最优。请自行尝试块大小。\nCode12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394struct Edge &#123;  int u, v, a, b, id;&#125;edge[MAXM];int n, m, q;typedef Edge Query;Query query[MAXQ];inline bool cmpa(Edge a, Edge b) &#123;  return a.a &lt; b.a;&#125;inline bool cmpb(Edge a, Edge b) &#123;  return a.b &lt; b.b;&#125;namespace solver1 &#123;  namespace dsu &#123;    int fa[MAXN], sz[MAXN];    int maxa[MAXN], maxb[MAXN];    typedef Edge Opt;    Opt opt[MAXM];    int cnto;    void init() &#123;      for (int i = 1; i &lt;= n; i++) &#123;        fa[i] = i;        maxa[i] = -1;        maxb[i] = -1;        sz[i] = 1;      &#125;    &#125;    inline void reset() &#123; cnto = 0; &#125;    inline int find(int x) &#123;      while(fa[x] != x) x = fa[x];      return x;    &#125;    void unite(Edge e) &#123;      int u = find(e.u), v = find(e.v);      if (sz[u] &lt; sz[v]) std::swap(u, v);      opt[++cnto] = (Opt) &#123;u, v, maxa[u], maxb[u], sz[u]&#125;;      fa[v] = u;      if (u != v) sz[u] += sz[v];      maxa[u] = std::max(maxa[u], std::max(maxa[v], e.a));      maxb[u] = std::max(maxb[u], std::max(maxb[v], e.b));    &#125;    void undo() &#123;      while(cnto) &#123;        int u = opt[cnto].u, v = opt[cnto].v, a = opt[cnto].a, b = opt[cnto].b;        fa[v] = v;        maxa[u] = a;        maxb[u] = b;        sz[u] = opt[cnto].id;        cnto--;      &#125;    &#125;    inline bool ok(Query e) &#123;      int u = find(e.u), v = find(e.v);      if (u != v) return 0;      return maxa[u] == e.a &amp;&amp; maxb[u] == e.b;    &#125;  &#125;  void main() &#123;    int block_sz = sqrt(m * log2(n));        std::sort(edge + 1, edge + m + 1, cmpa);    std::sort(query + 1, query + q + 1, cmpa);    static bool ans[MAXQ];    int curq = 1, lastq = 1;    for (int l = 1; l &lt;= m; l += block_sz) &#123;      int r = std::min(l + block_sz - 1, m);      while(curq &lt;= q &amp;&amp; query[curq].a &lt; edge[r].a) curq++;      if (r == m) curq = q + 1;            std::sort(edge + 1, edge + l, cmpb);      std::sort(query + lastq, query + curq, cmpb);            int taile = 1;      dsu::init();      for (int j = lastq; j &lt; curq; j++) &#123;        while(taile &lt; l &amp;&amp; edge[taile].b &lt;= query[j].b) &#123;          dsu::unite(edge[taile++]);        &#125;        dsu::reset();        for (int k = l; k &lt;= r; k++) &#123;          if (edge[k].a &lt;= query[j].a &amp;&amp; edge[k].b &lt;= query[j].b) &#123;            dsu::unite(edge[k]);          &#125;        &#125;        ans[query[j].id] = dsu::ok(query[j]);        dsu::undo();      &#125;      lastq = curq;    &#125;    for (int i = 1; i &lt;= q; i++) &#123;      puts(ans[i] ? \"Yes\" : \"No\");    &#125;  &#125;&#125;\n","dateCreated":"2018-04-16T14:41:51+08:00","dateModified":"2018-04-23T16:32:45+08:00","datePublished":"2018-04-16T14:41:51+08:00","description":"题意：给定一张$n$个顶点$m$条边的无向图(顶点编号为$1,2,\\ldots,n$)，每条边上带有权值。所有权值都可以分解成$2^a \\times 3^b$的形式。\n现在有$q$个询问，每次询问给定四个参数$u$、$v$、$a$和$b$，请你求出是否存在一条顶点$u$到$v$之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为$2 ^ a \\times 3 ^ b$\n$1 \\le n,q \\le 50000、1 \\le m \\le 100000、0 \\le a,b \\le 10^9$","headline":"BZOJ4537/LOJ2048/luogu3247 - 【HNOI2016】 最小公倍数","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/16/HNOI2016-lcm/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/16/HNOI2016-lcm/","keywords":"blocking, dsu"}</script>
+    <meta name="description" content="题意：给定一张$n$个顶点$m$条边的无向图(顶点编号为$1,2,\ldots,n$)，每条边上带有权值。所有权值都可以分解成$2^a \times 3^b$的形式。 现在有$q$个询问，每次询问给定四个参数$u$、$v$、$a$和$b$，请你求出是否存在一条顶点$u$到$v$之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为$2 ^ a \times 3 ^ b$ $1">
+<meta name="keywords" content="blocking,dsu">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="BZOJ4537&#x2F;LOJ2048&#x2F;luogu3247 - 【HNOI2016】 最小公倍数">
+<meta property="og:url" content="jhdjames37.github.io/2018/04/16/HNOI2016-lcm/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="题意：给定一张$n$个顶点$m$条边的无向图(顶点编号为$1,2,\ldots,n$)，每条边上带有权值。所有权值都可以分解成$2^a \times 3^b$的形式。 现在有$q$个询问，每次询问给定四个参数$u$、$v$、$a$和$b$，请你求出是否存在一条顶点$u$到$v$之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为$2 ^ a \times 3 ^ b$ $1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-23T08:32:45.636Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BZOJ4537&#x2F;LOJ2048&#x2F;luogu3247 - 【HNOI2016】 最小公倍数">
+<meta name="twitter:description" content="题意：给定一张$n$个顶点$m$条边的无向图(顶点编号为$1,2,\ldots,n$)，每条边上带有权值。所有权值都可以分解成$2^a \times 3^b$的形式。 现在有$q$个询问，每次询问给定四个参数$u$、$v$、$a$和$b$，请你求出是否存在一条顶点$u$到$v$之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为$2 ^ a \times 3 ^ b$ $1">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            BZOJ4537/LOJ2048/luogu3247 - 【HNOI2016】 最小公倍数
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-04-16T14:41:51+08:00">
+	
+		    4月 16, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solutions/">solutions</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h2 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h2><p>给定一张$n$个顶点$m$条边的无向图(顶点编号为$1,2,\ldots,n$)，每条边上带有权值。所有权值都可以分解成$2^a \times 3^b$的形式。</p>
+<p>现在有$q$个询问，每次询问给定四个参数$u$、$v$、$a$和$b$，请你求出是否存在一条顶点$u$到$v$之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为$2 ^ a \times 3 ^ b$</p>
+<p>$1 \le n,q \le 50000、1 \le m \le 100000、0 \le a,b \le 10^9$</p>
+<a id="more"></a>
+<h2 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h2><p>显然询问的是是否存在一条路径$max_a = a, max_b = b$。</p>
+<p>因为不是简单路径，所以可以视作连通分量。</p>
+<p>而且一个询问Q有解当且仅当将所有$a \le Q_a, b \le Q_b$的边相连，$u$, $v$连通且$max_a = Q_a, max_b = Q_b$。</p>
+<p>因为没有更好的方法（233）， 考虑分块。</p>
+<p>二维分块一般按照一维分块(排序后，每块$sz$个元素)，块内按照第二维排序。</p>
+<p>这里按照边$a$排序并分块。</p>
+<p>分完块之后找到每一块$a$值的范围$[l, r]$。有个细节，如果有一个$a$跨越了两个块，应该记在后面。将询问插入$a$值的相应块中。</p>
+<p>考虑块$[l, r]$, 首先需要将$a_i &lt; l$的边按照$b$排序。对于每个询问$q_j$，在$a_i &lt; l$的边中找到$b_i \le b_{q_j}$的边。因为已经按$b$递增，所以用一个指针扫过去，用并查集维护。</p>
+<p>对于$a_i \in [l, r]$的边，每次询问暴力扫一遍，将合法的插入并查集。因为完成每次询问后需要将它们清除，所以需要可撤销并查集（只按秩合并，不路径压缩，并记录操作，维护$max_a, max_b$）。</p>
+<p>复杂度$O(sz \log n + \frac{n}{sz} \log n)$，但块大小不是设$\sqrt{n}$最优。请自行尝试块大小。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span> &#123;</span></span><br><span class="line">  <span class="keyword">int</span> u, v, a, b, id;</span><br><span class="line">&#125;edge[MAXM];</span><br><span class="line"><span class="keyword">int</span> n, m, q;</span><br><span class="line"><span class="keyword">typedef</span> Edge Query;</span><br><span class="line">Query query[MAXQ];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">cmpa</span><span class="params">(Edge a, Edge b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a.a &lt; b.a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">cmpb</span><span class="params">(Edge a, Edge b)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a.b &lt; b.b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> solver1 &#123;</span><br><span class="line">  <span class="keyword">namespace</span> dsu &#123;</span><br><span class="line">    <span class="keyword">int</span> fa[MAXN], sz[MAXN];</span><br><span class="line">    <span class="keyword">int</span> maxa[MAXN], maxb[MAXN];</span><br><span class="line">    <span class="keyword">typedef</span> Edge Opt;</span><br><span class="line">    Opt opt[MAXM];</span><br><span class="line">    <span class="keyword">int</span> cnto;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        fa[i] = i;</span><br><span class="line">        maxa[i] = <span class="number">-1</span>;</span><br><span class="line">        maxb[i] = <span class="number">-1</span>;</span><br><span class="line">        sz[i] = <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123; cnto = <span class="number">0</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">while</span>(fa[x] != x) x = fa[x];</span><br><span class="line">      <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">unite</span><span class="params">(Edge e)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> u = find(e.u), v = find(e.v);</span><br><span class="line">      <span class="keyword">if</span> (sz[u] &lt; sz[v]) <span class="built_in">std</span>::swap(u, v);</span><br><span class="line">      opt[++cnto] = (Opt) &#123;u, v, maxa[u], maxb[u], sz[u]&#125;;</span><br><span class="line">      fa[v] = u;</span><br><span class="line">      <span class="keyword">if</span> (u != v) sz[u] += sz[v];</span><br><span class="line">      maxa[u] = <span class="built_in">std</span>::max(maxa[u], <span class="built_in">std</span>::max(maxa[v], e.a));</span><br><span class="line">      maxb[u] = <span class="built_in">std</span>::max(maxb[u], <span class="built_in">std</span>::max(maxb[v], e.b));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">undo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">while</span>(cnto) &#123;</span><br><span class="line">        <span class="keyword">int</span> u = opt[cnto].u, v = opt[cnto].v, a = opt[cnto].a, b = opt[cnto].b;</span><br><span class="line">        fa[v] = v;</span><br><span class="line">        maxa[u] = a;</span><br><span class="line">        maxb[u] = b;</span><br><span class="line">        sz[u] = opt[cnto].id;</span><br><span class="line">        cnto--;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">ok</span><span class="params">(Query e)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span> u = find(e.u), v = find(e.v);</span><br><span class="line">      <span class="keyword">if</span> (u != v) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">return</span> maxa[u] == e.a &amp;&amp; maxb[u] == e.b;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> block_sz = <span class="built_in">sqrt</span>(m * log2(n));</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">std</span>::sort(edge + <span class="number">1</span>, edge + m + <span class="number">1</span>, cmpa);</span><br><span class="line">    <span class="built_in">std</span>::sort(query + <span class="number">1</span>, query + q + <span class="number">1</span>, cmpa);</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">bool</span> ans[MAXQ];</span><br><span class="line">    <span class="keyword">int</span> curq = <span class="number">1</span>, lastq = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">1</span>; l &lt;= m; l += block_sz) &#123;</span><br><span class="line">      <span class="keyword">int</span> r = <span class="built_in">std</span>::min(l + block_sz - <span class="number">1</span>, m);</span><br><span class="line">      <span class="keyword">while</span>(curq &lt;= q &amp;&amp; query[curq].a &lt; edge[r].a) curq++;</span><br><span class="line">      <span class="keyword">if</span> (r == m) curq = q + <span class="number">1</span>;</span><br><span class="line">      </span><br><span class="line">      <span class="built_in">std</span>::sort(edge + <span class="number">1</span>, edge + l, cmpb);</span><br><span class="line">      <span class="built_in">std</span>::sort(query + lastq, query + curq, cmpb);</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">int</span> taile = <span class="number">1</span>;</span><br><span class="line">      dsu::init();</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = lastq; j &lt; curq; j++) &#123;</span><br><span class="line">        <span class="keyword">while</span>(taile &lt; l &amp;&amp; edge[taile].b &lt;= query[j].b) &#123;</span><br><span class="line">          dsu::unite(edge[taile++]);</span><br><span class="line">        &#125;</span><br><span class="line">        dsu::reset();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> k = l; k &lt;= r; k++) &#123;</span><br><span class="line">          <span class="keyword">if</span> (edge[k].a &lt;= query[j].a &amp;&amp; edge[k].b &lt;= query[j].b) &#123;</span><br><span class="line">            dsu::unite(edge[k]);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ans[query[j].id] = dsu::ok(query[j]);</span><br><span class="line">        dsu::undo();</span><br><span class="line">      &#125;</span><br><span class="line">      lastq = curq;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= q; i++) &#123;</span><br><span class="line">      <span class="built_in">puts</span>(ans[i] ? <span class="string">"Yes"</span> : <span class="string">"No"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/blocking/">blocking</a> <a class="tag tag--primary tag--small t-link" href="/tags/dsu/">dsu</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/23/ZJOI2018-Round2/" data-tooltip="ZJOI2018-Round2" aria-label="上一篇: ZJOI2018-Round2">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/14/Codeforce-Problems-from-Feb-to-Apr/" data-tooltip="Codeforces 题目总结" aria-label="下一篇: Codeforces 题目总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/23/ZJOI2018-Round2/" data-tooltip="ZJOI2018-Round2" aria-label="上一篇: ZJOI2018-Round2">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/14/Codeforce-Problems-from-Feb-to-Apr/" data-tooltip="Codeforces 题目总结" aria-label="下一篇: Codeforces 题目总结">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

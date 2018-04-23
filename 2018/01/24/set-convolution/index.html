@@ -11,12 +11,12 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"集合卷积。\n（前置知识:准备一份2015年国家集训队论文，翻到最后一篇文章。）\n\n例题： CF914G\n显然令$f_1(S)=fib_{S}\\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\cap B = \\varnothing][A \\cup B = S] cnt_A cnt_B, \\\\f_2(S)=fib_{S} cnt_S, \\\\f_3(S)=fib_{S}\\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\oplus B = S] cnt_A cnt_B, \\\\f(S)=\\sum_{A \\in 2^U}\\sum_{B \\in 2^U}\\sum_{C \\in 2^U} [A \\cap B \\cap C = S] f_1(A) f_2(B) f_3(C)$其中$A, B, C, S$均为用二进制表示的集合。$fib_i, cnt_i$分别表示第i项fibnacci数和读入中i的个数, $2^U$ 表示所有二进制集合的集合。则答案=$\\sum_{i=0}^{16} f(2^i)$\n这时，暴力转移是$O(4^n)$的($f_1$利用子集枚举法可以优化到$O(n^3)$).\n我们来分别考虑一下每一个函数的优化。(注意：部分公式的表示形式和表述方式与论文中不同，请注意区分)\n集合并卷积(OR Convolution, 参考论文P273)\n首先考虑$h_S = \\sum_{A \\in 2^U}\\sum_{B \\in 2^U}[A \\cup B = S] f_A g_B$,记做$h = f | g$定义$\\hat{f_S} = \\sum_{T \\subseteq S} f_T$（Mobius变换）则$\\hat{h_S} = \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} [A \\cup B \\subseteq S] f_A g_B \\\\= \\sum_{A \\subseteq S} \\sum_{B \\subseteq S} f_A g_B \\\\= (\\sum_{A \\subseteq S} f_A) (\\sum_{B \\subseteq S} g_B) \\\\= \\hat{f_S} \\hat{g_S}$\n此时计算复杂度变为为$O(2^n)$.\n考虑$f_S$与$\\hat{f_S}$的转化（快速Mobius变换， FMT）：\n考虑$g_{S, i} = \\sum_{T \\subseteq S, S - T \\subseteq \\{1, 2, \\ldots i\\}} f(T)$, 即$\\forall x \\in S且 x \\in [i + 1, n], x \\in T$.则由定义得$g_{S, 0} = f_S, g_{S, n} = \\hat{f_S}$, 那么我们考虑如何转移。若$i \\in S$,对于所有满足条件的$T$, 若$i \\in T$, 则会在$g_{S, i - 1}$被计算到， 反之会在$g_{S - \\{i\\}, i - 1}$被计算，所以$g_{S, i} = g_{S, i - 1} + g_{S - \\{i\\}, i - 1}$, 若$i \\notin S$,则只有$g_{S, i} = g_{S, i - 1}$\n同样，也可以利用上面的递推式从$\\hat{f_S}$反推出$f_S$。复杂度均为$O(n2^n)$\n另外，根据容斥原理，$f_S=\\sum_{T \\subseteq S} (-1)^{|S|-|T|} \\hat{f_T}$。 (这个式子在算法中并不需要)\n这样我们就可以用$O(n2^n)$的时间求解这个问题。\n接下来我们来看例题中第一个子问题。\n不相交集合并卷积(Subset Convolution, 论文P281)\n形式同$f_1$: $h_S=\\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\cap B = \\varnothing][A \\cup B = S] f_A g_B$,\n可以发现原式的限制可以转化为$|A| + |B| = |S|, A \\cup B = S$.\n后半部分为集合并卷积。则我们只需要再加一维状态记录集合大小。\n即设$F_{i, S} = \\begin{cases} f_S, &amp;|S|=i \\\\ 0, &amp;\\text{otherwise} \\end{cases}$\n那么原式可以写做$H_i = \\sum_{j + k = i}F_j | G_k$\n则$h_S = H_{|S|, S}$\n其中枚举$i,j,k$是$O(n^2)$的，右侧集合并卷积为$O(2^n)$（当然要先预处理每一个$F_i$的莫比乌斯变化），所以总复杂度$O(n^2 2^n)$\n集合交卷积(AND Convolution)\n$h_S=\\sum_{L \\in 2^U} \\sum_{R \\in 2^U} [L \\cap R = S]f_L g_R$, 记做$h = f \\&amp; g$\n(对应原式就是计算$f = f_1 \\&amp; f_2 \\&amp; f_3$)\n这一部分论文中没有，因为其不满足论文中所限定的$S \\text{ opt } \\varnothing = S$（见P273）（集合交仅满足$S \\text{ opt } U = S$， U为全集）\n但是实际上其推导过程与集合并卷积相类似：\n设$\\hat{f_S}=\\sum_{T \\supseteq S} f_T$则$f_S=\\sum_{T \\supseteq S} (-1)^{|T| - |S|}\\hat{f_T}$\n则$\\hat{h_S}=\\sum_{L \\in 2^U} \\sum_{R \\in 2^U} [S \\subseteq L \\cap R]f_Lg_R \\\\=(\\sum_{L \\supseteq S}f_L)(\\sum_{R \\supseteq  S} g_R) \\\\= \\hat{f_L} \\hat{g_R}$\n计算 $\\hat{f_S}$:(设 $g_{S,i}= \\sum_{T \\supseteq S, T - S \\subseteq \\{1, 2, \\ldots, i\\}} f_T, g_{S,n}= {\\hat{f_S}}, g_{S, 0}=f_S$)\ng_{S,i} = \\begin{cases} g_{S, i-1} , &i \\in S \\\\ g_{S, i-1} + g_{S \\cup \\{i\\}, i-1 }, &i \\notin S \\end{cases}复杂度同样为$O(n2^n)$\n集合对称差卷积（XOR Convolution, 论文P277）\n计算$f_3$:$h_S= \\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\oplus B = S] f_A g_B$, 也就是A，B的（二进制表示的）异或和等于S.\n首先我们有$\\sum_{T \\in 2^U}(-1)^{|S \\cap T|} = [s = \\varnothing] 2^n$ (证明参见论文)\n另外，$(-1) ^ {|S \\cap (A \\oplus B)|} = (-1) ^ {|S \\cap A| + |S \\cap B|}$, 即二者奇偶性相同，可以通过画图简单验证。\n定义Walsh变换 $\\hat{f_S} = \\sum_{T \\in 2^U} f_T (-1)^{|S \\cap T|}$及其逆变换 $f_S = \\frac{1}{2^n} \\sum_{T \\in 2^U} \\hat{f_T} (-1)^{|S \\cap T|}$。可将Walsh变换回代并利用上面的公式来证明逆变换正确性。\n然后我们就能得到：\n$\\hat{h_S} = \\sum_{T \\in 2^U} h_T (-1)^{|S \\cap T|} \\\\= \\sum_{T \\in 2^U} (-1) ^ {|S \\cap T|} \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} [A \\oplus B = T] f_A g_B \\\\= \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} f_A g_B (-1)^{|S \\cap (A \\oplus B)|}  \\\\= \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} f_A g_B (-1)^{|S \\cap A| + |S \\cap B|} \\\\= (\\sum_{A \\in 2^U} f_A (-1)^{|S \\cap A|})(\\sum_{B \\in 2^U} g_B (-1)^{|S \\cap B|}) \\\\= \\hat{f_S} \\hat{g_S}$\n然后考虑如何进行Walsh变换（逆变换只需要除以$2^n$或乘上其逆元）\n和前面同样的思路，设$g_{S,i}= \\sum_{T \\in 2 ^ U, T \\oplus S \\subseteq \\{1, 2, \\ldots, i\\}} f_T(-1)^{|S \\cap T|}, g_{S,n}= {\\hat{f_S}}, g_{S, 0}=f_S$)\n则当$i \\notin S$时， $g_{S, i} = g_{S \\cap \\{i\\}, i - 1} (i \\in T) + g_{S, i - 1} (i \\notin T)$;当$i \\in S$时， $g_{S, i} = g_{S - \\{i\\}, i - 1}(i \\notin T) - g_{S, i - 1}(i \\in T)$.\n如果不理解负号原因（至少我一开始是如此）, 可以参考Wikipedia上的这张图片。下面给出我的理解。\n考虑到最终状态，$\\sum_{T \\in 2^U} f_T (-1)^{|S \\cap T|}$, 则我们分解$(-1)^{|S \\cap T|}$, 就会发现相当于是当$i \\in S 且 i \\in T$时将答案×(-1)。\n而从另一个角度来看，我们考虑如果根据$g_{S, i}$的定义,$g_{S, 0}$应该为$f_S (-1)^{|S|}$, 而实际上的初始值为$f_S$,则此时就会对答案造成影响。而Walsh变换就可以通过这一正负号弥补这一影响。\n另外，可以将$f_S$看作n维数组$f_{a_1, a_2, \\cdots, a_n}, a_i \\in \\{0, 1\\}$, 根据卷积定理（可以参考WC2018营员交流），则可以对每一维分别进行一次变换。我们采用DFT作为变换，则也可以推出上述式子。\n那么我们也能在$O(n2^n)$时间内解决这个问题。\n\n那么现在我们已经解决这道题目了， 总复杂度$O(n^22^n)$。\n在具体代码实现上，可以（也普遍）采用滚动数组，而且这些转移都是独立的，所以在转移时并不需要刻意改变枚举顺序。\n—THE END—\n","dateCreated":"2018-01-24T21:43:00+08:00","dateModified":"2018-03-02T19:42:01+08:00","datePublished":"2018-01-24T21:43:00+08:00","description":"集合卷积。\n（前置知识:准备一份2015年国家集训队论文，翻到最后一篇文章。）","headline":"集合卷积","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/01/24/集合卷积/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/01/24/集合卷积/","keywords":"math, FWT"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"集合卷积。\n（前置知识:准备一份2015年国家集训队论文，翻到最后一篇文章。）\n\n例题： CF914G\n显然令$f_1(S)=fib_{S}\\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\cap B = \\varnothing][A \\cup B = S] cnt_A cnt_B, \\\\f_2(S)=fib_{S} cnt_S, \\\\f_3(S)=fib_{S}\\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\oplus B = S] cnt_A cnt_B, \\\\f(S)=\\sum_{A \\in 2^U}\\sum_{B \\in 2^U}\\sum_{C \\in 2^U} [A \\cap B \\cap C = S] f_1(A) f_2(B) f_3(C)$其中$A, B, C, S$均为用二进制表示的集合。$fib_i, cnt_i$分别表示第i项fibnacci数和读入中i的个数, $2^U$ 表示所有二进制集合的集合。则答案=$\\sum_{i=0}^{16} f(2^i)$\n这时，暴力转移是$O(4^n)$的($f_1$利用子集枚举法可以优化到$O(n^3)$).\n我们来分别考虑一下每一个函数的优化。(注意：部分公式的表示形式和表述方式与论文中不同，请注意区分)\n集合并卷积(OR Convolution, 参考论文P273)\n首先考虑$h_S = \\sum_{A \\in 2^U}\\sum_{B \\in 2^U}[A \\cup B = S] f_A g_B$,记做$h = f | g$定义$\\hat{f_S} = \\sum_{T \\subseteq S} f_T$（Mobius变换）则$\\hat{h_S} = \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} [A \\cup B \\subseteq S] f_A g_B \\\\= \\sum_{A \\subseteq S} \\sum_{B \\subseteq S} f_A g_B \\\\= (\\sum_{A \\subseteq S} f_A) (\\sum_{B \\subseteq S} g_B) \\\\= \\hat{f_S} \\hat{g_S}$\n此时计算复杂度变为为$O(2^n)$.\n考虑$f_S$与$\\hat{f_S}$的转化（快速Mobius变换， FMT）：\n考虑$g_{S, i} = \\sum_{T \\subseteq S, S - T \\subseteq \\{1, 2, \\ldots i\\}} f(T)$, 即$\\forall x \\in S且 x \\in [i + 1, n], x \\in T$.则由定义得$g_{S, 0} = f_S, g_{S, n} = \\hat{f_S}$, 那么我们考虑如何转移。若$i \\in S$,对于所有满足条件的$T$, 若$i \\in T$, 则会在$g_{S, i - 1}$被计算到， 反之会在$g_{S - \\{i\\}, i - 1}$被计算，所以$g_{S, i} = g_{S, i - 1} + g_{S - \\{i\\}, i - 1}$, 若$i \\notin S$,则只有$g_{S, i} = g_{S, i - 1}$\n同样，也可以利用上面的递推式从$\\hat{f_S}$反推出$f_S$。复杂度均为$O(n2^n)$\n另外，根据容斥原理，$f_S=\\sum_{T \\subseteq S} (-1)^{|S|-|T|} \\hat{f_T}$。 (这个式子在算法中并不需要)\n这样我们就可以用$O(n2^n)$的时间求解这个问题。\n接下来我们来看例题中第一个子问题。\n不相交集合并卷积(Subset Convolution, 论文P281)\n形式同$f_1$: $h_S=\\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\cap B = \\varnothing][A \\cup B = S] f_A g_B$,\n可以发现原式的限制可以转化为$|A| + |B| = |S|, A \\cup B = S$.\n后半部分为集合并卷积。则我们只需要再加一维状态记录集合大小。\n即设$F_{i, S} = \\begin{cases} f_S, &amp;|S|=i \\\\ 0, &amp;\\text{otherwise} \\end{cases}$\n那么原式可以写做$H_i = \\sum_{j + k = i}F_j | G_k$\n则$h_S = H_{|S|, S}$\n其中枚举$i,j,k$是$O(n^2)$的，右侧集合并卷积为$O(2^n)$（当然要先预处理每一个$F_i$的莫比乌斯变化），所以总复杂度$O(n^2 2^n)$\n集合交卷积(AND Convolution)\n$h_S=\\sum_{L \\in 2^U} \\sum_{R \\in 2^U} [L \\cap R = S]f_L g_R$, 记做$h = f \\&amp; g$\n(对应原式就是计算$f = f_1 \\&amp; f_2 \\&amp; f_3$)\n这一部分论文中没有，因为其不满足论文中所限定的$S \\text{ opt } \\varnothing = S$（见P273）（集合交仅满足$S \\text{ opt } U = S$， U为全集）\n但是实际上其推导过程与集合并卷积相类似：\n设$\\hat{f_S}=\\sum_{T \\supseteq S} f_T$则$f_S=\\sum_{T \\supseteq S} (-1)^{|T| - |S|}\\hat{f_T}$\n则$\\hat{h_S}=\\sum_{L \\in 2^U} \\sum_{R \\in 2^U} [S \\subseteq L \\cap R]f_Lg_R \\\\=(\\sum_{L \\supseteq S}f_L)(\\sum_{R \\supseteq  S} g_R) \\\\= \\hat{f_L} \\hat{g_R}$\n计算 $\\hat{f_S}$:(设 $g_{S,i}= \\sum_{T \\supseteq S, T - S \\subseteq \\{1, 2, \\ldots, i\\}} f_T, g_{S,n}= {\\hat{f_S}}, g_{S, 0}=f_S$)\ng_{S,i} = \\begin{cases} g_{S, i-1} , &i \\in S \\\\ g_{S, i-1} + g_{S \\cup \\{i\\}, i-1 }, &i \\notin S \\end{cases}复杂度同样为$O(n2^n)$\n集合对称差卷积（XOR Convolution, 论文P277）\n计算$f_3$:$h_S= \\sum_{A \\in 2^U}\\sum_{B \\in 2^U} [A \\oplus B = S] f_A g_B$, 也就是A，B的（二进制表示的）异或和等于S.\n首先我们有$\\sum_{T \\in 2^U}(-1)^{|S \\cap T|} = [s = \\varnothing] 2^n$ (证明参见论文)\n另外，$(-1) ^ {|S \\cap (A \\oplus B)|} = (-1) ^ {|S \\cap A| + |S \\cap B|}$, 即二者奇偶性相同，可以通过画图简单验证。\n定义Walsh变换 $\\hat{f_S} = \\sum_{T \\in 2^U} f_T (-1)^{|S \\cap T|}$及其逆变换 $f_S = \\frac{1}{2^n} \\sum_{T \\in 2^U} \\hat{f_T} (-1)^{|S \\cap T|}$。可将Walsh变换回代并利用上面的公式来证明逆变换正确性。\n然后我们就能得到：\n$\\hat{h_S} = \\sum_{T \\in 2^U} h_T (-1)^{|S \\cap T|} \\\\= \\sum_{T \\in 2^U} (-1) ^ {|S \\cap T|} \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} [A \\oplus B = T] f_A g_B \\\\= \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} f_A g_B (-1)^{|S \\cap (A \\oplus B)|}  \\\\= \\sum_{A \\in 2^U} \\sum_{B \\in 2^U} f_A g_B (-1)^{|S \\cap A| + |S \\cap B|} \\\\= (\\sum_{A \\in 2^U} f_A (-1)^{|S \\cap A|})(\\sum_{B \\in 2^U} g_B (-1)^{|S \\cap B|}) \\\\= \\hat{f_S} \\hat{g_S}$\n然后考虑如何进行Walsh变换（逆变换只需要除以$2^n$或乘上其逆元）\n和前面同样的思路，设$g_{S,i}= \\sum_{T \\in 2 ^ U, T \\oplus S \\subseteq \\{1, 2, \\ldots, i\\}} f_T(-1)^{|S \\cap T|}, g_{S,n}= {\\hat{f_S}}, g_{S, 0}=f_S$)\n则当$i \\notin S$时， $g_{S, i} = g_{S \\cap \\{i\\}, i - 1} (i \\in T) + g_{S, i - 1} (i \\notin T)$;当$i \\in S$时， $g_{S, i} = g_{S - \\{i\\}, i - 1}(i \\notin T) - g_{S, i - 1}(i \\in T)$.\n如果不理解负号原因（至少我一开始是如此）, 可以参考Wikipedia上的这张图片。下面给出我的理解。\n考虑到最终状态，$\\sum_{T \\in 2^U} f_T (-1)^{|S \\cap T|}$, 则我们分解$(-1)^{|S \\cap T|}$, 就会发现相当于是当$i \\in S 且 i \\in T$时将答案×(-1)。\n而从另一个角度来看，我们考虑如果根据$g_{S, i}$的定义,$g_{S, 0}$应该为$f_S (-1)^{|S|}$, 而实际上的初始值为$f_S$,则此时就会对答案造成影响。而Walsh变换就可以通过这一正负号弥补这一影响。\n另外，可以将$f_S$看作n维数组$f_{a_1, a_2, \\cdots, a_n}, a_i \\in \\{0, 1\\}$, 根据卷积定理（可以参考WC2018营员交流），则可以对每一维分别进行一次变换。我们采用DFT作为变换，则也可以推出上述式子。\n那么我们也能在$O(n2^n)$时间内解决这个问题。\n\n那么现在我们已经解决这道题目了， 总复杂度$O(n^22^n)$。\n在具体代码实现上，可以（也普遍）采用滚动数组，而且这些转移都是独立的，所以在转移时并不需要刻意改变枚举顺序。\n—THE END—\n","dateCreated":"2018-01-24T21:43:00+08:00","dateModified":"2018-03-02T19:42:01+08:00","datePublished":"2018-01-24T21:43:00+08:00","description":"集合卷积。\n（前置知识:准备一份2015年国家集训队论文，翻到最后一篇文章。）","headline":"集合卷积","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/01/24/set-convolution/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/01/24/set-convolution/","keywords":"math, FWT"}</script>
     <meta name="description" content="集合卷积。 （前置知识:准备一份2015年国家集训队论文，翻到最后一篇文章。）">
 <meta name="keywords" content="math,FWT">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="集合卷积">
-<meta property="og:url" content="jhdjames37.github.io/2018/01/24/集合卷积/index.html">
+<meta property="og:url" content="jhdjames37.github.io/2018/01/24/set-convolution/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
 <meta property="og:description" content="集合卷积。 （前置知识:准备一份2015年国家集训队论文，翻到最后一篇文章。）">
 <meta property="og:locale" content="zh-CN">
@@ -29,7 +29,8 @@
         
     
     
-        <meta property="og:image" content="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=640"/>
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
     
     
     
@@ -62,7 +63,7 @@
                 href="#about">
         
         
-            <img class="header-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=90" alt="作者的图片"/>
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
         
         </a>
     
@@ -78,11 +79,11 @@
         
             <div class="sidebar-profile">
                 <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=110" alt="作者的图片"/>
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
                 </a>
                 <h4 class="sidebar-profile-name">jhdjames37</h4>
                 
-                    <h5 class="sidebar-profile-bio"><p>An OIer.</p>
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
 </h5>
                 
             </div>
@@ -139,6 +140,32 @@
                     
                         <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -295,7 +322,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -303,7 +330,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/24/集合卷积/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/24/set-convolution/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -311,7 +338,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/24/集合卷积/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/24/set-convolution/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -319,7 +346,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/24/集合卷积/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/24/set-convolution/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -329,7 +356,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -383,7 +410,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -391,7 +418,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/24/集合卷积/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/24/set-convolution/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -399,7 +426,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/24/集合卷积/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/24/set-convolution/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -407,7 +434,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/24/集合卷积/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/24/set-convolution/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -417,7 +444,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -434,7 +461,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/24/集合卷积/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/24/set-convolution/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -442,7 +469,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/24/集合卷积/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/24/set-convolution/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -450,7 +477,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/24/集合卷积/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/24/set-convolution/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>
@@ -471,11 +498,11 @@
             <i class="fa fa-remove"></i>
         </div>
         
-            <img id="about-card-picture" src="https://www.gravatar.com/avatar/820743e04fce378ee94a5f875abc25e5?s=110" alt="作者的图片"/>
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
         
             <h4 id="about-card-name">jhdjames37</h4>
         
-            <div id="about-card-bio"><p>An OIer.</p>
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
 </div>
         
         

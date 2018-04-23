@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：给定序列A，序列中的每一项$A_i$有删除代价$B_i$和附加属性$C_i$。请删除若干项，使得A的最长上升子序列长度减少至少1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。\n$n \\leq 700$\n\n题解：列出LIS 的转移方程：\nf[i] = \\max_{j < i, a_j < a_i} f[j] + 1后就会发现:\n$f[i]$的取值由所有满足$j &lt; i, a_j &lt; a_i, f[j] + 1 = f[i]$的j制约着。\n考虑建图：先拆点，并在中间连$b_i$的边, 将满足所有上述条件的$(i, j)$连一条正无穷的边。\n容易观察，答案为这张图的最小割。\n接着考虑输出方案。\n首先考虑这样一个事实：一条边能够出现在最小割边集中，当且仅当它在所有最大流方案中均满流。（证明可以考虑将这条边容量减小1，最大流的变化）\n实际验证时，只需要检查这条边所连接两点在残量网络中是否连通即可，（如果连通，则可以将这条边减少流量）\n这时我们就可以按$c$值从小到大考虑每一条边$(u, v)$。若能够在最小割中，就将其加入答案，并删除这条边。（当然将$s \\rightarrow u, v \\rightarrow t$ 的流量退回）。\n(话说这道题卡常，谁会网络流卡常的？)\nCode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121int n;int a[MAXN], b[MAXN], c[MAXN];namespace solver1 &#123;  const int MAXM = 3e6;  struct Edge &#123;    int v, cap, next;  &#125;edge[MAXM];  int head[MAXN &lt;&lt; 1], tail, s, t;  int f[MAXN], p[MAXN], seq[MAXN], asq[MAXN];  inline int insert(int u, int v, int cap) &#123;    edge[++tail] = (Edge) &#123;v, cap, head[u]&#125;; head[u] = tail;    edge[++tail] = (Edge) &#123;u, 0, head[v]&#125;; head[v] = tail;    return tail - 1;  &#125;  inline bool cmp(int x, int y) &#123;return c[x] &lt; c[y];&#125;    namespace maxflow &#123;    int cur[MAXN &lt;&lt; 1];    int dis[MAXN &lt;&lt; 1], t;    bool bfs(int s, int t) &#123;      std::queue &lt;int&gt; q;      q.push(s);      memset(dis, 63, sizeof dis);      dis[s] = 0;      while(!q.empty()) &#123;        int u = q.front(); q.pop();        for (register int i = head[u]; i; i = edge[i].next) &#123;          register int v = edge[i].v;          if (edge[i].cap &amp;&amp; dis[v] == INF) &#123;            dis[v] = dis[u] + 1;            q.push(v);          &#125;        &#125;      &#125;      return dis[t] != INF;              &#125;    int dfs(int u, int a) &#123;      if (u == t || a == 0) return a;      int ans = 0;      for (int &amp;i = cur[u]; i; i = edge[i].next) &#123;        int v = edge[i].v, f;        if (dis[u] + 1 == dis[v] &amp;&amp; (f = dfs(v, std::min(a, edge[i].cap))) &gt; 0) &#123;          edge[i].cap -= f;          edge[i ^ 1].cap += f;          a -= f;          ans += f;        &#125;      &#125;      return ans;    &#125;    long long main(int ss, int tt) &#123;      t = tt;      long long ans = 0;      while(bfs(ss, tt)) &#123;        memcpy(cur, head, sizeof cur);        ans += dfs(ss, INF);      &#125;      return ans;    &#125;  &#125;  void main() &#123;    memset(head, 0, sizeof head); tail = 1;        s = 2 * n + 1, t = 2 * n + 2;    int maxf = 0;    for (int i = 1; i &lt;= n; i++) &#123;      f[i] = 1;      for (int j = 1; j &lt; i; j++) &#123;        if (a[j] &lt; a[i]) &#123;          f[i] = std::max(f[j] + 1, f[i]);        &#125;      &#125;      maxf = std::max(maxf, f[i]);    &#125;        for (int i = 1; i &lt;= n; i++) &#123;      p[i] = insert(i * 2 - 1, i * 2, b[i]);    &#125;    for (int i = 1; i &lt;= n; i++) &#123;      if (f[i] == 1) &#123;        insert(s, i * 2 - 1, INF);      &#125; else &#123;        for (int j = 1; j &lt; i; j++) &#123;          if (a[j] &lt; a[i] &amp;&amp; f[j] + 1 == f[i]) &#123;            insert(j * 2, i * 2 - 1, INF);          &#125;        &#125;      &#125;      if (f[i] == maxf) &#123;        insert(i * 2, t, INF);      &#125;    &#125;        long long ans = maxflow::main(s, t);    printf(\"%lld \", ans);            for (int i = 1; i &lt;= n; i++) seq[i] = i;    std::sort(seq + 1, seq + n + 1, cmp);    int cnt = 0;    for (int x = 1; x &lt;= n; x++) &#123;      int i = seq[x];      if (!edge[p[i]].cap &amp;&amp;          !maxflow::bfs(i * 2 - 1, i * 2)) &#123;        maxflow::main(i * 2 - 1, s);        maxflow::main(t, i * 2);        asq[++cnt] = i;        edge[p[i]].cap = 0;        edge[p[i] ^ 1].cap = 0;      &#125;    &#125;    std::sort(asq + 1, asq + cnt + 1);    printf(\"%d\\n\", cnt);    for (int i = 1; i &lt;= cnt; i++) &#123;      printf(\"%d%c\", asq[i], \" \\n\"[i == cnt]);    &#125;      &#125;&#125;\n","dateCreated":"2018-04-03T00:00:00+08:00","dateModified":"2018-04-23T16:32:45+08:00","datePublished":"2018-04-03T00:00:00+08:00","description":"题意：给定序列A，序列中的每一项$A_i$有删除代价$B_i$和附加属性$C_i$。请删除若干项，使得A的最长上升子序列长度减少至少1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。\n$n \\leq 700$","headline":"BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/03/SDOI2014-LIS/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/03/SDOI2014-LIS/","keywords":"flow"}</script>
+    <meta name="description" content="题意：给定序列A，序列中的每一项$A_i$有删除代价$B_i$和附加属性$C_i$。请删除若干项，使得A的最长上升子序列长度减少至少1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。 $n \leq 700$">
+<meta name="keywords" content="flow">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="BZOJ3532&#x2F;LOJ2196&#x2F;luogu3308 - 【SDOI2014】LIS">
+<meta property="og:url" content="jhdjames37.github.io/2018/04/03/SDOI2014-LIS/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="题意：给定序列A，序列中的每一项$A_i$有删除代价$B_i$和附加属性$C_i$。请删除若干项，使得A的最长上升子序列长度减少至少1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。 $n \leq 700$">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-23T08:32:45.636Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BZOJ3532&#x2F;LOJ2196&#x2F;luogu3308 - 【SDOI2014】LIS">
+<meta name="twitter:description" content="题意：给定序列A，序列中的每一项$A_i$有删除代价$B_i$和附加属性$C_i$。请删除若干项，使得A的最长上升子序列长度减少至少1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。 $n \leq 700$">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-04-03T00:00:00+08:00">
+	
+		    4月 03, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solutions/">solutions</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h2 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h2><p>给定序列A，序列中的每一项$A_i$有删除代价$B_i$和附加属性$C_i$。请删除若干项，使得A的最长上升子序列长度减少至少1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。</p>
+<p>$n \leq 700$</p>
+<a id="more"></a>
+<h2 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h2><p>列出LIS 的转移方程：</p>
+<script type="math/tex; mode=display">f[i] = \max_{j < i, a_j < a_i} f[j] + 1</script><p>后就会发现:</p>
+<p>$f[i]$的取值由所有满足$j &lt; i, a_j &lt; a_i, f[j] + 1 = f[i]$的j制约着。</p>
+<p>考虑建图：先拆点，并在中间连$b_i$的边, 将满足所有上述条件的$(i, j)$连一条正无穷的边。</p>
+<p>容易观察，答案为这张图的最小割。</p>
+<p>接着考虑输出方案。</p>
+<p>首先考虑这样一个事实：一条边能够出现在最小割边集中，当且仅当它在所有最大流方案中均满流。（证明可以考虑将这条边容量减小1，最大流的变化）</p>
+<p>实际验证时，只需要检查这条边所连接两点在残量网络中是否连通即可，（如果连通，则可以将这条边减少流量）</p>
+<p>这时我们就可以按$c$值从小到大考虑每一条边$(u, v)$。若能够在最小割中，就将其加入答案，并删除这条边。（当然将$s \rightarrow u, v \rightarrow t$ 的流量退回）。</p>
+<p>(话说这道题卡常，谁会网络流卡常的？)</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">int</span> a[MAXN], b[MAXN], c[MAXN];</span><br><span class="line"><span class="keyword">namespace</span> solver1 &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">int</span> MAXM = <span class="number">3e6</span>;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">Edge</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> v, cap, next;</span><br><span class="line">  &#125;edge[MAXM];</span><br><span class="line">  <span class="keyword">int</span> head[MAXN &lt;&lt; <span class="number">1</span>], tail, s, t;</span><br><span class="line">  <span class="keyword">int</span> f[MAXN], p[MAXN], seq[MAXN], asq[MAXN];</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> cap)</span> </span>&#123;</span><br><span class="line">    edge[++tail] = (Edge) &#123;v, cap, head[u]&#125;; head[u] = tail;</span><br><span class="line">    edge[++tail] = (Edge) &#123;u, <span class="number">0</span>, head[v]&#125;; head[v] = tail;</span><br><span class="line">    <span class="keyword">return</span> tail - <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;<span class="keyword">return</span> c[x] &lt; c[y];&#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">namespace</span> maxflow &#123;</span><br><span class="line">    <span class="keyword">int</span> cur[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">int</span> dis[MAXN &lt;&lt; <span class="number">1</span>], t;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">bfs</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">      <span class="built_in">std</span>::<span class="built_in">queue</span> &lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">      q.push(s);</span><br><span class="line">      <span class="built_in">memset</span>(dis, <span class="number">63</span>, <span class="keyword">sizeof</span> dis);</span><br><span class="line">      dis[s] = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">while</span>(!q.empty()) &#123;</span><br><span class="line">        <span class="keyword">int</span> u = q.front(); q.pop();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">register</span> <span class="keyword">int</span> i = head[u]; i; i = edge[i].next) &#123;</span><br><span class="line">          <span class="keyword">register</span> <span class="keyword">int</span> v = edge[i].v;</span><br><span class="line">          <span class="keyword">if</span> (edge[i].cap &amp;&amp; dis[v] == INF) &#123;</span><br><span class="line">            dis[v] = dis[u] + <span class="number">1</span>;</span><br><span class="line">            q.push(v);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> dis[t] != INF;          </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> a)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (u == t || a == <span class="number">0</span>) <span class="keyword">return</span> a;</span><br><span class="line">      <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> &amp;i = cur[u]; i; i = edge[i].next) &#123;</span><br><span class="line">        <span class="keyword">int</span> v = edge[i].v, f;</span><br><span class="line">        <span class="keyword">if</span> (dis[u] + <span class="number">1</span> == dis[v] &amp;&amp; (f = dfs(v, <span class="built_in">std</span>::min(a, edge[i].cap))) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          edge[i].cap -= f;</span><br><span class="line">          edge[i ^ <span class="number">1</span>].cap += f;</span><br><span class="line">          a -= f;</span><br><span class="line">          ans += f;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> ss, <span class="keyword">int</span> tt)</span> </span>&#123;</span><br><span class="line">      t = tt;</span><br><span class="line">      <span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">while</span>(bfs(ss, tt)) &#123;</span><br><span class="line">        <span class="built_in">memcpy</span>(cur, head, <span class="keyword">sizeof</span> cur);</span><br><span class="line">        ans += dfs(ss, INF);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(head, <span class="number">0</span>, <span class="keyword">sizeof</span> head); tail = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    s = <span class="number">2</span> * n + <span class="number">1</span>, t = <span class="number">2</span> * n + <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">int</span> maxf = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">      f[i] = <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; i; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[j] &lt; a[i]) &#123;</span><br><span class="line">          f[i] = <span class="built_in">std</span>::max(f[j] + <span class="number">1</span>, f[i]);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      maxf = <span class="built_in">std</span>::max(maxf, f[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">      p[i] = insert(i * <span class="number">2</span> - <span class="number">1</span>, i * <span class="number">2</span>, b[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (f[i] == <span class="number">1</span>) &#123;</span><br><span class="line">        insert(s, i * <span class="number">2</span> - <span class="number">1</span>, INF);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; i; j++) &#123;</span><br><span class="line">          <span class="keyword">if</span> (a[j] &lt; a[i] &amp;&amp; f[j] + <span class="number">1</span> == f[i]) &#123;</span><br><span class="line">            insert(j * <span class="number">2</span>, i * <span class="number">2</span> - <span class="number">1</span>, INF);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (f[i] == maxf) &#123;</span><br><span class="line">        insert(i * <span class="number">2</span>, t, INF);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> ans = maxflow::main(s, t);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lld "</span>, ans);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) seq[i] = i;</span><br><span class="line">    <span class="built_in">std</span>::sort(seq + <span class="number">1</span>, seq + n + <span class="number">1</span>, cmp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">1</span>; x &lt;= n; x++) &#123;</span><br><span class="line">      <span class="keyword">int</span> i = seq[x];</span><br><span class="line">      <span class="keyword">if</span> (!edge[p[i]].cap &amp;&amp;</span><br><span class="line">          !maxflow::bfs(i * <span class="number">2</span> - <span class="number">1</span>, i * <span class="number">2</span>)) &#123;</span><br><span class="line">        maxflow::main(i * <span class="number">2</span> - <span class="number">1</span>, s);</span><br><span class="line">        maxflow::main(t, i * <span class="number">2</span>);</span><br><span class="line">        asq[++cnt] = i;</span><br><span class="line">        edge[p[i]].cap = <span class="number">0</span>;</span><br><span class="line">        edge[p[i] ^ <span class="number">1</span>].cap = <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">std</span>::sort(asq + <span class="number">1</span>, asq + cnt + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, cnt);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= cnt; i++) &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"%d%c"</span>, asq[i], <span class="string">" \n"</span>[i == cnt]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/flow/">flow</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/13/Stirling-Number/" data-tooltip="Stirling Number" aria-label="上一篇: Stirling Number">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/ZJOI2012-mrx/" data-tooltip="BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友" aria-label="下一篇: BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/13/Stirling-Number/" data-tooltip="Stirling Number" aria-label="上一篇: Stirling Number">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/ZJOI2012-mrx/" data-tooltip="BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友" aria-label="下一篇: BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/SDOI2014-LIS/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

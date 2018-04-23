@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>UOJ268 - 【清华集训2016】数据交互 - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：给出一棵树，有$m$次操作，每次操作为标记一条路径并给它一个权值，或删除一个标记。每次操作后找出一条路径，使得其经过的标记过的路径的权值和最大(一条路径经过另一条路径当且仅当这两条路径有公共点)， 输出最大的权值和。 $n, m \\le 10 ^ 5$.\n\n题解：首先考虑如何计算一条路径的答案（权值和）：\n考虑这条路径的LCA L点（即端点的LCA）， 则一条标记过的路径对这条路径有贡献有两种情况：\n\n标记过的路径经过L点\n标记过的路径的LCA在这条路径上。\n\n那么我们设$cov_i$为经过i点且LCA不为i点的标记路径权值和，$cnt_i$为LCA为i点的标记路径权值和。那么我们可以发现这个问题和树的直径有些类似： 设$f_i = \\max_{v \\in son_i} f_v + cnt_i$, 则LCA为i点的路径的权值和的最大值为$val_i = cov_i + cnt_i + \\max_{j, k \\in son_i j \\neq k} f_j + f_k$ 则我们只需要维护$\\max val_i$即可。\n考虑树链剖分：发现$val_i$本质上就是一条LCA为i的路径上点的$cnt_i$之和$+cov_i$。考虑LCA所在的重链，则容易发现每一条路径都可以被拆分成3段：由轻边引出的一段 + 重链的一部分$u, v$ + 由轻边引出的一段。分别设这三段$cnt$之和为$g_u$, $w_{u, v}$, $g_v$, 其中$dfn_u \\le dfn_v$, 即u为LCA。则答案为$\\max g_u + cov_u + w_{u, v} + \\max g_v$。但是当$u = v$时， $g_v$ 要取第二大的。\n最后考虑如何维护： 对于每一条重链分别建立线段树，用类似最大子段和的方式维护答案。同时对每一个结点维护一个堆（因为要支持删除，所以需要两个std::priority_queue， 其中一个存放删除的内容。取最大值的时候如果两个堆顶元素相同，就同时$pop$(也许可以使用std::multiset?)）， 维护轻边上的$g_i$的最大值。每次修改的时候，先修改路径上的cov以及LCA上的cnt值。同时将路径上的以及LCA到根节点的g值更新。\nCode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175176177178179180181182183184185186187188189190191192193194195196197198199200201202203204205206207208209210211212213214215216217218219220221222223224225226227228229230231232233int n, m;struct Edge &#123;  int v, next;&#125;edge[MAXN &lt;&lt; 1];int head[MAXN], tail;void insert(int u, int v) &#123;  edge[++tail] = (Edge) &#123;v, head[u]&#125;; head[u] = tail;&#125;namespace solver1 &#123;  namespace heavy_light &#123;    struct Heap &#123;      std::priority_queue &lt;LL&gt; p, q;      void push(LL x) &#123;        p.push(x);      &#125;      void pop(LL x) &#123;        q.push(x);      &#125;      LL top() &#123;        while(q.size() &amp;&amp; p.top() == q.top()) p.pop(), q.pop();        return p.top();      &#125;      std::pair&lt;LL, LL&gt; top2() &#123;        LL x = top(), y = 0;        p.pop();        while(q.size() &amp;&amp; p.size() &amp;&amp; p.top() == q.top()) p.pop(), q.pop();        if (p.size()) y = p.top();        p.push(x);        return std::make_pair(x, y);      &#125;    &#125;h[MAXN], ans;    LL last[MAXN];    int dfn[MAXN], clk;    int fa[MAXN], son[MAXN], top[MAXN], sz[MAXN], dep[MAXN];    int len[MAXN];    namespace seg_tree &#123;      const int SIZE = MAXN &lt;&lt; 1;      struct Node &#123;        int ls, rs;        LL ans, maxl, maxr, maxsub, tot;        LL tag;      &#125;tree[SIZE];      int root[MAXN], cnt;      int rangel[MAXN], ranger[MAXN];      void build(int&amp; node, int l, int r) &#123;        node = ++cnt;        if (l == r) return;        int mid = (l + r) &gt;&gt; 1;        build(tree[node].ls, l, mid);        build(tree[node].rs, mid + 1, r);      &#125;      void init() &#123;        for (int i = 1; i &lt;= n; i++) &#123;          if (top[i] == i) &#123;            build(root[i], rangel[i] = dfn[i], ranger[i] = dfn[i] + len[i] - 1);          &#125;        &#125;      &#125;      void addtag(int node, LL val) &#123;        tree[node].tag += val;        tree[node].maxr += val;        tree[node].maxsub += val;        tree[node].ans += val;      &#125;      void pushdown(int node) &#123;        Node &amp;u = tree[node];        if (u.tag) &#123;          addtag(u.ls, u.tag);          addtag(u.rs, u.tag);          u.tag = 0;        &#125;      &#125;      void update(int node) &#123;        Node &amp;u = tree[node];        u.maxl = std::max(tree[u.ls].maxl, tree[u.ls].tot + tree[u.rs].maxl);        u.maxr = std::max(tree[u.rs].maxr, tree[u.rs].tot + tree[u.ls].maxr);        u.tot = tree[u.ls].tot + tree[u.rs].tot;        u.maxsub = std::max(tree[u.ls].maxsub, tree[u.rs].maxsub);        u.ans = std::max(std::max(tree[u.ls].ans, tree[u.rs].ans), std::max(tree[u.ls].maxr + tree[u.rs].maxl, u.maxsub));      &#125;      int ql, qr, p, val;      std::pair &lt;LL, LL&gt; val2;      void _modify1(int node, int l, int r) &#123;        if (ql &lt;= l &amp;&amp; r &lt;= qr) &#123;          addtag(node, val);          return;        &#125;        pushdown(node);        int mid = (l + r) &gt;&gt; 1;        if (ql &lt;= mid) _modify1(tree[node].ls, l, mid);        if (qr &gt; mid) _modify1(tree[node].rs, mid + 1, r);        update(node);      &#125;      void modify1(int rt, int l, int r, int w) &#123;        if (top[rt] != rt) throw;        if (fa[rt]) h[fa[rt]].pop(tree[root[rt]].maxl);        ans.pop(tree[root[rt]].ans);                ql = l, qr = r, val = w;        _modify1(root[rt], rangel[rt], ranger[rt]);                if (fa[rt]) h[fa[rt]].push(tree[root[rt]].maxl);        ans.push(tree[root[rt]].ans);      &#125;      void _modify2(int node, int l, int r) &#123;        if (l == r) &#123;          tree[node].tot += val;          tree[node].maxl += val;          tree[node].maxr += val;          tree[node].ans += val;          tree[node].maxsub += val;          return;        &#125;        pushdown(node);        int mid = (l + r) &gt;&gt; 1;        if (p &lt;= mid) _modify2(tree[node].ls, l, mid);        else _modify2(tree[node].rs, mid + 1, r);        update(node);      &#125;      void modify2(int rt, int pos, int w) &#123;        if (top[rt] != rt) throw;        if (fa[rt]) h[fa[rt]].pop(tree[root[rt]].maxl);        ans.pop(tree[root[rt]].ans);        p = pos, val = w;        _modify2(root[rt], rangel[rt], ranger[rt]);                if (fa[rt]) h[fa[rt]].push(tree[root[rt]].maxl);        ans.push(tree[root[rt]].ans);      &#125;      void _modify3(int node, int l, int r) &#123;        if (l == r) &#123;          tree[node].maxsub = val2.first + val2.second + tree[node].tot + tree[node].tag;          tree[node].maxl = tree[node].tot + val2.first;          tree[node].maxr = tree[node].tot + tree[node].tag + val2.first;          tree[node].ans = tree[node].maxsub;          return;        &#125;        pushdown(node);        int mid = (l + r) &gt;&gt; 1;        if (p &lt;= mid) _modify3(tree[node].ls, l, mid);        else _modify3(tree[node].rs, mid + 1, r);        update(node);      &#125;      void modify3(int rt, int pos, std::pair&lt;LL, LL&gt; w) &#123;        if (top[rt] != rt) throw;        if (fa[rt]) h[fa[rt]].pop(tree[root[rt]].maxl);        ans.pop(tree[root[rt]].ans);        p = pos, val2 = w;        _modify3(root[rt], rangel[rt], ranger[rt]);                if (fa[rt]) h[fa[rt]].push(tree[root[rt]].maxl);        ans.push(tree[root[rt]].ans);      &#125;          &#125;        void dfs1(int u, int f) &#123;      fa[u] = f;      sz[u] = 1;      dep[u] = dep[f] + 1;      int max_son = 0;      for (int i = head[u]; i; i = edge[i].next) &#123;        int v = edge[i].v;        if (v == f) continue;        dfs1(v, u);        sz[u] += sz[v];        if (max_son &lt; sz[v]) &#123;          son[u] = v;          max_son = sz[v];        &#125;      &#125;    &#125;    void dfs2(int u, int t) &#123;      dfn[u] = ++clk;      top[u] = t;      len[t]++;      if (u == t) ans.push(0);      if (son[u]) &#123;        dfs2(son[u], t);              &#125;      for (int i = head[u]; i; i = edge[i].next) &#123;        int v = edge[i].v;        if (v == fa[u] || v == son[u]) continue;        dfs2(v, v);        h[u].push(0);      &#125;    &#125;    void init() &#123;      dfs1(1, 0);      dfs2(1, 1);      seg_tree::init();    &#125;    void modify(int u, int v, int w) &#123;      while(top[u] != top[v]) &#123;        if (dep[top[u]] &lt; dep[top[v]]) std::swap(u, v);        seg_tree::modify1(top[u], dfn[top[u]], dfn[u], w);        u = fa[top[u]];        seg_tree::modify3(top[u], dfn[u], h[u].top2());      &#125;      if (dep[u] &gt; dep[v]) std::swap(u, v);      if (u != v) seg_tree::modify1(top[u], dfn[u] + 1, dfn[v], w);      seg_tree::modify2(top[u], dfn[u], w);      for (u = top[u]; fa[u]; u = top[fa[u]]) &#123;        seg_tree::modify3(top[fa[u]], dfn[fa[u]], h[fa[u]].top2());      &#125;    &#125;    LL query() &#123;      return ans.top();    &#125;  &#125;  int a[MAXN], b[MAXN], c[MAXN];  void main() &#123;    heavy_light::init();    for (int i = 1; i &lt;= m; i++) &#123;      char buff[10];      scanf(\"%s\", buff);      if (buff[0] == '+') &#123;        scanf(\"%d%d%d\", a + i, b + i, c + i);        heavy_light::modify(a[i], b[i], c[i]);      &#125; else &#123;        int t;        scanf(\"%d\", &amp;t);        heavy_light::modify(a[t], b[t], -c[t]);      &#125;      printf(\"%lld\\n\", heavy_light::query());    &#125;  &#125;&#125;\n","dateCreated":"2018-04-03T00:00:00+08:00","dateModified":"2018-04-14T20:52:57+08:00","datePublished":"2018-04-03T00:00:00+08:00","description":"题意：给出一棵树，有$m$次操作，每次操作为标记一条路径并给它一个权值，或删除一个标记。每次操作后找出一条路径，使得其经过的标记过的路径的权值和最大(一条路径经过另一条路径当且仅当这两条路径有公共点)， 输出最大的权值和。 $n, m \\le 10 ^ 5$.","headline":"UOJ268 - 【清华集训2016】数据交互","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/03/THU2014-data-interaction/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/03/THU2014-data-interaction/","keywords":"trees, UOJ, segment tree, heavy-light decomposition"}</script>
+    <meta name="description" content="题意：给出一棵树，有$m$次操作，每次操作为标记一条路径并给它一个权值，或删除一个标记。每次操作后找出一条路径，使得其经过的标记过的路径的权值和最大(一条路径经过另一条路径当且仅当这两条路径有公共点)， 输出最大的权值和。 $n, m \le 10 ^ 5$.">
+<meta name="keywords" content="trees,UOJ,segment tree,heavy-light decomposition">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="UOJ268 - 【清华集训2016】数据交互">
+<meta property="og:url" content="jhdjames37.github.io/2018/04/03/THU2014-data-interaction/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="题意：给出一棵树，有$m$次操作，每次操作为标记一条路径并给它一个权值，或删除一个标记。每次操作后找出一条路径，使得其经过的标记过的路径的权值和最大(一条路径经过另一条路径当且仅当这两条路径有公共点)， 输出最大的权值和。 $n, m \le 10 ^ 5$.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-14T12:52:57.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UOJ268 - 【清华集训2016】数据交互">
+<meta name="twitter:description" content="题意：给出一棵树，有$m$次操作，每次操作为标记一条路径并给它一个权值，或删除一个标记。每次操作后找出一条路径，使得其经过的标记过的路径的权值和最大(一条路径经过另一条路径当且仅当这两条路径有公共点)， 输出最大的权值和。 $n, m \le 10 ^ 5$.">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            UOJ268 - 【清华集训2016】数据交互
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-04-03T00:00:00+08:00">
+	
+		    4月 03, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solutions/">solutions</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h2 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h2><p>给出一棵树，有$m$次操作，每次操作为标记一条路径并给它一个权值，或删除一个标记。每次操作后找出一条路径，使得其经过的标记过的路径的权值和最大(一条路径经过另一条路径当且仅当这两条路径有公共点)， 输出最大的权值和。 $n, m \le 10 ^ 5$.</p>
+<a id="more"></a>
+<h2 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h2><p>首先考虑如何计算一条路径的答案（权值和）：</p>
+<p>考虑这条路径的LCA L点（即端点的LCA）， 则一条标记过的路径对这条路径有贡献有两种情况：</p>
+<ol>
+<li>标记过的路径经过L点</li>
+<li>标记过的路径的LCA在这条路径上。</li>
+</ol>
+<p>那么我们设$cov_i$为经过i点且LCA不为i点的标记路径权值和，$cnt_i$为LCA为i点的标记路径权值和。那么我们可以发现这个问题和树的直径有些类似： 设$f_i = \max_{v \in son_i} f_v + cnt_i$, 则LCA为i点的路径的权值和的最大值为$val_i = cov_i + cnt_i + \max_{j, k \in son_i j \neq k} f_j + f_k$ 则我们只需要维护$\max val_i$即可。</p>
+<p>考虑树链剖分：发现$val_i$本质上就是一条LCA为i的路径上点的$cnt_i$之和$+cov_i$。考虑LCA所在的重链，则容易发现每一条路径都可以被拆分成3段：由轻边引出的一段 + 重链的一部分$u, v$ + 由轻边引出的一段。分别设这三段$cnt$之和为$g_u$, $w_{u, v}$, $g_v$, 其中$dfn_u \le dfn_v$, 即u为LCA。则答案为$\max g_u + cov_u + w_{u, v} + \max g_v$。但是当$u = v$时， $g_v$ 要取第二大的。</p>
+<p>最后考虑如何维护： 对于每一条重链分别建立线段树，用类似最大子段和的方式维护答案。同时对每一个结点维护一个堆（因为要支持删除，所以需要两个<code>std::priority_queue</code>， 其中一个存放删除的内容。取最大值的时候如果两个堆顶元素相同，就同时$pop$(也许可以使用<code>std::multiset</code>?)）， 维护轻边上的$g_i$的最大值。每次修改的时候，先修改路径上的cov以及LCA上的cnt值。同时将路径上的以及LCA到根节点的g值更新。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> n, m;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span> &#123;</span></span><br><span class="line">  <span class="keyword">int</span> v, next;</span><br><span class="line">&#125;edge[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[MAXN], tail;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">  edge[++tail] = (Edge) &#123;v, head[u]&#125;; head[u] = tail;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> solver1 &#123;</span><br><span class="line">  <span class="keyword">namespace</span> heavy_light &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Heap</span> &#123;</span></span><br><span class="line">      <span class="built_in">std</span>::priority_queue &lt;LL&gt; p, q;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(LL x)</span> </span>&#123;</span><br><span class="line">        p.push(x);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">(LL x)</span> </span>&#123;</span><br><span class="line">        q.push(x);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function">LL <span class="title">top</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(q.size() &amp;&amp; p.top() == q.top()) p.pop(), q.pop();</span><br><span class="line">        <span class="keyword">return</span> p.top();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">std</span>::pair&lt;LL, LL&gt; top2() &#123;</span><br><span class="line">        LL x = top(), y = <span class="number">0</span>;</span><br><span class="line">        p.pop();</span><br><span class="line">        <span class="keyword">while</span>(q.size() &amp;&amp; p.size() &amp;&amp; p.top() == q.top()) p.pop(), q.pop();</span><br><span class="line">        <span class="keyword">if</span> (p.size()) y = p.top();</span><br><span class="line">        p.push(x);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">std</span>::make_pair(x, y);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;h[MAXN], ans;</span><br><span class="line">    LL last[MAXN];</span><br><span class="line">    <span class="keyword">int</span> dfn[MAXN], clk;</span><br><span class="line">    <span class="keyword">int</span> fa[MAXN], son[MAXN], top[MAXN], sz[MAXN], dep[MAXN];</span><br><span class="line">    <span class="keyword">int</span> len[MAXN];</span><br><span class="line">    <span class="keyword">namespace</span> seg_tree &#123;</span><br><span class="line">      <span class="keyword">const</span> <span class="keyword">int</span> SIZE = MAXN &lt;&lt; <span class="number">1</span>;</span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> &#123;</span></span><br><span class="line">        <span class="keyword">int</span> ls, rs;</span><br><span class="line">        LL ans, maxl, maxr, maxsub, tot;</span><br><span class="line">        LL tag;</span><br><span class="line">      &#125;tree[SIZE];</span><br><span class="line">      <span class="keyword">int</span> root[MAXN], cnt;</span><br><span class="line">      <span class="keyword">int</span> rangel[MAXN], ranger[MAXN];</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">int</span>&amp; node, <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">        node = ++cnt;</span><br><span class="line">        <span class="keyword">if</span> (l == r) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        build(tree[node].ls, l, mid);</span><br><span class="line">        build(tree[node].rs, mid + <span class="number">1</span>, r);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">          <span class="keyword">if</span> (top[i] == i) &#123;</span><br><span class="line">            build(root[i], rangel[i] = dfn[i], ranger[i] = dfn[i] + len[i] - <span class="number">1</span>);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">addtag</span><span class="params">(<span class="keyword">int</span> node, LL val)</span> </span>&#123;</span><br><span class="line">        tree[node].tag += val;</span><br><span class="line">        tree[node].maxr += val;</span><br><span class="line">        tree[node].maxsub += val;</span><br><span class="line">        tree[node].ans += val;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">pushdown</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        Node &amp;u = tree[node];</span><br><span class="line">        <span class="keyword">if</span> (u.tag) &#123;</span><br><span class="line">          addtag(u.ls, u.tag);</span><br><span class="line">          addtag(u.rs, u.tag);</span><br><span class="line">          u.tag = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> node)</span> </span>&#123;</span><br><span class="line">        Node &amp;u = tree[node];</span><br><span class="line">        u.maxl = <span class="built_in">std</span>::max(tree[u.ls].maxl, tree[u.ls].tot + tree[u.rs].maxl);</span><br><span class="line">        u.maxr = <span class="built_in">std</span>::max(tree[u.rs].maxr, tree[u.rs].tot + tree[u.ls].maxr);</span><br><span class="line">        u.tot = tree[u.ls].tot + tree[u.rs].tot;</span><br><span class="line">        u.maxsub = <span class="built_in">std</span>::max(tree[u.ls].maxsub, tree[u.rs].maxsub);</span><br><span class="line">        u.ans = <span class="built_in">std</span>::max(<span class="built_in">std</span>::max(tree[u.ls].ans, tree[u.rs].ans), <span class="built_in">std</span>::max(tree[u.ls].maxr + tree[u.rs].maxl, u.maxsub));</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">int</span> ql, qr, p, val;</span><br><span class="line">      <span class="built_in">std</span>::pair &lt;LL, LL&gt; val2;</span><br><span class="line">      <span class="keyword">void</span> _modify1(<span class="keyword">int</span> node, <span class="keyword">int</span> l, <span class="keyword">int</span> r) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ql &lt;= l &amp;&amp; r &lt;= qr) &#123;</span><br><span class="line">          addtag(node, val);</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        pushdown(node);</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (ql &lt;= mid) _modify1(tree[node].ls, l, mid);</span><br><span class="line">        <span class="keyword">if</span> (qr &gt; mid) _modify1(tree[node].rs, mid + <span class="number">1</span>, r);</span><br><span class="line">        update(node);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">modify1</span><span class="params">(<span class="keyword">int</span> rt, <span class="keyword">int</span> l, <span class="keyword">int</span> r, <span class="keyword">int</span> w)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (top[rt] != rt) <span class="keyword">throw</span>;</span><br><span class="line">        <span class="keyword">if</span> (fa[rt]) h[fa[rt]].pop(tree[root[rt]].maxl);</span><br><span class="line">        ans.pop(tree[root[rt]].ans);</span><br><span class="line">        </span><br><span class="line">        ql = l, qr = r, val = w;</span><br><span class="line">        _modify1(root[rt], rangel[rt], ranger[rt]);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (fa[rt]) h[fa[rt]].push(tree[root[rt]].maxl);</span><br><span class="line">        ans.push(tree[root[rt]].ans);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">void</span> _modify2(<span class="keyword">int</span> node, <span class="keyword">int</span> l, <span class="keyword">int</span> r) &#123;</span><br><span class="line">        <span class="keyword">if</span> (l == r) &#123;</span><br><span class="line">          tree[node].tot += val;</span><br><span class="line">          tree[node].maxl += val;</span><br><span class="line">          tree[node].maxr += val;</span><br><span class="line">          tree[node].ans += val;</span><br><span class="line">          tree[node].maxsub += val;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        pushdown(node);</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (p &lt;= mid) _modify2(tree[node].ls, l, mid);</span><br><span class="line">        <span class="keyword">else</span> _modify2(tree[node].rs, mid + <span class="number">1</span>, r);</span><br><span class="line">        update(node);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">modify2</span><span class="params">(<span class="keyword">int</span> rt, <span class="keyword">int</span> pos, <span class="keyword">int</span> w)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (top[rt] != rt) <span class="keyword">throw</span>;</span><br><span class="line">        <span class="keyword">if</span> (fa[rt]) h[fa[rt]].pop(tree[root[rt]].maxl);</span><br><span class="line">        ans.pop(tree[root[rt]].ans);</span><br><span class="line"></span><br><span class="line">        p = pos, val = w;</span><br><span class="line">        _modify2(root[rt], rangel[rt], ranger[rt]);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (fa[rt]) h[fa[rt]].push(tree[root[rt]].maxl);</span><br><span class="line">        ans.push(tree[root[rt]].ans);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">void</span> _modify3(<span class="keyword">int</span> node, <span class="keyword">int</span> l, <span class="keyword">int</span> r) &#123;</span><br><span class="line">        <span class="keyword">if</span> (l == r) &#123;</span><br><span class="line">          tree[node].maxsub = val2.first + val2.second + tree[node].tot + tree[node].tag;</span><br><span class="line">          tree[node].maxl = tree[node].tot + val2.first;</span><br><span class="line">          tree[node].maxr = tree[node].tot + tree[node].tag + val2.first;</span><br><span class="line">          tree[node].ans = tree[node].maxsub;</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        pushdown(node);</span><br><span class="line">        <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (p &lt;= mid) _modify3(tree[node].ls, l, mid);</span><br><span class="line">        <span class="keyword">else</span> _modify3(tree[node].rs, mid + <span class="number">1</span>, r);</span><br><span class="line">        update(node);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">modify3</span><span class="params">(<span class="keyword">int</span> rt, <span class="keyword">int</span> pos, <span class="built_in">std</span>::pair&lt;LL, LL&gt; w)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (top[rt] != rt) <span class="keyword">throw</span>;</span><br><span class="line">        <span class="keyword">if</span> (fa[rt]) h[fa[rt]].pop(tree[root[rt]].maxl);</span><br><span class="line">        ans.pop(tree[root[rt]].ans);</span><br><span class="line"></span><br><span class="line">        p = pos, val2 = w;</span><br><span class="line">        _modify3(root[rt], rangel[rt], ranger[rt]);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (fa[rt]) h[fa[rt]].push(tree[root[rt]].maxl);</span><br><span class="line">        ans.push(tree[root[rt]].ans);</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> f)</span> </span>&#123;</span><br><span class="line">      fa[u] = f;</span><br><span class="line">      sz[u] = <span class="number">1</span>;</span><br><span class="line">      dep[u] = dep[f] + <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">int</span> max_son = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = edge[i].next) &#123;</span><br><span class="line">        <span class="keyword">int</span> v = edge[i].v;</span><br><span class="line">        <span class="keyword">if</span> (v == f) <span class="keyword">continue</span>;</span><br><span class="line">        dfs1(v, u);</span><br><span class="line">        sz[u] += sz[v];</span><br><span class="line">        <span class="keyword">if</span> (max_son &lt; sz[v]) &#123;</span><br><span class="line">          son[u] = v;</span><br><span class="line">          max_son = sz[v];</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> t)</span> </span>&#123;</span><br><span class="line">      dfn[u] = ++clk;</span><br><span class="line">      top[u] = t;</span><br><span class="line">      len[t]++;</span><br><span class="line">      <span class="keyword">if</span> (u == t) ans.push(<span class="number">0</span>);</span><br><span class="line">      <span class="keyword">if</span> (son[u]) &#123;</span><br><span class="line">        dfs2(son[u], t);        </span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = head[u]; i; i = edge[i].next) &#123;</span><br><span class="line">        <span class="keyword">int</span> v = edge[i].v;</span><br><span class="line">        <span class="keyword">if</span> (v == fa[u] || v == son[u]) <span class="keyword">continue</span>;</span><br><span class="line">        dfs2(v, v);</span><br><span class="line">        h[u].push(<span class="number">0</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      dfs1(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">      dfs2(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">      seg_tree::init();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">modify</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> w)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">while</span>(top[u] != top[v]) &#123;</span><br><span class="line">        <span class="keyword">if</span> (dep[top[u]] &lt; dep[top[v]]) <span class="built_in">std</span>::swap(u, v);</span><br><span class="line">        seg_tree::modify1(top[u], dfn[top[u]], dfn[u], w);</span><br><span class="line">        u = fa[top[u]];</span><br><span class="line">        seg_tree::modify3(top[u], dfn[u], h[u].top2());</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (dep[u] &gt; dep[v]) <span class="built_in">std</span>::swap(u, v);</span><br><span class="line">      <span class="keyword">if</span> (u != v) seg_tree::modify1(top[u], dfn[u] + <span class="number">1</span>, dfn[v], w);</span><br><span class="line">      seg_tree::modify2(top[u], dfn[u], w);</span><br><span class="line">      <span class="keyword">for</span> (u = top[u]; fa[u]; u = top[fa[u]]) &#123;</span><br><span class="line">        seg_tree::modify3(top[fa[u]], dfn[fa[u]], h[fa[u]].top2());</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">LL <span class="title">query</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> ans.top();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">int</span> a[MAXN], b[MAXN], c[MAXN];</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    heavy_light::init();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) &#123;</span><br><span class="line">      <span class="keyword">char</span> buff[<span class="number">10</span>];</span><br><span class="line">      <span class="built_in">scanf</span>(<span class="string">"%s"</span>, buff);</span><br><span class="line">      <span class="keyword">if</span> (buff[<span class="number">0</span>] == <span class="string">'+'</span>) &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>, a + i, b + i, c + i);</span><br><span class="line">        heavy_light::modify(a[i], b[i], c[i]);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">int</span> t;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;t);</span><br><span class="line">        heavy_light::modify(a[t], b[t], -c[t]);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, heavy_light::query());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/UOJ/">UOJ</a> <a class="tag tag--primary tag--small t-link" href="/tags/heavy-light-decomposition/">heavy-light decomposition</a> <a class="tag tag--primary tag--small t-link" href="/tags/segment-tree/">segment tree</a> <a class="tag tag--primary tag--small t-link" href="/tags/trees/">trees</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/ZJOI2012-mrx/" data-tooltip="BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友" aria-label="上一篇: BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/21/ZJOI2018/" data-tooltip="ZJOI2018" aria-label="下一篇: ZJOI2018">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/ZJOI2012-mrx/" data-tooltip="BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友" aria-label="上一篇: BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/21/ZJOI2018/" data-tooltip="ZJOI2018" aria-label="下一篇: ZJOI2018">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/THU2014-data-interaction/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

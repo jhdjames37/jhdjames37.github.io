@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友 - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：在r×c的网格上有n个点。求至少包含一个点的矩形个数。\n$r, c \\leq 40000, n \\leq 100000$ 所有点随机生成。\n\n题解：无论是正向用单调栈查找矩形，还是反向查找不包含点的矩形复杂度都是$O(rc)$的（谁想卡常吗？233）\n下面我们考虑这个问题的反面：不包含任何点的矩形个数（下面将这些点称为障碍点。）\n但是这道题的特殊性质在于障碍点个数较少，且随机。\n（然而对着这两个性质看并看不出来什么东西。。。）\n考虑这个问题的经典解法：\n考虑每一行作为矩形的下边界时对答案的贡献，显然我们只需要考虑每一列向上一直到障碍点的格子对答案的贡献。\n可以发现只需要确定左上和右上点，就可以唯一确定矩形。\n因为一对点$(A, B)$合法当且仅当它们在同一行且与底边围成的矩形中不含障碍点。\n这时我们发现，可以将这些格子分成若干个小矩形（需要一张图来表述），则每一个小矩形内每一行的格子两两组合均合法。则对答案贡献为(对于w×h的矩形)$\\frac {w(w-1)h} {2}$.\n如果将相邻的矩形相连，可以发现它是个二叉树结构，且左右儿子为一个障碍点左右的矩形。\n因为障碍点随机，则可以证（脑）明（补）二叉树的树高均摊$O(\\log n)$.\n那么我们只需要在向下扫描的时候维护这棵二叉树即可。\n考虑每次将枚举的边下移时，首先肯定将根矩形的高度++。\n然后对于这一行的每一个障碍点分别更新树结构，同时更新答案。每次更新是$O(\\text{height})$的，所以总复杂度$O(n \\log n)$\n考虑如何更新树结构，考虑所有包含障碍点所在列的矩形（显然形成了一条链），将它们拆成两个矩形，然后与父节点相连。\n这里可以发现，拆分后有一侧的矩形一定能够与其子矩形合并成一个大矩形，可以将它们合并。（不知道这不加能不能过。。）\n除此之外，还可以使用Treap来维护这样的矩形。\nCode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118int x[MAXN], y[MAXN], r, c, n;namespace solver1 &#123;  struct Node &#123;    int l, r, h;    Node *ls, *rs;    long long cal() &#123;      return (long long) (r - l + 1) * (r - l + 2) / 2 * h;    &#125;  &#125;tree[MAXN &lt;&lt; 1];  int tail = 1, root = 1;  std::queue &lt;int&gt; q;  int newnode() &#123;    if (q.empty()) &#123;      return ++tail;    &#125; else &#123;      int u = q.front(); q.pop(); return u;    &#125;  &#125;  void delnode(int u) &#123;    memset(tree + u, 0, sizeof (tree[u]));    q.push(u);  &#125;  long long tot = 0;  std::vector &lt;int&gt; pts[MAXN];  void update(int p) &#123;    int tmp = root;    std::vector &lt;int&gt; seq;    while (1) &#123;      seq.push_back(tmp);      if (tree[tmp].ls &amp;&amp; tree[tmp].ls -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].ls -&gt; r) &#123;        tmp = tree[tmp].ls - tree;      &#125; else if (tree[tmp].rs &amp;&amp; tree[tmp].rs -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].rs -&gt; r) &#123;        tmp = tree[tmp].rs - tree;      &#125; else &#123;        break;      &#125;    &#125;    Node *lp, *rp;    &#123;      int cur = seq[seq.size() - 1];      tot -= tree[cur].cal();      if (tree[cur].l &lt; p) &#123;         int nw = newnode();        tree[nw].ls = tree[cur].ls;        lp = tree + nw;        tree[nw].l = tree[cur].l, tree[nw].r = p - 1;        tree[nw].h = tree[cur].h;        tot += tree[nw].cal();      &#125; else &#123;        lp = 0;      &#125;      if (tree[cur].r &gt; p) &#123;        int nw = newnode();        tree[nw].rs = tree[cur].rs;        rp = tree + nw;        tree[nw].l = p + 1, tree[nw].r = tree[cur].r;        tree[nw].h = tree[cur].h;        tot += tree[nw].cal();      &#125; else &#123;        rp = 0;      &#125;      delnode(cur);    &#125;    for (int i = seq.size() - 2; i &gt;= 0; i--) &#123;      int cur = seq[i];      tot -= tree[cur].cal();      if (tree + seq[i + 1] == tree[cur].ls) &#123;        if (lp) &#123;           tot -= lp -&gt; cal();          lp -&gt; h += tree[cur].h;          tot += lp -&gt; cal();        &#125;        if (tree[cur].r &gt; p) &#123;          tree[cur].l = p + 1;          tree[cur].ls = rp;          tot += tree[cur].cal();          rp = tree + cur;        &#125; else &#123;          rp = 0;        &#125;      &#125; else &#123;        if (tree[cur].l &lt; p) &#123;          tree[cur].r = p - 1;          tree[cur].rs = lp;          tot += tree[cur].cal();          lp = tree + cur;        &#125; else &#123;          lp = 0;        &#125;        if (rp) &#123;          tot -= rp -&gt; cal();          rp -&gt; h += tree[cur].h;          tot += rp -&gt; cal();        &#125;      &#125;    &#125;    root = newnode();    tree[root].l = 1, tree[root].r = c;    tree[root].ls = lp;    tree[root].rs = rp;  &#125;  void main() &#123;    for (int i = 1; i &lt;= n; i++) &#123;      pts[x[i]].push_back(y[i]);    &#125;    long long ans = (long long) c * (c + 1) / 2 * r * (r + 1) / 2;    tree[root].l = 1, tree[root].r = c;    for (int i = 1; i &lt;= r; i++) &#123;      tree[root].h++;      tot += (long long) c * (c + 1) / 2;      for (int j = 0; j &lt; (int) pts[i].size(); j++) &#123;        update(pts[i][j]);      &#125;      ans -= tot;    &#125;    printf(\"%lld\\n\", ans);  &#125;&#125;\n","dateCreated":"2018-04-03T00:00:00+08:00","dateModified":"2018-04-15T11:27:48+08:00","datePublished":"2018-04-03T00:00:00+08:00","description":"题意：在r×c的网格上有n个点。求至少包含一个点的矩形个数。\n$r, c \\leq 40000, n \\leq 100000$ 所有点随机生成。","headline":"BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/","keywords":"data structures, treap"}</script>
+    <meta name="description" content="题意：在r×c的网格上有n个点。求至少包含一个点的矩形个数。 $r, c \leq 40000, n \leq 100000$ 所有点随机生成。">
+<meta name="keywords" content="data structures,treap">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="BZOJ2658&#x2F;luogu2611 - 【ZJOI2012】小蓝的好友">
+<meta property="og:url" content="jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="题意：在r×c的网格上有n个点。求至少包含一个点的矩形个数。 $r, c \leq 40000, n \leq 100000$ 所有点随机生成。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-04-15T03:27:48.054Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BZOJ2658&#x2F;luogu2611 - 【ZJOI2012】小蓝的好友">
+<meta name="twitter:description" content="题意：在r×c的网格上有n个点。求至少包含一个点的矩形个数。 $r, c \leq 40000, n \leq 100000$ 所有点随机生成。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            BZOJ2658/luogu2611 - 【ZJOI2012】小蓝的好友
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-04-03T00:00:00+08:00">
+	
+		    4月 03, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solutions/">solutions</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h2 id="题意："><a href="#题意：" class="headerlink" title="题意："></a>题意：</h2><p>在r×c的网格上有n个点。求至少包含一个点的矩形个数。</p>
+<p>$r, c \leq 40000, n \leq 100000$ <strong>所有点随机生成。</strong></p>
+<a id="more"></a>
+<h2 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h2><p>无论是正向用单调栈查找矩形，还是反向查找不包含点的矩形复杂度都是$O(rc)$的（谁想卡常吗？233）</p>
+<p>下面我们考虑这个问题的反面：不包含任何点的矩形个数（下面将这些点称为障碍点。）</p>
+<p>但是这道题的特殊性质在于障碍点个数较少，且随机。</p>
+<p>（然而对着这两个性质看并看不出来什么东西。。。）</p>
+<p>考虑这个问题的经典解法：</p>
+<p>考虑每一行作为矩形的下边界时对答案的贡献，显然我们只需要考虑每一列向上一直到障碍点的格子对答案的贡献。</p>
+<p>可以发现只需要确定左上和右上点，就可以唯一确定矩形。</p>
+<p>因为一对点$(A, B)$合法当且仅当它们在同一行且与底边围成的矩形中不含障碍点。</p>
+<p>这时我们发现，可以将这些格子分成若干个小矩形（需要一张图来表述），则每一个小矩形内每一行的格子两两组合均合法。则对答案贡献为(对于w×h的矩形)$\frac {w(w-1)h} {2}$.</p>
+<p>如果将相邻的矩形相连，可以发现它是个二叉树结构，且左右儿子为一个障碍点左右的矩形。</p>
+<p>因为障碍点随机，则可以证（脑）明（补）二叉树的树高均摊$O(\log n)$.</p>
+<p>那么我们只需要在向下扫描的时候维护这棵二叉树即可。</p>
+<p>考虑每次将枚举的边下移时，首先肯定将根矩形的高度++。</p>
+<p>然后对于这一行的每一个障碍点分别更新树结构，同时更新答案。每次更新是$O(\text{height})$的，所以总复杂度$O(n \log n)$</p>
+<p>考虑如何更新树结构，考虑所有包含障碍点所在列的矩形（显然形成了一条链），将它们拆成两个矩形，然后与父节点相连。</p>
+<p>这里可以发现，拆分后有一侧的矩形一定能够与其子矩形合并成一个大矩形，可以将它们合并。（不知道这不加能不能过。。）</p>
+<p>除此之外，还可以使用Treap来维护这样的矩形。</p>
+<h2 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x[MAXN], y[MAXN], r, c, n;</span><br><span class="line"><span class="keyword">namespace</span> solver1 &#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> l, r, h;</span><br><span class="line">    Node *ls, *rs;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">cal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> (<span class="keyword">long</span> <span class="keyword">long</span>) (r - l + <span class="number">1</span>) * (r - l + <span class="number">2</span>) / <span class="number">2</span> * h;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;tree[MAXN &lt;&lt; <span class="number">1</span>];</span><br><span class="line">  <span class="keyword">int</span> tail = <span class="number">1</span>, root = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">queue</span> &lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">newnode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (q.empty()) &#123;</span><br><span class="line">      <span class="keyword">return</span> ++tail;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">int</span> u = q.front(); q.pop(); <span class="keyword">return</span> u;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">delnode</span><span class="params">(<span class="keyword">int</span> u)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(tree + u, <span class="number">0</span>, <span class="keyword">sizeof</span> (tree[u]));</span><br><span class="line">    q.push(u);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">long</span> <span class="keyword">long</span> tot = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; pts[MAXN];</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">int</span> p)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = root;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; seq;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">      seq.push_back(tmp);</span><br><span class="line">      <span class="keyword">if</span> (tree[tmp].ls &amp;&amp; tree[tmp].ls -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].ls -&gt; r) &#123;</span><br><span class="line">        tmp = tree[tmp].ls - tree;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (tree[tmp].rs &amp;&amp; tree[tmp].rs -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].rs -&gt; r) &#123;</span><br><span class="line">        tmp = tree[tmp].rs - tree;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Node *lp, *rp;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">int</span> cur = seq[seq.size() - <span class="number">1</span>];</span><br><span class="line">      tot -= tree[cur].cal();</span><br><span class="line">      <span class="keyword">if</span> (tree[cur].l &lt; p) &#123; </span><br><span class="line">        <span class="keyword">int</span> nw = newnode();</span><br><span class="line">        tree[nw].ls = tree[cur].ls;</span><br><span class="line">        lp = tree + nw;</span><br><span class="line">        tree[nw].l = tree[cur].l, tree[nw].r = p - <span class="number">1</span>;</span><br><span class="line">        tree[nw].h = tree[cur].h;</span><br><span class="line">        tot += tree[nw].cal();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        lp = <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (tree[cur].r &gt; p) &#123;</span><br><span class="line">        <span class="keyword">int</span> nw = newnode();</span><br><span class="line">        tree[nw].rs = tree[cur].rs;</span><br><span class="line">        rp = tree + nw;</span><br><span class="line">        tree[nw].l = p + <span class="number">1</span>, tree[nw].r = tree[cur].r;</span><br><span class="line">        tree[nw].h = tree[cur].h;</span><br><span class="line">        tot += tree[nw].cal();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        rp = <span class="number">0</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      delnode(cur);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = seq.size() - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">      <span class="keyword">int</span> cur = seq[i];</span><br><span class="line">      tot -= tree[cur].cal();</span><br><span class="line">      <span class="keyword">if</span> (tree + seq[i + <span class="number">1</span>] == tree[cur].ls) &#123;</span><br><span class="line">        <span class="keyword">if</span> (lp) &#123; </span><br><span class="line">          tot -= lp -&gt; cal();</span><br><span class="line">          lp -&gt; h += tree[cur].h;</span><br><span class="line">          tot += lp -&gt; cal();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (tree[cur].r &gt; p) &#123;</span><br><span class="line">          tree[cur].l = p + <span class="number">1</span>;</span><br><span class="line">          tree[cur].ls = rp;</span><br><span class="line">          tot += tree[cur].cal();</span><br><span class="line">          rp = tree + cur;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          rp = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (tree[cur].l &lt; p) &#123;</span><br><span class="line">          tree[cur].r = p - <span class="number">1</span>;</span><br><span class="line">          tree[cur].rs = lp;</span><br><span class="line">          tot += tree[cur].cal();</span><br><span class="line">          lp = tree + cur;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          lp = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (rp) &#123;</span><br><span class="line">          tot -= rp -&gt; cal();</span><br><span class="line">          rp -&gt; h += tree[cur].h;</span><br><span class="line">          tot += rp -&gt; cal();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    root = newnode();</span><br><span class="line">    tree[root].l = <span class="number">1</span>, tree[root].r = c;</span><br><span class="line">    tree[root].ls = lp;</span><br><span class="line">    tree[root].rs = rp;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">      pts[x[i]].push_back(y[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> ans = (<span class="keyword">long</span> <span class="keyword">long</span>) c * (c + <span class="number">1</span>) / <span class="number">2</span> * r * (r + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">    tree[root].l = <span class="number">1</span>, tree[root].r = c;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= r; i++) &#123;</span><br><span class="line">      tree[root].h++;</span><br><span class="line">      tot += (<span class="keyword">long</span> <span class="keyword">long</span>) c * (c + <span class="number">1</span>) / <span class="number">2</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; (<span class="keyword">int</span>) pts[i].size(); j++) &#123;</span><br><span class="line">        update(pts[i][j]);</span><br><span class="line">      &#125;</span><br><span class="line">      ans -= tot;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, ans);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/data-structures/">data structures</a> <a class="tag tag--primary tag--small t-link" href="/tags/treap/">treap</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/SDOI2014-LIS/" data-tooltip="BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS" aria-label="上一篇: BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训2016】数据交互" aria-label="下一篇: UOJ268 - 【清华集训2016】数据交互">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/SDOI2014-LIS/" data-tooltip="BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS" aria-label="上一篇: BZOJ3532/LOJ2196/luogu3308 - 【SDOI2014】LIS">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训2016】数据交互" aria-label="下一篇: UOJ268 - 【清华集训2016】数据交互">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
