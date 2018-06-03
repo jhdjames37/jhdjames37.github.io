@@ -4,23 +4,25 @@ date: 2017-10-12 08:55:08
 mathjax: true
 ---
 
-这里将会写一些零碎的东西(没有必要放到post里的)
+这里将会写一些零碎的东西 ( 没有必要放到 post 里的 )
 
 ## 一些记录
 
+2018.6.3: 看到了一些[关于中文排版的问题的建议标准](https://mazhuang.org/wiki/chinese-copywriting-guidelines/)，要将所有的文章重新排版。
+
 2018.4.15 添加标题样式说明。
 
-**2018.4.12: 请注意，2月，3月，4月的好题总结以及其它总结应该在二试之前补充完毕（周末，休息时间），最晚不超过CTSC/APIO。**
+**2018.4.12: 请注意，2 月，3 月，4 月的好题总结以及其它总结应该在二试之前补充完毕（周末，休息时间），最晚不超过 CTSC/APIO。**
 
-2018.4.10: 更换主题至tranquilpeak。
+2018.4.10: 更换主题至 tranquilpeak。
 
 2018.1.13: 调整主题显示样式。
 
-banner 来源： [pilotseye背景](http://pilotseye.tv/en/download-wallpapers/)
+banner 来源： [pilotseye 背景](http://pilotseye.tv/en/download-wallpapers/)
 
 1.24: 
 删除私人性总结（不适合公开发布）。
-添加文章管理插件(hexo-admin)
+添加文章管理插件 (hexo-admin)
 `npm install hexo-admin`
 
 ## 关于文章标题
@@ -29,37 +31,37 @@ banner 来源： [pilotseye背景](http://pilotseye.tv/en/download-wallpapers/)
 
 对于题解来说，因为英文名不一定存在，可能会使用拼音（未定）。
 
-尽量不在URL中使用OJ编号（未定）
+尽量不在 URL 中使用 OJ 编号（未定）
 
-在标题中应尽量提供多个OJ的题号，以供参考（暂时提供UOJ/LOJ/luogu/BZOJ题号, 按OJ字典序排列BZOJ/LOJ/luogu/UOJ（我不是故意的。。。））
+在标题中应尽量提供多个 OJ 的题号，以供参考（暂时提供 UOJ/LOJ/luogu/BZOJ 题号 , 按 OJ 字典序排列 BZOJ/LOJ/luogu/UOJ（我不是故意的。。。））
 
 效果不会太差（主题支持长标题）
 
 Reference：https://ruanx.pw/bzojch/bzojno.html
 
-## 关于category & tag
+## 关于 category & tag
 
 category 的大致想法
-- oi系列
+- oi 系列
   - reviews & plans
   - algorithms & data structures
   - solutions
-- 其它之后再说.
+- 其它之后再说 .
 
 tags
-- oi这边的tags
+- oi 这边的 tags
   - review
   - plan
-  - 相关知识点...
-- 其它之后再说.
+  - 相关知识点 ...
+- 其它之后再说 .
 
 ---
 
-## 关于Mathjax
+## 关于 Mathjax
 
-Mathjax 用法: http://blog.csdn.net/zoe_su/article/details/52506219
+Mathjax 用法 : http://blog.csdn.net/zoe_su/article/details/52506219
 
-Mathjax test: (加载速度较慢, 但已经能够正确识别.)
+Mathjax test: ( 加载速度较慢 , 但已经能够正确识别 .)
 
 123 $\sigma$ 344
 
@@ -78,18 +80,18 @@ npm install hexo-renderer-kramed
 npm install hexo-renderer-mathjax2
 ```
 
-并在`_config.yml`后添加:
+并在 `_config.yml` 后添加 :
 ``` yml
 mathjax:
   cdn: https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 ```
 
-修改: ([参考](http://www.cnblogs.com/Ai-heng/p/7282110.html)
+修改 : ([参考](http://www.cnblogs.com/Ai-heng/p/7282110.html)
 
 ``` javascript /node_modules/kramed/lib/rules/inline.js
-//escape: /^\\([\\`*{}\[\]()#$+\-.!_>])/,      第11行，将其修改为
+//escape: /^\\([\\`*{}\[\]()#$+\-.!_>])/,      第 11 行，将其修改为
 escape: /^\\([`*\[\]()#$+\-.!_>])/,
-//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,    第20行，将其修改为
+//em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,    第 20 行，将其修改为
 em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,
 ```
 ---
@@ -107,13 +109,13 @@ npm install hexo-deployer-git --save
 
 ## 关于初赛
 
-易错点及注意点:
-1. 划关键词.
-2. 注意表达式: 等于还是不等于, `if..else` 还是`if`.
-3. 输出格式(逗号!! 小于等于号, 不等号的写法)
-4. 不要抄错变量名, 注意数组是从0开始还是1开始, 是闭区间还是左闭右开区间.
-5. 注意变量和常量.
-6. 注意idx, rank数组的作用
-7. 注意指针和指针指向值.
+易错点及注意点 :
+1. 划关键词 .
+2. 注意表达式 : 等于还是不等于 , `if..else` 还是 `if`.
+3. 输出格式 ( 逗号 !! 小于等于号 , 不等号的写法 )
+4. 不要抄错变量名 , 注意数组是从 0 开始还是 1 开始 , 是闭区间还是左闭右开区间 .
+5. 注意变量和常量 .
+6. 注意 idx, rank 数组的作用
+7. 注意指针和指针指向值 .
 
 
