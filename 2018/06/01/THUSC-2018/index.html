@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>THUSC 2018 - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"时隔若干个星期后的再一次爆零记（这两天根本没有状态。。。）\n\nJune 1st (and before) - Day $-O(1)$居然 THU 怎么快就把 Ubuntu 升级到了 18.04。。。\n反观 NOI Linux 。。。\n18.04 应该还稳定的吧。。。（flag）\nJune 2nd - Day 0以从上次同样的方式来到 PEK。（只是坐的地铁不同）\n宾馆好简陋呀。。。（不是西郊）听说以前来 PKU/THU 都住这，听说饭很好。\n放完行李去试机。到那里的时候试机赛马上就要结束了。于是 T1 puts(&quot;0&quot;), T2 无草稿纸手算（还少打了负号）+ 全部退化成点。。。 （手机上的 GeoGreba 真难用）\n北京好热呀。。。\nJune 3rd - Day 1先吐槽时间再次不统一（OJ 时间，本机时间，手表时间不一样。。。），在最后 20min 的时候甚至 OJ 上还显示 4h。。。\n根据（一点都不靠谱的）经验，先做 T1。\n结果 1h 没有思路。。。\n感觉情况不妙，后面好像提答要来不及，赶紧把 T1,T2 的暴力写了（ T1 $O(n ^ 2 \\log n)$ 预处理， T2 暴力枚举串）。\n还有 3h，开始搞提答。\n之前已经在看题的时候顺手 A 了 Subtask1（限制真多）。\n一个个看下来：\nSubtask2 什么东西，输入个函数，若干个二元组，输出实数。一直以为是点（实际是区间求定积分），凑出来 4 分。\nSubtask3 就是根据与输入点的距离找点。本来想数学方法求，结果卡精度。。。先交了 1 分。\nSubtask4 输入 01 矩阵，输出整数？（自动认为是 xor 矩阵），凑出 1 走人。（实际上是普通加意义的行列式）\nSubtask5 开始是图论题。”The shortest paths from 1 to i is: x” 好迷惑人。。。实际是最短路数。手玩 4 分。\nSubtask6 自动脑补成有向图。求无向图 1 号点出发长度为 $i$ 的路径数。手玩 1 分。\nSubtask7 什么 “Pair …”，不知道，凑出 1 分。（实际上是每次加边新连通的点对数）\nSubtask8 汇编语言，只有 A = B + C 和 if (A == B) goto x，构造 0 和 1 都花了好久。 写完第一部分 $a ^ b$ 告诉我第二部分爆 int 不得分？ 写了 4 行的 if (A &gt; B) ...，每次加一行都要把下面的行号都改一遍。。。\nSubtask9 什么东西？（galgame）终于走完一遍，得了 4 分，告诉我不把我的输入存下来？以为要记录所有的键盘操作，于是随机 rand 了个回答然后中间加了无数个回车（也是 4 分），然后得到了个 announcement：“各位选手注意，T3 第九个点不需要输出回车”\nSubtask10 又是汇编，多了个 toss 函数，看不懂（好像跟概率有关）。1 分。\n回头看 Subtask5，好像要分层连边。写了不知道多久后 A 了。\n然后手动三分出 Subtask3 的第二个点，爆搜了 Subtask9 的答案，结果只有 7 分（听说需要在某个两个选项的题目中选 3 ？）。10 + 4 + 4 + 1 + 10 + 1 + 1 + 4 + 7 + 1 = 43。\n还有 15 分钟。回去补打了 T1 $O(nq \\log n)$ 的暴力，T 了，存了算过的答案（还发现少开 long long），居然过了 17 个点。。。\n(30 + ?) + 6 (9 分已经 FST，因为没有考虑把串复制两次 ) + 43，看起来药丸。\n好像 T1 又是换一种状态表示方式，然后在线段树上维护。 T2 $k = 0$ 在 AC 机上跑 DP，可以减少许多状态。\n希望 T1 数据水一点，希望 Day2 翻盘。\n\n下午开营仪式。居然有小学生来参赛（完了，要被小学生虐爆了。。。），wys 同学回顾了自己出毒瘤题的经历。。。（好像机房里确实有一本《编译原理》，但是现在不知道去哪里了。。。）\nJune 4th - Day 2昨天晚上奶了一口 Day1 已经出过提答题了，Day2 应该不出了，可能他们把 Day1 Day2 swap 了一下。\n今天早上考前又和隔壁选手说（中国的） OI 比赛好像没有一次连出两道提答的事情。\n题面发下来之后， exm ？怎么又有一道提答题，感觉不对。（是不是破纪录了？）\n然而 T1 看完题感觉好神奇，然后突然想到了今年 World Final 的那道题，但是发现这道题目并没有那么好的性质。\n然后也想到了标算的边权化点权，但依然在考虑打差分标记的事情（没法打差分标记），也没有去想这样能否构造出正确解。\n然后感觉 T2 可做就去看 T2。\n第一眼以为猫锟题，能启发式合并，然而发现并不能。\n然后想了想链的情况，先发现组合数，然后发现是个生成函数，于是愉快的写了个分治 FFT。\n想想看能够推广到树上。试图树剖，把每个轻儿子的贡献合并后然后对整条重链做分治 FFT。感觉可行，没算清复杂度（感觉像是 2 个 $\\log$ 的），写了一发，调了好久（因为狂用 new 导致各种 RE，到了最后才想起来能用 std::vector），然后 A 了。\nT1 依然没有思路，看 T3。按照题目中的提示式子进行合并就是 Subtask1 的正解。\n然后看到 Subtask3 好多 1。统计了一下，发现只有 4 种矩形，于是爆枚方案，结果没有，然后发现有个 $1 \\times 2$ 的可以横放，然后就出解了。\nSubtask4 矩形种类变多了，但是发现随便贪心一下就过了。\n以为 Subtask5 也能贪过去，换了 $O(1)$ 种贪心策略都没用。\n然后回去看 T1，结果毫无进展。于是干坐到比赛结束。0 + 100 + 30 = 130。\n\n下午讲题。\nD1T1 就是改变 DP 状态以便维护。\nD1T2 猫锟题，是放在 AC 机上的 DP，将前后的串两个状态同时拿来跑（完了，最优划分永远想的都是 DP）。\nD2T1 的构造是将每个点拆成点权为 1 的点，然后将对角的两个点相连，确定每个点的点权是差分约束（做完 出纳员的雇佣 后似乎一直没有做过差分约束了。。。）。得分情况感人：10 人\nD2T2 重链剖分实际上是 $O(n \\log ^ 3 n)$ 的 ( 每条链被合并 $O(\\log n)$ 次， 合并时要做 $O(n \\log ^ 2 n)$ 的分治 FFT)，而变成长链剖分（选最大延伸深度的儿子作为重儿子）是 $O(n \\log ^ 2 n)$ 的（每条链被合并后，不长于主链，不影响后续合并复杂度，所以实际上相当于 1 次合并）。\n两道提答也有些好玩的地方。\n第一道类似以上做，（Subtask8-2 是 $a \\text{ and } b$, Subtask10 是量子编程，其它的图论题也以搜为主）。\n第二道是 3,4,5 特殊性质，其它只要用高明一点的随机，跑很久就能得高分。\n面试名单 XJ 全部入围。希望明天面试时不要尴尬。\n\n似乎题目不公开，那来补一下题面：\nD1T1: 给出长度为 $n$ 的序列，$q$ 次询问区间 $[l, r]$ 的 LIS 长度，强制在线。$n \\le 10 ^ 5, q \\le 10 ^ 7, a_i \\le 1000$，10s，询问给出随机函数，hash 输出。\nD1T2：给出 $m$ 个模板串 $T$，求有多少个长度为 $n$ 的字符串 $S$，使得串 $SS$ 不存在划分方案，使得有多于 $k$ 个划分出的子串为模板串。$n \\le 100, m \\le 300, |T| \\le 5, k \\le 3$（实际 $k$ 的限制并不重要）\nD1T3：提答，给出一个程序（有多种功能）和输出，要求构造输入数据。\nD2T1：在圆环上有 $2 \\times n$ 个点，其中在奇数点上有 $m$ 条带边权的连边，要求在偶数点上连边，使得每条奇数点上的边的与之相交的偶数边的边权和大于它自己的权值，最小化偶数边权值和，输出方案。$n \\times m \\le 5 \\times 10 ^ 6$\nD2T2：给出一个树，每个结点有两种物品若干（同种物品间两两互不相同），要求对于求出所有从 1 号点到叶子结点的路径上，每个结点取一个物品，取 $k$ 种 1 号物品的方案数，对 $k \\in [0, n]$ 求出答案，模 $998244353$ 输出。$n \\le 10 ^ 5$，5s\nD2T3：提答，给出 $n$ 张纸片，要求找出一张矩形的纸以及裁剪方案，使得能够裁出这 $n$ 张纸片。最小化纸片面积的同时，使得一边的长度落在 $[L, R]$ 之间。\nJune 5th - Day 3面试。\n再次 1 分钟讲完自我介绍。。。\n然后问一些个人相关。\n然后问了：\n\n“你认为计算机哪个领域有什么发展前景？”“有 1000 瓶酒，1 瓶是有毒的，毒性要 1 周才能发作，你需要在 1 周时间内找出这瓶毒酒，至少需要几只小白鼠？”（只知道 999 这个思博上界，有更优解吗？）\n\n英语还是老规矩，这次的文章是 Bellman-Ford。\n感觉不行呀。。。\n\n下午几位大佬轮番介绍计算机系的各种活动和机构。（弹幕被【清香鱼汉堡】刷屏了。。。求【双层吉士汉堡】的心里阴影面积）\n然后就是发签。\n按照（类型，字典序）排序，过了前 100 降 60 之后就感觉稳了，最后搞了一个一本。\n最后讨论一下，关键（拉分）还是在 D1T1 的乱搞上。\nGood Ending.\n\n晚上似乎 xy 很高兴，请了各路 XJ 神仙（松松松，鏼爷，吉老师，自信，以及更早的周子凯学长）来吃饭。\n松松松晚上上课要迟到了，我们：卡一卡常就不迟到了。\n讲到省选，气氛突然尴尬了起来。。。\n—— 一条手动分割线 ——\n刚刚我说这是一个 Good Ending。\n那么(supposed) True Ending 是什么呢？D1T1 用标算 A 掉。（这句话的意思是用正确算法得到 T1 的这么多的分，才能说明水平的进步）（但是感觉去写 T1 标算的话 T3 来不及搞，所以。。。考场上也不一定是个明智的选择）\n个人感觉这一次的四道传统题都非常不错，虽然出现了两道提答题，但是第一道是弃疗后非常好的娱乐（+得分）手段，第二道也成为随机化算法大师的 gain 分题。\n这一场比赛，以前被乱搞的出题人终于不再被乱搞了（倒换了个出题人被乱搞）。而且比赛也没有什么大锅。\n最后来 summary 一下：\n似乎自从 NOIP 之后，我的成绩（几乎）完全取决于乱搞水平：THUWC 不会乱搞，滚粗。ZJOI 没有乱搞，滚粗。CTSC 有乱搞，Au。（APIO 得感谢猫锟的圆方树。）THUSC 又乱搞，Win。\n而且 APIO 和 THUSC 的数据结构都陷入有思路没解法的僵局。（同时也受到了另外题可做程度的影响）\nD1T2 和 D2T1 是思维好题，当然，从大众的情况（THUSC 的受众应该是不包含第一梯队的，因为 dalao 冬令营都签了），也发现了整体（自然包括我）对观察性质能力，和基础算法（差分约束，AC 自动机等）的不重视。一方面，出题人出好题不如搬题/出套路题高效；另一方面，做题人接触多了套路和新科技（这两年多项式很火呀），自然就这样。当然，我是套路都没接触多少的人，还要多锻炼。\n—— 又一条手动分割线 ——\n被强行留在北京参加 NOI 训练，感觉学考凉凉。\n","dateCreated":"2018-06-01T17:50:33+08:00","dateModified":"2018-06-05T22:17:05+08:00","datePublished":"2018-06-01T17:50:33+08:00","description":"时隔若干个星期后的再一次爆零记（这两天根本没有状态。。。）","headline":"THUSC 2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/06/01/THUSC-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/06/01/THUSC-2018/","keywords":"review"}</script>
+    <meta name="description" content="时隔若干个星期后的再一次爆零记（这两天根本没有状态。。。）">
+<meta name="keywords" content="review">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="THUSC 2018">
+<meta property="og:url" content="jhdjames37.github.io/2018/06/01/THUSC-2018/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="时隔若干个星期后的再一次爆零记（这两天根本没有状态。。。）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-05T14:17:05.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="THUSC 2018">
+<meta name="twitter:description" content="时隔若干个星期后的再一次爆零记（这两天根本没有状态。。。）">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            THUSC 2018
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-06-01T17:50:33+08:00">
+	
+		    6月 01, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/reviews-plans/">reviews & plans</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>时隔若干个星期后的再一次爆零记（这两天根本没有状态。。。）</p>
+<a id="more"></a>
+<h2 id="June-1st-and-before-Day-O-1"><a href="#June-1st-and-before-Day-O-1" class="headerlink" title="June 1st (and before) - Day $-O(1)$"></a>June 1st (and before) - Day $-O(1)$</h2><p>居然 THU 怎么快就把 Ubuntu 升级到了 18.04。。。</p>
+<p>反观 NOI Linux 。。。</p>
+<p>18.04 应该还稳定的吧。。。（flag）</p>
+<h2 id="June-2nd-Day-0"><a href="#June-2nd-Day-0" class="headerlink" title="June 2nd - Day 0"></a>June 2nd - Day 0</h2><p>以从上次同样的方式来到 PEK。（只是坐的地铁不同）</p>
+<p>宾馆好简陋呀。。。（不是西郊）听说以前来 PKU/THU 都住这，听说饭很好。</p>
+<p>放完行李去试机。到那里的时候试机赛马上就要结束了。于是 T1 <code>puts(&quot;0&quot;)</code>, T2 无草稿纸手算（还少打了负号）+ 全部退化成点。。。 （手机上的 GeoGreba 真难用）</p>
+<p>北京好热呀。。。</p>
+<h2 id="June-3rd-Day-1"><a href="#June-3rd-Day-1" class="headerlink" title="June 3rd - Day 1"></a>June 3rd - Day 1</h2><p>先吐槽时间再次不统一（OJ 时间，本机时间，手表时间不一样。。。），在最后 20min 的时候甚至 OJ 上还显示 4h。。。</p>
+<p>根据（一点都不靠谱的）经验，先做 T1。</p>
+<p>结果 1h 没有思路。。。</p>
+<p>感觉情况不妙，后面好像提答要来不及，赶紧把 T1,T2 的暴力写了（ T1 $O(n ^ 2 \log n)$ 预处理， T2 暴力枚举串）。</p>
+<p>还有 3h，开始搞提答。</p>
+<p>之前已经在看题的时候顺手 A 了 Subtask1（限制真多）。</p>
+<p>一个个看下来：</p>
+<p>Subtask2 什么东西，输入个函数，若干个二元组，输出实数。一直以为是点（实际是区间求定积分），凑出来 4 分。</p>
+<p>Subtask3 就是根据与输入点的距离找点。本来想数学方法求，结果卡精度。。。先交了 1 分。</p>
+<p>Subtask4 输入 01 矩阵，输出整数？（自动认为是 <code>xor</code> 矩阵），凑出 1 走人。（实际上是普通加意义的行列式）</p>
+<p>Subtask5 开始是图论题。”The shortest paths from 1 to i is: x” 好迷惑人。。。实际是最短路数。手玩 4 分。</p>
+<p>Subtask6 自动脑补成有向图。求无向图 1 号点出发长度为 $i$ 的路径数。手玩 1 分。</p>
+<p>Subtask7 什么 “Pair …”，不知道，凑出 1 分。（实际上是每次加边新连通的点对数）</p>
+<p>Subtask8 汇编语言，只有 <code>A = B + C</code> 和 <code>if (A == B) goto x</code>，构造 0 和 1 都花了好久。 写完第一部分 $a ^ b$ 告诉我第二部分爆 <code>int</code> 不得分？ 写了 4 行的 <code>if (A &gt; B) ...</code>，每次加一行都要把下面的行号都改一遍。。。</p>
+<p>Subtask9 什么东西？（galgame）终于走完一遍，得了 4 分，告诉我不把我的输入存下来？以为要记录所有的键盘操作，于是随机 rand 了个回答然后中间加了无数个回车（也是 4 分），然后得到了个 announcement：“各位选手注意，T3 第九个点不需要输出回车”</p>
+<p>Subtask10 又是汇编，多了个 <code>toss</code> 函数，看不懂（好像跟概率有关）。1 分。</p>
+<p>回头看 Subtask5，好像要分层连边。写了不知道多久后 A 了。</p>
+<p>然后手动三分出 Subtask3 的第二个点，爆搜了 Subtask9 的答案，结果只有 7 分（听说需要在某个两个选项的题目中选 3 ？）。10 + 4 + 4 + 1 + 10 + 1 + 1 + 4 + 7 + 1 = 43。</p>
+<p>还有 15 分钟。回去补打了 T1 $O(nq \log n)$ 的暴力，T 了，存了算过的答案（还发现少开 <code>long long</code>），居然过了 17 个点。。。</p>
+<p>(30 + ?) + 6 (9 分已经 FST，因为没有考虑把串复制两次 ) + 43，看起来药丸。</p>
+<p>好像 T1 又是换一种状态表示方式，然后在线段树上维护。 T2 $k = 0$ 在 AC 机上跑 DP，可以减少许多状态。</p>
+<p>希望 T1 数据水一点，希望 Day2 翻盘。</p>
+<hr>
+<p>下午开营仪式。居然有小学生来参赛（完了，要被小学生虐爆了。。。），wys 同学回顾了自己出毒瘤题的经历。。。（好像机房里确实有一本《编译原理》，但是现在不知道去哪里了。。。）</p>
+<h2 id="June-4th-Day-2"><a href="#June-4th-Day-2" class="headerlink" title="June 4th - Day 2"></a>June 4th - Day 2</h2><p>昨天晚上奶了一口 Day1 已经出过提答题了，Day2 应该不出了，可能他们把 Day1 Day2 swap 了一下。</p>
+<p>今天早上考前又和隔壁选手说（中国的） OI 比赛好像没有一次连出两道提答的事情。</p>
+<p>题面发下来之后， exm ？怎么又有一道提答题，感觉不对。（是不是破纪录了？）</p>
+<p>然而 T1 看完题感觉好神奇，然后突然想到了今年 World Final 的那道题，但是发现这道题目并没有那么好的性质。</p>
+<p>然后也想到了标算的边权化点权，但依然在考虑打差分标记的事情（没法打差分标记），也没有去想这样能否构造出正确解。</p>
+<p>然后感觉 T2 可做就去看 T2。</p>
+<p>第一眼以为猫锟题，能启发式合并，然而发现并不能。</p>
+<p>然后想了想链的情况，先发现组合数，然后发现是个生成函数，于是愉快的写了个分治 FFT。</p>
+<p>想想看能够推广到树上。试图树剖，把每个轻儿子的贡献合并后然后对整条重链做分治 FFT。感觉可行，没算清复杂度（感觉像是 2 个 $\log$ 的），写了一发，调了好久（因为狂用 <code>new</code> 导致各种 RE，到了最后才想起来能用 <code>std::vector</code>），然后 A 了。</p>
+<p>T1 依然没有思路，看 T3。按照题目中的提示式子进行合并就是 Subtask1 的正解。</p>
+<p>然后看到 Subtask3 好多 1。统计了一下，发现只有 4 种矩形，于是爆枚方案，结果没有，然后发现有个 $1 \times 2$ 的可以横放，然后就出解了。</p>
+<p>Subtask4 矩形种类变多了，但是发现随便贪心一下就过了。</p>
+<p>以为 Subtask5 也能贪过去，换了 $O(1)$ 种贪心策略都没用。</p>
+<p>然后回去看 T1，结果毫无进展。于是干坐到比赛结束。0 + 100 + 30 = 130。</p>
+<hr>
+<p>下午讲题。</p>
+<p>D1T1 就是改变 DP 状态以便维护。</p>
+<p>D1T2 猫锟题，是放在 AC 机上的 DP，将前后的串两个状态同时拿来跑（完了，最优划分永远想的都是 DP）。</p>
+<p>D2T1 的构造是将每个点拆成点权为 1 的点，然后将对角的两个点相连，确定每个点的点权是差分约束（做完 <code>出纳员的雇佣</code> 后似乎一直没有做过差分约束了。。。）。得分情况感人：10 人</p>
+<p>D2T2 重链剖分实际上是 $O(n \log ^ 3 n)$ 的 ( 每条链被合并 $O(\log n)$ 次， 合并时要做 $O(n \log ^ 2 n)$ 的分治 FFT)，而变成长链剖分（选最大延伸深度的儿子作为重儿子）是 $O(n \log ^ 2 n)$ 的（每条链被合并后，不长于主链，不影响后续合并复杂度，所以实际上相当于 1 次合并）。</p>
+<p>两道提答也有些好玩的地方。</p>
+<p>第一道类似以上做，（Subtask8-2 是 $a \text{ and } b$, Subtask10 是量子编程，其它的图论题也以搜为主）。</p>
+<p>第二道是 3,4,5 特殊性质，其它只要用高明一点的随机，跑很久就能得高分。</p>
+<p>面试名单 XJ 全部入围。希望明天面试时不要尴尬。</p>
+<hr>
+<p>似乎题目不公开，那来补一下题面：</p>
+<p>D1T1: 给出长度为 $n$ 的序列，$q$ 次询问区间 $[l, r]$ 的 LIS 长度，强制在线。$n \le 10 ^ 5, q \le 10 ^ 7, a_i \le 1000$，10s，询问给出随机函数，hash 输出。</p>
+<p>D1T2：给出 $m$ 个模板串 $T$，求有多少个长度为 $n$ 的字符串 $S$，使得串 $SS$ 不存在划分方案，使得有多于 $k$ 个划分出的子串为模板串。$n \le 100, m \le 300, |T| \le 5, k \le 3$（实际 $k$ 的限制并不重要）</p>
+<p>D1T3：提答，给出一个程序（有多种功能）和输出，要求构造输入数据。</p>
+<p>D2T1：在圆环上有 $2 \times n$ 个点，其中在奇数点上有 $m$ 条带边权的连边，要求在偶数点上连边，使得每条奇数点上的边的与之相交的偶数边的边权和大于它自己的权值，最小化偶数边权值和，输出方案。$n \times m \le 5 \times 10 ^ 6$</p>
+<p>D2T2：给出一个树，每个结点有两种物品若干（同种物品间两两互不相同），要求对于求出所有从 1 号点到叶子结点的路径上，每个结点取一个物品，取 $k$ 种 1 号物品的方案数，对 $k \in [0, n]$ 求出答案，模 $998244353$ 输出。$n \le 10 ^ 5$，5s</p>
+<p>D2T3：提答，给出 $n$ 张纸片，要求找出一张矩形的纸以及裁剪方案，使得能够裁出这 $n$ 张纸片。最小化纸片面积的同时，使得一边的长度落在 $[L, R]$ 之间。</p>
+<h2 id="June-5th-Day-3"><a href="#June-5th-Day-3" class="headerlink" title="June 5th - Day 3"></a>June 5th - Day 3</h2><p>面试。</p>
+<p>再次 1 分钟讲完自我介绍。。。</p>
+<p>然后问一些个人相关。</p>
+<p>然后问了：</p>
+<blockquote>
+<p>“你认为计算机哪个领域有什么发展前景？”<br>“有 1000 瓶酒，1 瓶是有毒的，毒性要 1 周才能发作，你需要在 1 周时间内找出这瓶毒酒，至少需要几只小白鼠？”（只知道 999 这个思博上界，有更优解吗？）</p>
+</blockquote>
+<p>英语还是老规矩，这次的文章是 <code>Bellman-Ford</code>。</p>
+<p>感觉不行呀。。。</p>
+<hr>
+<p>下午几位大佬轮番介绍计算机系的各种活动和机构。（弹幕被【清香鱼汉堡】刷屏了。。。求【双层吉士汉堡】的心里阴影面积）</p>
+<p>然后就是发签。</p>
+<p>按照（类型，字典序）排序，过了前 100 降 60 之后就感觉稳了，最后搞了一个一本。</p>
+<p>最后讨论一下，关键（拉分）还是在 D1T1 的乱搞上。</p>
+<p>Good Ending.</p>
+<hr>
+<p>晚上似乎 xy 很高兴，请了各路 XJ 神仙（松松松，鏼爷，吉老师，自信，以及更早的周子凯学长）来吃饭。</p>
+<p>松松松晚上上课要迟到了，我们：卡一卡常就不迟到了。</p>
+<p><del>讲到省选，气氛突然尴尬了起来。。。</del></p>
+<p>—— 一条手动分割线 ——</p>
+<p>刚刚我说这是一个 Good Ending。</p>
+<p>那么(supposed) True Ending 是什么呢？<del>D1T1 用标算 A 掉。</del>（这句话的意思是用正确算法得到 T1 的这么多的分，才能说明水平的进步）（但是感觉去写 T1 标算的话 T3 来不及搞，所以。。。考场上也不一定是个明智的选择）</p>
+<p>个人感觉这一次的四道传统题都非常不错，虽然出现了两道提答题，但是第一道是弃疗后非常好的娱乐（+得分）手段，第二道也成为随机化算法大师的 gain 分题。</p>
+<p>这一场比赛，以前被乱搞的出题人终于不再被乱搞了（倒换了个出题人被乱搞）。而且比赛也没有什么大锅。</p>
+<p>最后来 summary 一下：</p>
+<p>似乎自从 NOIP 之后，我的成绩（几乎）完全取决于乱搞水平：THUWC 不会乱搞，滚粗。ZJOI 没有乱搞，滚粗。CTSC 有乱搞，Au。（APIO 得感谢猫锟的圆方树。）THUSC 又乱搞，Win。</p>
+<p>而且 APIO 和 THUSC 的数据结构都陷入有思路没解法的僵局。（同时也受到了另外题可做程度的影响）</p>
+<p>D1T2 和 D2T1 是思维好题，当然，从大众的情况（THUSC 的受众应该是不包含第一梯队的，因为 dalao 冬令营都签了），也发现了整体（自然包括我）对观察性质能力，和基础算法（差分约束，AC 自动机等）的不重视。一方面，出题人出好题不如搬题/出套路题高效；另一方面，做题人接触多了套路和新科技（这两年多项式很火呀），自然就这样。当然，我是套路都没接触多少的人，还要多锻炼。</p>
+<p>—— 又一条手动分割线 ——</p>
+<p>被强行留在北京参加 NOI 训练，感觉学考凉凉。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/review/">review</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/27/CTSC-APIO-2018/" data-tooltip="CTSC&amp;APIO 2018" aria-label="下一篇: CTSC&amp;APIO 2018">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/06/01/THUSC-2018/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/06/01/THUSC-2018/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/06/01/THUSC-2018/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/27/CTSC-APIO-2018/" data-tooltip="CTSC&amp;APIO 2018" aria-label="下一篇: CTSC&amp;APIO 2018">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/06/01/THUSC-2018/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/06/01/THUSC-2018/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/06/01/THUSC-2018/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/06/01/THUSC-2018/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/06/01/THUSC-2018/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/06/01/THUSC-2018/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
