@@ -1,0 +1,547 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>NOI2018 - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"NOI 2018 网络同步赛。\n（听说 dzd 讲话很赛艇，听说社会活动很…？）\n开幕式讲课全程 B 站直播好评！\n\nDay 1听说 NOI T1 会是简单题。\n本质上就是与询问点连通的点中离 1 号点的最近点。\n看起来可持久化并查集可做（虽然是两个 $\\log$ 的）。\n可能是因为太久没写主席树，写了一个小时，但是到三个小时的时候才调出来。（隔壁机房在装修，声音大到心态爆炸）\n测了一发，-O2 4.1s，稍微卡了卡常，加个快读，卡到 4.01s，感觉再怎么卡下去后面两题要来不及，想想也就 10 分，看 T2。\n看题的时候就感觉 T2 不会做。交换次数就是逆序对，然后观察了一波提示中的反例 3 2 1，感觉就是每个数字的移动方向不能变化，那么就不能有“超车”的现象。然后就能设计状压了，f[mask][0/1] 表示选了哪些数，和原排列的大小关系。转移时枚举下一位的数判断是否合法。\n还有 1h 15min。\n然后是 T3，一看就是 SAM 题。一组询问就是广义 SAM 上跑，统计新建结点对答案的贡献。然后我就感觉把所有串扔进去复杂度（其实是正确性）不对。然后就感觉是要把 SAM 可持久化。\n（实际上 SAM 能不能可持久化，或者说能不能很方便地可持久化是个问题）\n试图打了个然后搞不出来，然后每次暴力复制 SAM，去搞前 7 个点。然后防止 MLE，又把数组开小点。（不知道在想些什么。。。）\n\n吃完饭，说是可以查成绩了，T1 3.5s AC，然后 T3 把数组开小了 RE20。（一直以为那两个点是 $10 ^ 5$的）100 + 44 + 20 = 164。\n听说现场赛那边分都不是特别高，zzy 210, zrf 180, fls ~200。\n后来听说 lsk 240+, %%%\n听说 T1 卡 SPFA，幸好习惯写 dijkstra。\n\n比赛的时候个人认为可持久化并查集可以写成 1 个 $\\log$，就是试图把每次在线段树上定位的 $\\log$ 优化掉。也可以用 kruskal 重构树，就是将并查集合并过程描述成二叉树的形式（新建结点表示新连通块，合并的两个连通块的结点分别表示左右子树），询问时在树上二分得到对应的连通块。\n晚上讨论/撕烤了一下，T3 其实只要用一个指针模拟建广义 SAM 的过程，在这个同时统计每个右端点对应的非法子串的长度范围。（DFS 序 + 主席树）最后建出询问串的 SAM 统计一下\n（另外，那根本不是可持久化，只要支持撤销就可以了。所以只要维护哪些结点被修改了，一次询问结束后再覆盖回去。。。）\n然后对于 T2，如果再推一下那个结论，就会发现它等价于最长下降子序列至多为 2。然后设计 DP f[i][j] 表示处理到第 $i$ 位，剩下的数中 $j$ 个比前 $i$ 个中的最大值大。转移考虑选取比最大值的大的数，或者选最小值（如果选其它的就会出现长度为 3 的下降序列）。然后可以发现这是三角形区域的随机游走，用类似 Catalan 数的方式，可以用两个组合数表示。最后扫一遍原数组，枚举哪一位开始字典序开始严格大于原串，求出对应的状态即可。\n\nDay 2（好像听王宏说 Day2 有最简单的题和最难的题？？？）\nT1 看完题面，发现每个数对应的攻击值是固定的，拿个 std::multiset 搞，然后就变成了 $n$ 个同余方程。我先全部解出来，然后再 CRT 合并（说是 CRT，直接暴力列方程 exgcd 的）。中间爆long long, 又因为个思博 undefined-behavior 调了一会。（话说 -ftrapv 好呀，一下就看出爆 long long 了）\n这时，机房突然停电！\nT3 是吉利题，（虽然不是计算几何，）表示不敢做。来看 T2。\nT2 有点猫锟色彩（TAC $\\rightarrow$ CAT ?），但也不会乱搞。（CTSC 的时候他不是说不出最优化了吗？）\n机房突然来电又突然停电。再次来电之后，赶紧把代码搞到笔记本上（但是后来就没有断电了）。还有 2h 20min。\n这时有 T3 20 分状压，T2 15 分暴力 + 15 分扫描线 + 线段树 + 15 分暴力树剖。感觉把它们全部打完就差不多了。于是开始狂码，幸好调得不多，还剩 20 分钟的时候基本调完。（T2 大样例真良心）\n回头查了一遍 T1。\n\n成绩还要 20 年才能出（2037），先去看讲评。T1 LCA 说中间结果也可以不爆 long long。T2 果真是猫锟出的（松松松验题+讲题），出了半年的题，神奇的大样例解释。T3 std 10k。。。\n然后数据就出来了，LOJ 还在传题。本地测了一发。100 + 30 + 20 = 150。T2 如此强的样例却发现不了我数组开小了！（MAXN 和 MAXM 打反。。。）\n总结这次 NOI，个人感觉题目难度适中，覆盖知识点广，有贴合实际的背景，解法比较自然，给出题人点个赞！依然延续了打暴力竞赛的传统。\n如果只 A 两天 T1，其余题都打暴力（像我），有 164 + 150 = 314。加上鄙视笔试 100 分，对应现场赛排名，有前 100。如果两天 8 + 15 = 23 分没有爆掉是 337, 好像正好是 Au 线（如果笔试挂那就没办法了）\n如果 D1T1 调得快一点，T3 的 68 分可能可以出来，那就进集训队线了(我怎么菜，怎么可能进队呢)\n当然，以上为理论得分。毕竟实际在比赛过程中，对题目难度不确定，心态，以及手速，RP 等各种因素都会影响这些暴力打不打得出来，打不打得对。\n比如说像两天爆掉的 23 分，就很不应该，D1 的 8 分只要看一眼题面就能发现，D2 也只要造一组大数据就可以（调完还有 20 分钟，应该是发现得了的）。所以小数据验证正确性，大数据验证复杂度和数组越界都是十分必须的。\n另外， D1T1 调题速度极慢，严重影响做后面两题。\n但是无论如何，这总比 UNR FST 3 题要好。\n\n另外，现场赛这边，zzy rk9 进队， lsk 和 cyz 都上了集训队线（可惜是 D 类），fls 贴线进队，zrf 遗憾 Ag，苟利和 wcz 也是 Ag。\n最神奇的是，浙江 A 队除 zzy 外，全部爆炸。求吉老师心理阴影面积。。。\n","dateCreated":"2018-07-20T20:54:41+08:00","dateModified":"2018-07-22T12:21:58+08:00","datePublished":"2018-07-20T20:54:41+08:00","description":"NOI 2018 网络同步赛。\n（听说 dzd 讲话很赛艇，听说社会活动很…？）\n开幕式讲课全程 B 站直播好评！","headline":"NOI2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/07/20/NOI2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/07/20/NOI2018/","keywords":"reviews & plans"}</script>
+    <meta name="description" content="NOI 2018 网络同步赛。 （听说 dzd 讲话很赛艇，听说社会活动很…？） 开幕式讲课全程 B 站直播好评！">
+<meta name="keywords" content="reviews &amp; plans">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="NOI2018">
+<meta property="og:url" content="jhdjames37.github.io/2018/07/20/NOI2018/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="NOI 2018 网络同步赛。 （听说 dzd 讲话很赛艇，听说社会活动很…？） 开幕式讲课全程 B 站直播好评！">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-22T04:21:58.129Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NOI2018">
+<meta name="twitter:description" content="NOI 2018 网络同步赛。 （听说 dzd 讲话很赛艇，听说社会活动很…？） 开幕式讲课全程 B 站直播好评！">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            NOI2018
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-07-20T20:54:41+08:00">
+	
+		    7月 20, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/review/">review</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>NOI 2018 网络同步赛。</p>
+<p>（听说 dzd 讲话很赛艇，听说社会活动很…？）</p>
+<p>开幕式讲课全程 B 站直播好评！</p>
+<a id="more"></a>
+<h2 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h2><p>听说 NOI T1 会是简单题。</p>
+<p>本质上就是与询问点连通的点中离 1 号点的最近点。</p>
+<p>看起来可持久化并查集可做（虽然是两个 $\log$ 的）。</p>
+<p>可能是因为太久没写主席树，写了一个小时，但是到三个小时的时候才调出来。（隔壁机房在装修，声音大到心态爆炸）</p>
+<p>测了一发，<code>-O2</code> 4.1s，稍微卡了卡常，加个快读，卡到 4.01s，感觉再怎么卡下去后面两题要来不及，想想也就 10 分，看 T2。</p>
+<p>看题的时候就感觉 T2 不会做。交换次数就是逆序对，然后观察了一波提示中的反例 <code>3 2 1</code>，感觉就是每个数字的移动方向不能变化，那么就不能有“超车”的现象。然后就能设计状压了，<code>f[mask][0/1]</code> 表示选了哪些数，和原排列的大小关系。转移时枚举下一位的数判断是否合法。</p>
+<p>还有 1h 15min。</p>
+<p>然后是 T3，一看就是 SAM 题。一组询问就是广义 SAM 上跑，统计新建结点对答案的贡献。然后我就感觉把所有串扔进去复杂度（其实是正确性）不对。然后就感觉是要把 SAM 可持久化。</p>
+<p>（实际上 SAM 能不能可持久化，或者说能不能很方便地可持久化是个问题）</p>
+<p>试图打了个然后搞不出来，然后每次暴力复制 SAM，去搞前 7 个点。然后防止 MLE，又把数组开小点。（不知道在想些什么。。。）</p>
+<hr>
+<p>吃完饭，说是可以查成绩了，T1 3.5s AC，然后 T3 把数组开小了 RE20。（一直以为那两个点是 $10 ^ 5$的）100 + 44 + 20 = 164。</p>
+<p>听说现场赛那边分都不是特别高，zzy 210, zrf 180, fls ~200。</p>
+<p>后来听说 lsk 240+, %%%</p>
+<p>听说 T1 卡 SPFA，幸好习惯写 dijkstra。</p>
+<hr>
+<p>比赛的时候个人认为可持久化并查集可以写成 1 个 $\log$，就是试图把每次在线段树上定位的 $\log$ 优化掉。也可以用 kruskal 重构树，就是将并查集合并过程描述成二叉树的形式（新建结点表示新连通块，合并的两个连通块的结点分别表示左右子树），询问时在树上二分得到对应的连通块。</p>
+<p>晚上讨论/撕烤了一下，T3 其实只要用一个指针模拟建广义 SAM 的过程，在这个同时统计每个右端点对应的非法子串的长度范围。（DFS 序 + 主席树）最后建出询问串的 SAM 统计一下</p>
+<p>（另外，那根本不是可持久化，只要支持撤销就可以了。所以只要维护哪些结点被修改了，一次询问结束后再覆盖回去。。。）</p>
+<p>然后对于 T2，如果再推一下那个结论，就会发现它等价于最长下降子序列至多为 2。然后设计 DP <code>f[i][j]</code> 表示处理到第 $i$ 位，剩下的数中 $j$ 个比前 $i$ 个中的最大值大。转移考虑选取比最大值的大的数，或者选最小值（如果选其它的就会出现长度为 3 的下降序列）。然后可以发现这是三角形区域的随机游走，用类似 Catalan 数的方式，可以用两个组合数表示。最后扫一遍原数组，枚举哪一位开始字典序开始严格大于原串，求出对应的状态即可。</p>
+<!---
+
+---
+
+中间查了查学考成绩，2 个 A。（听说 3 天 2 个 A？）
+
+---
+
+--->
+<h2 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h2><p>（好像听王宏说 Day2 有最简单的题和最难的题？？？）</p>
+<p>T1 看完题面，发现每个数对应的攻击值是固定的，拿个 <code>std::multiset</code> 搞，然后就变成了 $n$ 个同余方程。我先全部解出来，然后再 CRT 合并（说是 CRT，直接暴力列方程 exgcd 的）。中间爆<code>long long</code>, 又因为个思博 <code>undefined-behavior</code> 调了一会。（话说 <code>-ftrapv</code> 好呀，一下就看出爆 <code>long long</code> 了）</p>
+<p>这时，机房突然停电！</p>
+<p>T3 是吉利题，（虽然不是计算几何，）表示不敢做。来看 T2。</p>
+<p>T2 有点猫锟色彩（TAC $\rightarrow$ CAT ?），但也不会乱搞。（CTSC 的时候他不是说不出最优化了吗？）</p>
+<p>机房突然来电又突然停电。再次来电之后，赶紧把代码搞到笔记本上（但是后来就没有断电了）。还有 2h 20min。</p>
+<p>这时有 T3 20 分状压，T2 15 分暴力 + 15 分扫描线 + 线段树 + 15 分暴力树剖。感觉把它们全部打完就差不多了。于是开始狂码，幸好调得不多，还剩 20 分钟的时候基本调完。（T2 大样例真良心）</p>
+<p>回头查了一遍 T1。</p>
+<hr>
+<p>成绩还要 20 年才能出（2037），先去看讲评。T1 LCA 说中间结果也可以不爆 <code>long long</code>。T2 果真是猫锟出的（松松松验题+讲题），出了半年的题，神奇的大样例解释。T3 std 10k。。。</p>
+<p>然后数据就出来了，LOJ 还在传题。本地测了一发。100 + 30 + 20 = 150。T2 如此强的样例却发现不了我数组开小了！（<code>MAXN</code> 和 <code>MAXM</code> 打反。。。）</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次 NOI，个人感觉<del>题目难度适中，覆盖知识点广，有贴合实际的背景，解法比较自然，给出题人点个赞！</del>依然延续了打暴力竞赛的传统。</p>
+<p>如果只 A 两天 T1，其余题都打暴力（像我），有 164 + 150 = 314。加上<del>鄙视</del>笔试 100 分，对应现场赛排名，有前 100。如果两天 8 + 15 = 23 分没有爆掉是 337, 好像正好是 Au 线（如果笔试挂那就没办法了）</p>
+<p>如果 D1T1 调得快一点，T3 的 68 分可能可以出来，<del>那就进集训队线了</del>(我怎么菜，怎么可能进队呢)</p>
+<p>当然，以上为理论得分。毕竟实际在比赛过程中，对题目难度不确定，心态，以及手速，RP 等各种因素都会影响这些暴力打不打得出来，打不打得对。</p>
+<p>比如说像两天爆掉的 23 分，就很不应该，D1 的 8 分只要看一眼题面就能发现，D2 也只要造一组大数据就可以（调完还有 20 分钟，应该是发现得了的）。所以小数据验证正确性，大数据验证复杂度和数组越界都是十分必须的。</p>
+<p>另外， D1T1 调题速度极慢，严重影响做后面两题。</p>
+<p><del>但是无论如何，这总比 UNR FST 3 题要好。</del></p>
+<hr>
+<p>另外，现场赛这边，zzy rk9 进队， lsk 和 cyz 都上了集训队线（可惜是 D 类），fls 贴线进队，zrf 遗憾 Ag，苟利和 wcz 也是 Ag。</p>
+<p>最神奇的是，浙江 A 队除 zzy 外，全部爆炸。求吉老师心理阴影面积。。。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/reviews-plans/">reviews & plans</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/08/16/record-of-Codeforces/" data-tooltip="Codeforces FST 记录" aria-label="上一篇: Codeforces FST 记录">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/06/01/THUSC-2018/" data-tooltip="THUSC 2018" aria-label="下一篇: THUSC 2018">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/07/20/NOI2018/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/07/20/NOI2018/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/07/20/NOI2018/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/08/16/record-of-Codeforces/" data-tooltip="Codeforces FST 记录" aria-label="上一篇: Codeforces FST 记录">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/06/01/THUSC-2018/" data-tooltip="THUSC 2018" aria-label="下一篇: THUSC 2018">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/07/20/NOI2018/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/07/20/NOI2018/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/07/20/NOI2018/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/07/20/NOI2018/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/07/20/NOI2018/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/07/20/NOI2018/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
