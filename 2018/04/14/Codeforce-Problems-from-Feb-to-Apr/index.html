@@ -299,6 +299,12 @@
         
         
             
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
         
         <li class="post-action">
             
@@ -313,6 +319,8 @@
 
         
         
+            
+                <div id="gitment"></div>
             
         
     </div>
@@ -386,6 +394,12 @@
             </li>
         
         
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
             
         
         <li class="post-action">
@@ -469,6 +483,35 @@
 <script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
 
+    
+        <script type="text/javascript">
+            (function() {
+                function render() {
+                    new Gitment({
+                        id: 'jhdjames37.github.io/2018/04/14/Codeforce-Problems-from-Feb-to-Apr/',
+                        owner: 'jhdjames37',
+                        repo: 'https://github.com/jhdjames37/jhdjames37.github.io',
+                        oauth: {
+                            client_id: 'cc81c17420b569d32e22',
+                            client_secret: 'fbc7f68c496e12ad992ccb7bba97d98936b66cee',
+                        }
+                    }).render('gitment');
+                }
+                var gc = document.createElement('script');
+                gc.type = 'text/javascript';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
+                gc.charset = 'UTF-8';
+                gc.onload = render;
+                gc.async = true;
+                document.querySelector('body').appendChild(gc);
+                var gcs = document.createElement('link');
+                gcs.href = '//imsun.github.io/gitment/style/default.css';
+                gcs.type = 'text/css';
+                gcs.rel = 'stylesheet';
+                gcs.media = 'screen,print';
+                document.querySelector('head').appendChild(gcs);
+            })();
+	    </script>
     
 
 
