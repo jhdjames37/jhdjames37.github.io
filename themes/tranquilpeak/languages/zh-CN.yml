@@ -10,6 +10,8 @@ global:
     archives: "归档"
     search: "搜索"
     about: "关于"
+    link: "友链"
+    qq: "QQ"
     author_picture: "作者的图片"
     github: "GitHub"
     stack_overflow: "Stack Overflow"

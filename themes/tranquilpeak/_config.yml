@@ -56,11 +56,19 @@ sidebar:
            title: global.about
            url: /#about
            icon: question
+        link:
+           title: global.link
+           url: /link
+           icon: link
     author_links:
         github:
             title: global.github
             url: https://github.com/jhdjames37
             icon: github
+        QQ:
+            title: global.qq
+            url: http://wpa.qq.com/msgrd?uin=1285959811
+            icon: qq
         # stack_overflow:
         #     title: global.stack_overflow
         #     url: http://stackoverflow.com/users
@@ -196,7 +204,7 @@ gitment:
     # Your Github ID (Github username):
     github_id: jhdjames37
     # The repo to store comments:
-    repo: https://github.com/jhdjames37/jhdjames37.github.io
+    repo: jhdjames37.github.io
     # Your client ID:
     client_id: cc81c17420b569d32e22
     # Your client secret:
