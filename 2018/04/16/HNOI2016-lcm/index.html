@@ -11,7 +11,7 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：给定一张 $n$ 个顶点 $m$ 条边的无向图 ( 顶点编号为 $1,2,\\ldots,n$)，每条边上带有权值。所有权值都可以分解成 $2^a \\times 3^b$ 的形式。\n现在有 $q$ 个询问，每次询问给定四个参数 $u$、$v$、$a$ 和 $b$，请你求出是否存在一条顶点 $u$ 到 $v$ 之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为 $2 ^ a \\times 3 ^ b$\n$1 \\le n,q \\le 50000、1 \\le m \\le 100000、0 \\le a,b \\le 10^9$\n\n题解：显然询问的是是否存在一条路径 $max_a = a, max_b = b$。\n因为不是简单路径，所以可以视作连通分量。\n而且一个询问 Q 有解当且仅当将所有 $a \\le Q_a, b \\le Q_b$ 的边相连，$u$, $v$ 连通且 $max_a = Q_a, max_b = Q_b$。\n因为没有更好的方法（233）， 考虑分块。\n二维分块一般按照一维分块 ( 排序后，每块 $sz$ 个元素 )，块内按照第二维排序。\n这里按照边 $a$ 排序并分块。\n分完块之后找到每一块 $a$ 值的范围 $[l, r]$。有个细节，如果有一个 $a$ 跨越了两个块，应该记在后面。将询问插入 $a$ 值的相应块中。\n考虑块 $[l, r]$, 首先需要将 $a_i &lt; l$ 的边按照 $b$ 排序。对于每个询问 $q_j$，在 $a_i &lt; l$ 的边中找到 $b_i \\le b_{q_j}$ 的边。因为已经按 $b$ 递增，所以用一个指针扫过去，用并查集维护。\n对于 $a_i \\in [l, r]$ 的边，每次询问暴力扫一遍，将合法的插入并查集。因为完成每次询问后需要将它们清除，所以需要可撤销并查集（只按秩合并，不路径压缩，并记录操作，维护 $max_a, max_b$）。\n复杂度 $O(sz \\log n + \\frac{n}{sz} \\log n)$，但块大小不是设 $\\sqrt{n}$ 最优。请自行尝试块大小。\nCode12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394struct Edge &#123;  int u, v, a, b, id;&#125;edge[MAXM];int n, m, q;typedef Edge Query;Query query[MAXQ];inline bool cmpa(Edge a, Edge b) &#123;  return a.a &lt; b.a;&#125;inline bool cmpb(Edge a, Edge b) &#123;  return a.b &lt; b.b;&#125;namespace solver1 &#123;  namespace dsu &#123;    int fa[MAXN], sz[MAXN];    int maxa[MAXN], maxb[MAXN];    typedef Edge Opt;    Opt opt[MAXM];    int cnto;    void init() &#123;      for (int i = 1; i &lt;= n; i++) &#123;        fa[i] = i;        maxa[i] = -1;        maxb[i] = -1;        sz[i] = 1;      &#125;    &#125;    inline void reset() &#123; cnto = 0; &#125;    inline int find(int x) &#123;      while(fa[x] != x) x = fa[x];      return x;    &#125;    void unite(Edge e) &#123;      int u = find(e.u), v = find(e.v);      if (sz[u] &lt; sz[v]) std::swap(u, v);      opt[++cnto] = (Opt) &#123;u, v, maxa[u], maxb[u], sz[u]&#125;;      fa[v] = u;      if (u != v) sz[u] += sz[v];      maxa[u] = std::max(maxa[u], std::max(maxa[v], e.a));      maxb[u] = std::max(maxb[u], std::max(maxb[v], e.b));    &#125;    void undo() &#123;      while(cnto) &#123;        int u = opt[cnto].u, v = opt[cnto].v, a = opt[cnto].a, b = opt[cnto].b;        fa[v] = v;        maxa[u] = a;        maxb[u] = b;        sz[u] = opt[cnto].id;        cnto--;      &#125;    &#125;    inline bool ok(Query e) &#123;      int u = find(e.u), v = find(e.v);      if (u != v) return 0;      return maxa[u] == e.a &amp;&amp; maxb[u] == e.b;    &#125;  &#125;  void main() &#123;    int block_sz = sqrt(m * log2(n));        std::sort(edge + 1, edge + m + 1, cmpa);    std::sort(query + 1, query + q + 1, cmpa);    static bool ans[MAXQ];    int curq = 1, lastq = 1;    for (int l = 1; l &lt;= m; l += block_sz) &#123;      int r = std::min(l + block_sz - 1, m);      while(curq &lt;= q &amp;&amp; query[curq].a &lt; edge[r].a) curq++;      if (r == m) curq = q + 1;            std::sort(edge + 1, edge + l, cmpb);      std::sort(query + lastq, query + curq, cmpb);            int taile = 1;      dsu::init();      for (int j = lastq; j &lt; curq; j++) &#123;        while(taile &lt; l &amp;&amp; edge[taile].b &lt;= query[j].b) &#123;          dsu::unite(edge[taile++]);        &#125;        dsu::reset();        for (int k = l; k &lt;= r; k++) &#123;          if (edge[k].a &lt;= query[j].a &amp;&amp; edge[k].b &lt;= query[j].b) &#123;            dsu::unite(edge[k]);          &#125;        &#125;        ans[query[j].id] = dsu::ok(query[j]);        dsu::undo();      &#125;      lastq = curq;    &#125;    for (int i = 1; i &lt;= q; i++) &#123;      puts(ans[i] ? \"Yes\" : \"No\");    &#125;  &#125;&#125;\n","dateCreated":"2018-04-16T14:41:51+08:00","dateModified":"2018-06-03T20:36:07+08:00","datePublished":"2018-04-16T14:41:51+08:00","description":"题意：给定一张 $n$ 个顶点 $m$ 条边的无向图 ( 顶点编号为 $1,2,\\ldots,n$)，每条边上带有权值。所有权值都可以分解成 $2^a \\times 3^b$ 的形式。\n现在有 $q$ 个询问，每次询问给定四个参数 $u$、$v$、$a$ 和 $b$，请你求出是否存在一条顶点 $u$ 到 $v$ 之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为 $2 ^ a \\times 3 ^ b$\n$1 \\le n,q \\le 50000、1 \\le m \\le 100000、0 \\le a,b \\le 10^9$","headline":"BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/16/HNOI2016-lcm/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/16/HNOI2016-lcm/","keywords":"blocking, dsu"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：给定一张 $n$ 个顶点 $m$ 条边的无向图 ( 顶点编号为 $1,2,\\ldots,n$)，每条边上带有权值。所有权值都可以分解成 $2^a \\times 3^b$ 的形式。\n现在有 $q$ 个询问，每次询问给定四个参数 $u$、$v$、$a$ 和 $b$，请你求出是否存在一条顶点 $u$ 到 $v$ 之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为 $2 ^ a \\times 3 ^ b$\n$1 \\le n,q \\le 50000、1 \\le m \\le 100000、0 \\le a,b \\le 10^9$\n\n题解：显然询问的是是否存在一条路径 $max_a = a, max_b = b$。\n因为不是简单路径，所以可以视作连通分量。\n而且一个询问 Q 有解当且仅当将所有 $a \\le Q_a, b \\le Q_b$ 的边相连，$u$, $v$ 连通且 $max_a = Q_a, max_b = Q_b$。\n因为没有更好的方法（233）， 考虑分块。\n二维分块一般按照一维分块 ( 排序后，每块 $sz$ 个元素 )，块内按照第二维排序。\n这里按照边 $a$ 排序并分块。\n分完块之后找到每一块 $a$ 值的范围 $[l, r]$。有个细节，如果有一个 $a$ 跨越了两个块，应该记在后面。将询问插入 $a$ 值的相应块中。\n考虑块 $[l, r]$, 首先需要将 $a_i &lt; l$ 的边按照 $b$ 排序。对于每个询问 $q_j$，在 $a_i &lt; l$ 的边中找到 $b_i \\le b_{q_j}$ 的边。因为已经按 $b$ 递增，所以用一个指针扫过去，用并查集维护。\n对于 $a_i \\in [l, r]$ 的边，每次询问暴力扫一遍，将合法的插入并查集。因为完成每次询问后需要将它们清除，所以需要可撤销并查集（只按秩合并，不路径压缩，并记录操作，维护 $max_a, max_b$）。\n复杂度 $O(sz \\log n + \\frac{n}{sz} \\log n)$，但块大小不是设 $\\sqrt{n}$ 最优。请自行尝试块大小。\nCode12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394struct Edge &#123;  int u, v, a, b, id;&#125;edge[MAXM];int n, m, q;typedef Edge Query;Query query[MAXQ];inline bool cmpa(Edge a, Edge b) &#123;  return a.a &lt; b.a;&#125;inline bool cmpb(Edge a, Edge b) &#123;  return a.b &lt; b.b;&#125;namespace solver1 &#123;  namespace dsu &#123;    int fa[MAXN], sz[MAXN];    int maxa[MAXN], maxb[MAXN];    typedef Edge Opt;    Opt opt[MAXM];    int cnto;    void init() &#123;      for (int i = 1; i &lt;= n; i++) &#123;        fa[i] = i;        maxa[i] = -1;        maxb[i] = -1;        sz[i] = 1;      &#125;    &#125;    inline void reset() &#123; cnto = 0; &#125;    inline int find(int x) &#123;      while(fa[x] != x) x = fa[x];      return x;    &#125;    void unite(Edge e) &#123;      int u = find(e.u), v = find(e.v);      if (sz[u] &lt; sz[v]) std::swap(u, v);      opt[++cnto] = (Opt) &#123;u, v, maxa[u], maxb[u], sz[u]&#125;;      fa[v] = u;      if (u != v) sz[u] += sz[v];      maxa[u] = std::max(maxa[u], std::max(maxa[v], e.a));      maxb[u] = std::max(maxb[u], std::max(maxb[v], e.b));    &#125;    void undo() &#123;      while(cnto) &#123;        int u = opt[cnto].u, v = opt[cnto].v, a = opt[cnto].a, b = opt[cnto].b;        fa[v] = v;        maxa[u] = a;        maxb[u] = b;        sz[u] = opt[cnto].id;        cnto--;      &#125;    &#125;    inline bool ok(Query e) &#123;      int u = find(e.u), v = find(e.v);      if (u != v) return 0;      return maxa[u] == e.a &amp;&amp; maxb[u] == e.b;    &#125;  &#125;  void main() &#123;    int block_sz = sqrt(m * log2(n));        std::sort(edge + 1, edge + m + 1, cmpa);    std::sort(query + 1, query + q + 1, cmpa);    static bool ans[MAXQ];    int curq = 1, lastq = 1;    for (int l = 1; l &lt;= m; l += block_sz) &#123;      int r = std::min(l + block_sz - 1, m);      while(curq &lt;= q &amp;&amp; query[curq].a &lt; edge[r].a) curq++;      if (r == m) curq = q + 1;            std::sort(edge + 1, edge + l, cmpb);      std::sort(query + lastq, query + curq, cmpb);            int taile = 1;      dsu::init();      for (int j = lastq; j &lt; curq; j++) &#123;        while(taile &lt; l &amp;&amp; edge[taile].b &lt;= query[j].b) &#123;          dsu::unite(edge[taile++]);        &#125;        dsu::reset();        for (int k = l; k &lt;= r; k++) &#123;          if (edge[k].a &lt;= query[j].a &amp;&amp; edge[k].b &lt;= query[j].b) &#123;            dsu::unite(edge[k]);          &#125;        &#125;        ans[query[j].id] = dsu::ok(query[j]);        dsu::undo();      &#125;      lastq = curq;    &#125;    for (int i = 1; i &lt;= q; i++) &#123;      puts(ans[i] ? \"Yes\" : \"No\");    &#125;  &#125;&#125;\n","dateCreated":"2018-04-16T14:41:51+08:00","dateModified":"2018-06-03T20:36:07+08:00","datePublished":"2018-04-16T14:41:51+08:00","description":"题意：给定一张 $n$ 个顶点 $m$ 条边的无向图 ( 顶点编号为 $1,2,\\ldots,n$)，每条边上带有权值。所有权值都可以分解成 $2^a \\times 3^b$ 的形式。\n现在有 $q$ 个询问，每次询问给定四个参数 $u$、$v$、$a$ 和 $b$，请你求出是否存在一条顶点 $u$ 到 $v$ 之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为 $2 ^ a \\times 3 ^ b$\n$1 \\le n,q \\le 50000、1 \\le m \\le 100000、0 \\le a,b \\le 10^9$","headline":"BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/16/HNOI2016-lcm/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/16/HNOI2016-lcm/","keywords":"blocking, dsu"}</script>
     <meta name="description" content="题意：给定一张 $n$ 个顶点 $m$ 条边的无向图 ( 顶点编号为 $1,2,\ldots,n$)，每条边上带有权值。所有权值都可以分解成 $2^a \times 3^b$ 的形式。 现在有 $q$ 个询问，每次询问给定四个参数 $u$、$v$、$a$ 和 $b$，请你求出是否存在一条顶点 $u$ 到 $v$ 之间的路径（不一定为简单路径），使得路径依次经过的边上的权值的最小公倍数为 $2 ^">
 <meta name="keywords" content="blocking,dsu">
 <meta property="og:type" content="blog">
@@ -169,6 +169,19 @@
                     </a>
             </li>
             
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/link"
+                            
+                            title="友链"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
         </ul>
         
             <ul class="sidebar-buttons">
@@ -179,6 +192,15 @@
                     
                         <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://wpa.qq.com/msgrd?uin=1285959811" target="_blank" rel="noopener" title="QQ">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -291,24 +313,24 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/&amp;title=BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -387,24 +409,24 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/&amp;title=BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -436,24 +458,24 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
         
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/&amp;title=BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
         
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/16/HNOI2016-lcm/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
         
@@ -493,7 +515,7 @@
 
         
         
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+<div id="cover" style="background-image:url('/assets/images/cover_new.jpg');"></div>
         <!--SCRIPTS-->
 <script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->

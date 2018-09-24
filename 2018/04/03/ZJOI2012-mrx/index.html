@@ -11,7 +11,7 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：在 r×c 的网格上有 n 个点。求至少包含一个点的矩形个数。\n$r, c \\leq 40000, n \\leq 100000$ 所有点随机生成。\n\n题解：无论是正向用单调栈查找矩形，还是反向查找不包含点的矩形复杂度都是 $O(rc)$ 的（谁想卡常吗？ 233）\n下面我们考虑这个问题的反面：不包含任何点的矩形个数（下面将这些点称为障碍点。）\n但是这道题的特殊性质在于障碍点个数较少，且随机。\n（然而对着这两个性质看并看不出来什么东西。。。）\n考虑这个问题的经典解法：\n考虑每一行作为矩形的下边界时对答案的贡献，显然我们只需要考虑每一列向上一直到障碍点的格子对答案的贡献。\n可以发现只需要确定左上和右上点，就可以唯一确定矩形。\n因为一对点 $(A, B)$ 合法当且仅当它们在同一行且与底边围成的矩形中不含障碍点。\n这时我们发现，可以将这些格子分成若干个小矩形（需要一张图来表述），则每一个小矩形内每一行的格子两两组合均合法。则对答案贡献为 ( 对于 w×h 的矩形 )$\\frac {w(w-1)h} {2}$.\n如果将相邻的矩形相连，可以发现它是个二叉树结构，且左右儿子为一个障碍点左右的矩形。\n因为障碍点随机，则可以证（脑）明（补）二叉树的树高均摊 $O(\\log n)$.\n那么我们只需要在向下扫描的时候维护这棵二叉树即可。\n考虑每次将枚举的边下移时，首先肯定将根矩形的高度 ++。\n然后对于这一行的每一个障碍点分别更新树结构，同时更新答案。每次更新是 $O(\\text{height})$ 的，所以总复杂度 $O(n \\log n)$\n考虑如何更新树结构，考虑所有包含障碍点所在列的矩形（显然形成了一条链），将它们拆成两个矩形，然后与父节点相连。\n这里可以发现，拆分后有一侧的矩形一定能够与其子矩形合并成一个大矩形，可以将它们合并。（不知道这不加能不能过。。）\n除此之外，还可以使用 Treap 来维护这样的矩形。\nCode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118int x[MAXN], y[MAXN], r, c, n;namespace solver1 &#123;  struct Node &#123;    int l, r, h;    Node *ls, *rs;    long long cal() &#123;      return (long long) (r - l + 1) * (r - l + 2) / 2 * h;    &#125;  &#125;tree[MAXN &lt;&lt; 1];  int tail = 1, root = 1;  std::queue &lt;int&gt; q;  int newnode() &#123;    if (q.empty()) &#123;      return ++tail;    &#125; else &#123;      int u = q.front(); q.pop(); return u;    &#125;  &#125;  void delnode(int u) &#123;    memset(tree + u, 0, sizeof (tree[u]));    q.push(u);  &#125;  long long tot = 0;  std::vector &lt;int&gt; pts[MAXN];  void update(int p) &#123;    int tmp = root;    std::vector &lt;int&gt; seq;    while (1) &#123;      seq.push_back(tmp);      if (tree[tmp].ls &amp;&amp; tree[tmp].ls -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].ls -&gt; r) &#123;        tmp = tree[tmp].ls - tree;      &#125; else if (tree[tmp].rs &amp;&amp; tree[tmp].rs -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].rs -&gt; r) &#123;        tmp = tree[tmp].rs - tree;      &#125; else &#123;        break;      &#125;    &#125;    Node *lp, *rp;    &#123;      int cur = seq[seq.size() - 1];      tot -= tree[cur].cal();      if (tree[cur].l &lt; p) &#123;         int nw = newnode();        tree[nw].ls = tree[cur].ls;        lp = tree + nw;        tree[nw].l = tree[cur].l, tree[nw].r = p - 1;        tree[nw].h = tree[cur].h;        tot += tree[nw].cal();      &#125; else &#123;        lp = 0;      &#125;      if (tree[cur].r &gt; p) &#123;        int nw = newnode();        tree[nw].rs = tree[cur].rs;        rp = tree + nw;        tree[nw].l = p + 1, tree[nw].r = tree[cur].r;        tree[nw].h = tree[cur].h;        tot += tree[nw].cal();      &#125; else &#123;        rp = 0;      &#125;      delnode(cur);    &#125;    for (int i = seq.size() - 2; i &gt;= 0; i--) &#123;      int cur = seq[i];      tot -= tree[cur].cal();      if (tree + seq[i + 1] == tree[cur].ls) &#123;        if (lp) &#123;           tot -= lp -&gt; cal();          lp -&gt; h += tree[cur].h;          tot += lp -&gt; cal();        &#125;        if (tree[cur].r &gt; p) &#123;          tree[cur].l = p + 1;          tree[cur].ls = rp;          tot += tree[cur].cal();          rp = tree + cur;        &#125; else &#123;          rp = 0;        &#125;      &#125; else &#123;        if (tree[cur].l &lt; p) &#123;          tree[cur].r = p - 1;          tree[cur].rs = lp;          tot += tree[cur].cal();          lp = tree + cur;        &#125; else &#123;          lp = 0;        &#125;        if (rp) &#123;          tot -= rp -&gt; cal();          rp -&gt; h += tree[cur].h;          tot += rp -&gt; cal();        &#125;      &#125;    &#125;    root = newnode();    tree[root].l = 1, tree[root].r = c;    tree[root].ls = lp;    tree[root].rs = rp;  &#125;  void main() &#123;    for (int i = 1; i &lt;= n; i++) &#123;      pts[x[i]].push_back(y[i]);    &#125;    long long ans = (long long) c * (c + 1) / 2 * r * (r + 1) / 2;    tree[root].l = 1, tree[root].r = c;    for (int i = 1; i &lt;= r; i++) &#123;      tree[root].h++;      tot += (long long) c * (c + 1) / 2;      for (int j = 0; j &lt; (int) pts[i].size(); j++) &#123;        update(pts[i][j]);      &#125;      ans -= tot;    &#125;    printf(\"%lld\\n\", ans);  &#125;&#125;\n","dateCreated":"2018-04-03T00:00:00+08:00","dateModified":"2018-06-03T20:36:06+08:00","datePublished":"2018-04-03T00:00:00+08:00","description":"题意：在 r×c 的网格上有 n 个点。求至少包含一个点的矩形个数。\n$r, c \\leq 40000, n \\leq 100000$ 所有点随机生成。","headline":"BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/","keywords":"data structures, treap"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：在 r×c 的网格上有 n 个点。求至少包含一个点的矩形个数。\n$r, c \\leq 40000, n \\leq 100000$ 所有点随机生成。\n\n题解：无论是正向用单调栈查找矩形，还是反向查找不包含点的矩形复杂度都是 $O(rc)$ 的（谁想卡常吗？ 233）\n下面我们考虑这个问题的反面：不包含任何点的矩形个数（下面将这些点称为障碍点。）\n但是这道题的特殊性质在于障碍点个数较少，且随机。\n（然而对着这两个性质看并看不出来什么东西。。。）\n考虑这个问题的经典解法：\n考虑每一行作为矩形的下边界时对答案的贡献，显然我们只需要考虑每一列向上一直到障碍点的格子对答案的贡献。\n可以发现只需要确定左上和右上点，就可以唯一确定矩形。\n因为一对点 $(A, B)$ 合法当且仅当它们在同一行且与底边围成的矩形中不含障碍点。\n这时我们发现，可以将这些格子分成若干个小矩形（需要一张图来表述），则每一个小矩形内每一行的格子两两组合均合法。则对答案贡献为 ( 对于 w×h 的矩形 )$\\frac {w(w-1)h} {2}$.\n如果将相邻的矩形相连，可以发现它是个二叉树结构，且左右儿子为一个障碍点左右的矩形。\n因为障碍点随机，则可以证（脑）明（补）二叉树的树高均摊 $O(\\log n)$.\n那么我们只需要在向下扫描的时候维护这棵二叉树即可。\n考虑每次将枚举的边下移时，首先肯定将根矩形的高度 ++。\n然后对于这一行的每一个障碍点分别更新树结构，同时更新答案。每次更新是 $O(\\text{height})$ 的，所以总复杂度 $O(n \\log n)$\n考虑如何更新树结构，考虑所有包含障碍点所在列的矩形（显然形成了一条链），将它们拆成两个矩形，然后与父节点相连。\n这里可以发现，拆分后有一侧的矩形一定能够与其子矩形合并成一个大矩形，可以将它们合并。（不知道这不加能不能过。。）\n除此之外，还可以使用 Treap 来维护这样的矩形。\nCode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118int x[MAXN], y[MAXN], r, c, n;namespace solver1 &#123;  struct Node &#123;    int l, r, h;    Node *ls, *rs;    long long cal() &#123;      return (long long) (r - l + 1) * (r - l + 2) / 2 * h;    &#125;  &#125;tree[MAXN &lt;&lt; 1];  int tail = 1, root = 1;  std::queue &lt;int&gt; q;  int newnode() &#123;    if (q.empty()) &#123;      return ++tail;    &#125; else &#123;      int u = q.front(); q.pop(); return u;    &#125;  &#125;  void delnode(int u) &#123;    memset(tree + u, 0, sizeof (tree[u]));    q.push(u);  &#125;  long long tot = 0;  std::vector &lt;int&gt; pts[MAXN];  void update(int p) &#123;    int tmp = root;    std::vector &lt;int&gt; seq;    while (1) &#123;      seq.push_back(tmp);      if (tree[tmp].ls &amp;&amp; tree[tmp].ls -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].ls -&gt; r) &#123;        tmp = tree[tmp].ls - tree;      &#125; else if (tree[tmp].rs &amp;&amp; tree[tmp].rs -&gt; l &lt;= p &amp;&amp; p &lt;= tree[tmp].rs -&gt; r) &#123;        tmp = tree[tmp].rs - tree;      &#125; else &#123;        break;      &#125;    &#125;    Node *lp, *rp;    &#123;      int cur = seq[seq.size() - 1];      tot -= tree[cur].cal();      if (tree[cur].l &lt; p) &#123;         int nw = newnode();        tree[nw].ls = tree[cur].ls;        lp = tree + nw;        tree[nw].l = tree[cur].l, tree[nw].r = p - 1;        tree[nw].h = tree[cur].h;        tot += tree[nw].cal();      &#125; else &#123;        lp = 0;      &#125;      if (tree[cur].r &gt; p) &#123;        int nw = newnode();        tree[nw].rs = tree[cur].rs;        rp = tree + nw;        tree[nw].l = p + 1, tree[nw].r = tree[cur].r;        tree[nw].h = tree[cur].h;        tot += tree[nw].cal();      &#125; else &#123;        rp = 0;      &#125;      delnode(cur);    &#125;    for (int i = seq.size() - 2; i &gt;= 0; i--) &#123;      int cur = seq[i];      tot -= tree[cur].cal();      if (tree + seq[i + 1] == tree[cur].ls) &#123;        if (lp) &#123;           tot -= lp -&gt; cal();          lp -&gt; h += tree[cur].h;          tot += lp -&gt; cal();        &#125;        if (tree[cur].r &gt; p) &#123;          tree[cur].l = p + 1;          tree[cur].ls = rp;          tot += tree[cur].cal();          rp = tree + cur;        &#125; else &#123;          rp = 0;        &#125;      &#125; else &#123;        if (tree[cur].l &lt; p) &#123;          tree[cur].r = p - 1;          tree[cur].rs = lp;          tot += tree[cur].cal();          lp = tree + cur;        &#125; else &#123;          lp = 0;        &#125;        if (rp) &#123;          tot -= rp -&gt; cal();          rp -&gt; h += tree[cur].h;          tot += rp -&gt; cal();        &#125;      &#125;    &#125;    root = newnode();    tree[root].l = 1, tree[root].r = c;    tree[root].ls = lp;    tree[root].rs = rp;  &#125;  void main() &#123;    for (int i = 1; i &lt;= n; i++) &#123;      pts[x[i]].push_back(y[i]);    &#125;    long long ans = (long long) c * (c + 1) / 2 * r * (r + 1) / 2;    tree[root].l = 1, tree[root].r = c;    for (int i = 1; i &lt;= r; i++) &#123;      tree[root].h++;      tot += (long long) c * (c + 1) / 2;      for (int j = 0; j &lt; (int) pts[i].size(); j++) &#123;        update(pts[i][j]);      &#125;      ans -= tot;    &#125;    printf(\"%lld\\n\", ans);  &#125;&#125;\n","dateCreated":"2018-04-03T00:00:00+08:00","dateModified":"2018-06-03T20:36:06+08:00","datePublished":"2018-04-03T00:00:00+08:00","description":"题意：在 r×c 的网格上有 n 个点。求至少包含一个点的矩形个数。\n$r, c \\leq 40000, n \\leq 100000$ 所有点随机生成。","headline":"BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/","keywords":"data structures, treap"}</script>
     <meta name="description" content="题意：在 r×c 的网格上有 n 个点。求至少包含一个点的矩形个数。 $r, c \leq 40000, n \leq 100000$ 所有点随机生成。">
 <meta name="keywords" content="data structures,treap">
 <meta property="og:type" content="blog">
@@ -169,6 +169,19 @@
                     </a>
             </li>
             
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/link"
+                            
+                            title="友链"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
         </ul>
         
             <ul class="sidebar-buttons">
@@ -179,6 +192,15 @@
                     
                         <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://wpa.qq.com/msgrd?uin=1285959811" target="_blank" rel="noopener" title="QQ">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -270,7 +292,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训 2016 】数据交互" aria-label="上一篇: UOJ268 - 【清华集训 2016 】数据交互">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/SDOI2014-LIS/" data-tooltip="BZOJ3532/LOJ2196/luogu3308 - 【 SDOI2014 】 LIS" aria-label="上一篇: BZOJ3532/LOJ2196/luogu3308 - 【 SDOI2014 】 LIS">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -297,24 +319,24 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/&amp;title=BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -366,7 +388,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训 2016 】数据交互" aria-label="上一篇: UOJ268 - 【清华集训 2016 】数据交互">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/SDOI2014-LIS/" data-tooltip="BZOJ3532/LOJ2196/luogu3308 - 【 SDOI2014 】 LIS" aria-label="上一篇: BZOJ3532/LOJ2196/luogu3308 - 【 SDOI2014 】 LIS">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -393,24 +415,24 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/&amp;title=BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -442,24 +464,24 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
         
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/&amp;title=BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
         
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/03/ZJOI2012-mrx/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
         
@@ -499,7 +521,7 @@
 
         
         
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+<div id="cover" style="background-image:url('/assets/images/cover_new.jpg');"></div>
         <!--SCRIPTS-->
 <script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->

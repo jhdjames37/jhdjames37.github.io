@@ -11,7 +11,7 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"THUWC2018 爆零记( 继续立 flag)。\n太菜了，去不了 WC。\n\nDay -O(1)收到了参赛须知，使用 Ubuntu（吼哇），使用（类似）IOI 赛制（可以不用打对拍了（吧？）），有 c++11。\nDay 0 (1.29)因为大雪封山，去程显得格外艰苦。先火车停运，换车后又因线路故障等了近两个小时。到长沙已经晚上十点半了。啥事没做，赶紧睡觉。\nDay 1早上前往雅礼洋湖。（导航成功 GG）\n之后报到，放行李，试机。没心情想题，看了评测系统，交了签到题就回寝室了。\n寝室设计鬼畜，马桶浴室二合一。没有网络。寝室里除了床只有一个铁柜子，真空旷。。。（听说这是今年刚建成的。。。简直比十几年前建的某学校宿舍还差）\n但是午餐好评，菜品丰盛（虽然有些比较辣），种类丰富的饮料（我一开始还没有找到果汁在哪里 233）\n下午一试。\nT1 还打算研究部分分，就突然推出一个贪心。（不会吧，这题是 NOIP 难度的？）抱着必 WA 的态度写了一发，交上去，WA，调了一发，pp。。。最后还是写了一个对拍。\nT2 看上去前两个点是个树形 DP，好像有些细节，不想打，先看 T3。\nT3 试图在 Trie 上搞，未果。试图乱搞，未果。最后打了前 50 分暴力，结果所有点 pp。。。考完出门问了一圈，似乎都写二分 +Hash，就我优化一位位扫的吗（$O(nq+n|B|)$）？\n回头看 T2，设 $f[u][c]$ 表示 u 子树中一种颜色为 col[u]另一种颜色为 c 的方案数，推了一发转移（似乎有点复杂，按子节点同色还是异色分类，还要处理 $f[u][col[u]]$）。然后发现不同颜色转移是 $O(1)$ 的，然后就拿到 50 分了。\n所以 100+50+50，也不错。\n话说 T2 同色转移写成启发式合并就能 A 了。（好像前两天我在 AtCoder 上看到过类似的。。。）\n晚上在阅 ( 黑 ) 览 ( 网 ) 室 ( 吧 )van 游戏看书。（论插头少人多网慢的后果）\nDay 2早上拍照 + 开营式。其它时间好像一直在颓览室不知道在干什么（其实是知道的）。\n下午蜜汁 Delay + The contest will be extended by +20 min, 差一点就要 Unrated/Semi-rated.\nT1 看上去像是离线倍增，但是没仔细想，反倒去想把区间建成树，然后发现会退化，然后就只能打裸旅行家预算。\nT2 一开始想怼着 30 分打，结果推不出来，只好打 10 分。\nT3 一看题面，AI 题（大码农题），不想打，一看材料，看不懂（我先开 CSS 的），弃疗，写了随机输出点 ,20 分（比前两题都高。。）。最后 30 分钟试图打一个 FAST，打萎了，只有 19 分。\nDay2 并不理想，15+10+20。比那些 100+ 的不知道菜到哪里去了。\n话说 T1 后来想了一下，只要将开头结尾去掉中间就能倍增了。T2 只要稍微改动一下 dp，就能过第四个点（毕竟是 $O(na_i^2)$ 的）。T3 只要认真写 FAST 就有 50~70 分。。。\n。。。\nDay3上午公布面试名单，成功进第二批（好像我的分数全是第一天贡献的。。。）。\n进休息室，要查身份证，成功和手机一起放在报告厅，然后就 ( 尴 ) 尬 ( 地被拍 ) 照了。。。\nOrbitingflea 拿着一本书（数学分析教材）还想看，zhangzy 突然开始 Alice&amp;Bob。。。\n看完 Alice&amp;Bob 就去面试。\n下面是面试过程：\nQ：做个 5 分钟的自我介绍。 A：。。。。。。（好像才挤了两分钟的牙膏）\nQ：做道数学题，将 24 个人排成 6 排，每排 5 个人，如何做到。A：（在纸上画）六边形。\nQ：给出随机函数 $rand(1,7)$，等概率生成 1..7 的整数，利用它来实现 $rand(1,10)$。A：。。。（回头问了一下，只需要让它变成无穷级数就可以了。。。）\nQ：读一段英文（讲的是有关树的定义方式的）。 A：……（还好，感觉发音似乎不大标准）\nQ：翻译一下第二段。 A：……（差点翻车）\n我回到报告厅的时候，已经讲到 D2T3 了。出题人把所有算法解释了一遍。还说“这次的题区分度没设好，还有待改进，但这种新形式很好”。（我：给 5 个小时就做这一道题目当然好啊。。。）\n接下来是科普环节（不讲算法）：\n首先是 BitCoin：这个主题挺有意思的，有经济学成分，也有计算机相关（公钥与私钥，区块链的结构，交易的结构，etc），全程在听，接受度未知。\n接着是神经网络：有点玄学，差点睡着。\n最后是鬼畜的清华提前上课计划：讲课人讲着讲着突然讲起系统启动原理，讲着讲着突然讲起松松松卡常原理。。。\n最后就是激动人心的发单环节。不出所料，成功拿到废纸。（想开一点，至少说明了这次考试排名还不错。。。\nzrf(Orbitingflea) 和 zzy(zhangzy) 成功（不出所料）地拿到无条件一本。Congratulations!\n\n以下为总结：\n\n听说比赛中有 $O(1)$ 道题被批判成了套路题。说明套路接触的不够深。。。\n似乎有题目有正解的想法但是没有往这个方向去想，反而转向另外的非正解方向。说明思考问题还需要有广度。\nDay2 的时间分配出现了一些问题，T3 根本没有仔细去想过，也就导致失去了最有可能拿到的分数。\n\n（但是，这次能拿到单子是因为 Day1 暴力（接近）打满了，拿到了 200 分大众分。有些 Day2 不错，Day1GG（T1 没打出来）的就连面试都进不去）\n【此处有彩蛋】\n\n停课停了这么久（换回一张废纸），想必寒假会很 happy（当然，除夕可是有 CF 的。。。）。\n—-THE END—-\njhdjames37\n2018.2\n","dateCreated":"2018-01-28T13:19:00+08:00","dateModified":"2018-06-03T20:35:51+08:00","datePublished":"2018-01-28T13:19:00+08:00","description":"THUWC2018 爆零记( 继续立 flag)。\n太菜了，去不了 WC。","headline":"THUWC 2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/01/28/THUWC-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/01/28/THUWC-2018/","keywords":"review"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"THUWC2018 爆零记( 继续立 flag)。\n太菜了，去不了 WC。\n\nDay -O(1)收到了参赛须知，使用 Ubuntu（吼哇），使用（类似）IOI 赛制（可以不用打对拍了（吧？）），有 c++11。\nDay 0 (1.29)因为大雪封山，去程显得格外艰苦。先火车停运，换车后又因线路故障等了近两个小时。到长沙已经晚上十点半了。啥事没做，赶紧睡觉。\nDay 1早上前往雅礼洋湖。（导航成功 GG）\n之后报到，放行李，试机。没心情想题，看了评测系统，交了签到题就回寝室了。\n寝室设计鬼畜，马桶浴室二合一。没有网络。寝室里除了床只有一个铁柜子，真空旷。。。（听说这是今年刚建成的。。。简直比十几年前建的某学校宿舍还差）\n但是午餐好评，菜品丰盛（虽然有些比较辣），种类丰富的饮料（我一开始还没有找到果汁在哪里 233）\n下午一试。\nT1 还打算研究部分分，就突然推出一个贪心。（不会吧，这题是 NOIP 难度的？）抱着必 WA 的态度写了一发，交上去，WA，调了一发，pp。。。最后还是写了一个对拍。\nT2 看上去前两个点是个树形 DP，好像有些细节，不想打，先看 T3。\nT3 试图在 Trie 上搞，未果。试图乱搞，未果。最后打了前 50 分暴力，结果所有点 pp。。。考完出门问了一圈，似乎都写二分 +Hash，就我优化一位位扫的吗（$O(nq+n|B|)$）？\n回头看 T2，设 $f[u][c]$ 表示 u 子树中一种颜色为 col[u]另一种颜色为 c 的方案数，推了一发转移（似乎有点复杂，按子节点同色还是异色分类，还要处理 $f[u][col[u]]$）。然后发现不同颜色转移是 $O(1)$ 的，然后就拿到 50 分了。\n所以 100+50+50，也不错。\n话说 T2 同色转移写成启发式合并就能 A 了。（好像前两天我在 AtCoder 上看到过类似的。。。）\n晚上在阅 ( 黑 ) 览 ( 网 ) 室 ( 吧 )van 游戏看书。（论插头少人多网慢的后果）\nDay 2早上拍照 + 开营式。其它时间好像一直在颓览室不知道在干什么（其实是知道的）。\n下午蜜汁 Delay + The contest will be extended by +20 min, 差一点就要 Unrated/Semi-rated.\nT1 看上去像是离线倍增，但是没仔细想，反倒去想把区间建成树，然后发现会退化，然后就只能打裸旅行家预算。\nT2 一开始想怼着 30 分打，结果推不出来，只好打 10 分。\nT3 一看题面，AI 题（大码农题），不想打，一看材料，看不懂（我先开 CSS 的），弃疗，写了随机输出点 ,20 分（比前两题都高。。）。最后 30 分钟试图打一个 FAST，打萎了，只有 19 分。\nDay2 并不理想，15+10+20。比那些 100+ 的不知道菜到哪里去了。\n话说 T1 后来想了一下，只要将开头结尾去掉中间就能倍增了。T2 只要稍微改动一下 dp，就能过第四个点（毕竟是 $O(na_i^2)$ 的）。T3 只要认真写 FAST 就有 50~70 分。。。\n。。。\nDay3上午公布面试名单，成功进第二批（好像我的分数全是第一天贡献的。。。）。\n进休息室，要查身份证，成功和手机一起放在报告厅，然后就 ( 尴 ) 尬 ( 地被拍 ) 照了。。。\nOrbitingflea 拿着一本书（数学分析教材）还想看，zhangzy 突然开始 Alice&amp;Bob。。。\n看完 Alice&amp;Bob 就去面试。\n下面是面试过程：\nQ：做个 5 分钟的自我介绍。 A：。。。。。。（好像才挤了两分钟的牙膏）\nQ：做道数学题，将 24 个人排成 6 排，每排 5 个人，如何做到。A：（在纸上画）六边形。\nQ：给出随机函数 $rand(1,7)$，等概率生成 1..7 的整数，利用它来实现 $rand(1,10)$。A：。。。（回头问了一下，只需要让它变成无穷级数就可以了。。。）\nQ：读一段英文（讲的是有关树的定义方式的）。 A：……（还好，感觉发音似乎不大标准）\nQ：翻译一下第二段。 A：……（差点翻车）\n我回到报告厅的时候，已经讲到 D2T3 了。出题人把所有算法解释了一遍。还说“这次的题区分度没设好，还有待改进，但这种新形式很好”。（我：给 5 个小时就做这一道题目当然好啊。。。）\n接下来是科普环节（不讲算法）：\n首先是 BitCoin：这个主题挺有意思的，有经济学成分，也有计算机相关（公钥与私钥，区块链的结构，交易的结构，etc），全程在听，接受度未知。\n接着是神经网络：有点玄学，差点睡着。\n最后是鬼畜的清华提前上课计划：讲课人讲着讲着突然讲起系统启动原理，讲着讲着突然讲起松松松卡常原理。。。\n最后就是激动人心的发单环节。不出所料，成功拿到废纸。（想开一点，至少说明了这次考试排名还不错。。。\nzrf(Orbitingflea) 和 zzy(zhangzy) 成功（不出所料）地拿到无条件一本。Congratulations!\n\n以下为总结：\n\n听说比赛中有 $O(1)$ 道题被批判成了套路题。说明套路接触的不够深。。。\n似乎有题目有正解的想法但是没有往这个方向去想，反而转向另外的非正解方向。说明思考问题还需要有广度。\nDay2 的时间分配出现了一些问题，T3 根本没有仔细去想过，也就导致失去了最有可能拿到的分数。\n\n（但是，这次能拿到单子是因为 Day1 暴力（接近）打满了，拿到了 200 分大众分。有些 Day2 不错，Day1GG（T1 没打出来）的就连面试都进不去）\n【此处有彩蛋】\n\n停课停了这么久（换回一张废纸），想必寒假会很 happy（当然，除夕可是有 CF 的。。。）。\n—-THE END—-\njhdjames37\n2018.2\n","dateCreated":"2018-01-28T13:19:00+08:00","dateModified":"2018-06-03T20:35:51+08:00","datePublished":"2018-01-28T13:19:00+08:00","description":"THUWC2018 爆零记( 继续立 flag)。\n太菜了，去不了 WC。","headline":"THUWC 2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/01/28/THUWC-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/01/28/THUWC-2018/","keywords":"review"}</script>
     <meta name="description" content="THUWC2018 爆零记( 继续立 flag)。 太菜了，去不了 WC。">
 <meta name="keywords" content="review">
 <meta property="og:type" content="blog">
@@ -169,6 +169,19 @@
                     </a>
             </li>
             
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/link"
+                            
+                            title="友链"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
         </ul>
         
             <ul class="sidebar-buttons">
@@ -179,6 +192,15 @@
                     
                         <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://wpa.qq.com/msgrd?uin=1285959811" target="_blank" rel="noopener" title="QQ">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
                     </a>
             </li>
             
@@ -382,24 +404,24 @@ MITdalao 们的讲课。
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/01/28/THUWC-2018/&amp;title=THUWC 2018" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -478,24 +500,24 @@ MITdalao 们的讲课。
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/01/28/THUWC-2018/&amp;title=THUWC 2018" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/01/28/THUWC-2018/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -527,24 +549,24 @@ MITdalao 们的讲课。
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=jhdjames37.github.io/2018/01/28/THUWC-2018/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/01/28/THUWC-2018/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
         
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=jhdjames37.github.io/2018/01/28/THUWC-2018/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/01/28/THUWC-2018/&amp;title=THUWC 2018">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
         
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=jhdjames37.github.io/2018/01/28/THUWC-2018/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/01/28/THUWC-2018/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
         
@@ -584,7 +606,7 @@ MITdalao 们的讲课。
 
         
         
-<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+<div id="cover" style="background-image:url('/assets/images/cover_new.jpg');"></div>
         <!--SCRIPTS-->
 <script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
 <!--SCRIPTS END-->
