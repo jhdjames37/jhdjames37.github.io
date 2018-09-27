@@ -244,3 +244,23 @@ C 拆环后线段树最大子段和。
 D Key Observation: 求出来的 d 数组根据大小关系形成了树结构。DSU 解法。
 
 E 类二分图转成两侧分开取 $\max$。
+
+## Codeforces Round #295
+
+前 1h 一直在卡题
+
+A 略
+
+B 看清题意（不是拓扑排序！）
+
+C 计算每个子段的贡献次数，长度相同的放一起计算，注意特殊处理两端的段。
+
+D （这题被搬过）把赋值变成加，把加变成乘。注意细节。
+
+E （个人感觉比 D 简单）对于每个连通块，建出 DFS 树，如果有一条树边被两条非树边覆盖，那么一定存在解，否则无解（此时图每个点双都是个环，显然无解）。
+
+设两条非树边分别为 $(u_1, v_1), (u_2, v_2) (\text{dep}_{u_i} < \text{dep}_{v_i}, \text{dep}_{u_1} < \text{dep}_{u_2})$，设 $l = \text{lca}(v_1, v_2)$。则存在三条路径 $u_2 \rightarrow l$， $u_2 \rightarrow u_1 \rightarrow v_2 \rightarrow l$， $u_2 \rightarrow v_2 \rightarrow l$
+
+~~（假装这是图）~~ (加粗的为树边)
+
+![](/images/CF521E.png)
