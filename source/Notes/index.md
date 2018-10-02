@@ -8,6 +8,14 @@ mathjax: true
 
 ## 一些记录
 
+2018.10.2: 关于多地部署：
+
+由于直接使用 `npm install` 会出锅，将能够成功渲染的 `nodes_modules` 的文件夹备份：
+
+> 链接: https://pan.baidu.com/s/1EwwpW_gvqsQXm468Fjzvwg 提取码: yhx7
+
+2018.9.23-24: 增加了 gitment，添加友链入口，更新背景（依然来自 Pilotseye）
+
 2018.6.3: 看到了一些[关于中文排版的问题的建议标准](https://mazhuang.org/wiki/chinese-copywriting-guidelines/)，要将所有的文章重新排版。
 
 2018.4.15 添加标题样式说明。
