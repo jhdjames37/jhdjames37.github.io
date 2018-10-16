@@ -15,7 +15,9 @@ tags:
 
 <!--- more --->
 
-## Codeforces Round #282
+<!-- toc -->
+
+## [Codeforces Round #282](https://codeforces.com/contest/494)
 
 A, B 略
 
@@ -34,7 +36,7 @@ E 根据题解上的证明（比较复杂，先咕着**TODO**），每个格子 
 
 另外，因为只需要知道数量的奇偶性，所以可以压位放在一个线段树上搞。
 
-## Codeforces Round #283
+## [Codeforces Round #283](https://codeforces.com/contest/497)
 
 VP 的时候没什么差错，只是计算几何写翔了。
 
@@ -48,7 +50,7 @@ D 计算几何。利用相对运动来简化判定的形式（不仅要固定一
 
 E 用数位 DP 的思想，逐位递推。矩阵快速幂优化。
 
-## Codeforces Round #284
+## [Codeforces Round #284](https://codeforces.com/contest/498)
 
 (著名的 dreamoon & sorry_dreamoon 场)
 
@@ -64,7 +66,7 @@ D 暴力建线段树，维护 $T \bmod 60$ 下的 DP 值
 
 E 矩阵优化状压 DP。
 
-## Goodbye 2014
+## [Goodbye 2014](https://codeforces.com/contest/500)
 
 这场 FST 了一题。因为边界判错了。
 
@@ -80,7 +82,7 @@ F O(调和级数) + 关键点 / 扫描线 + 双栈队列
 
 G 数论 + 树论神题（详细讲一下最后几步细节的推导, TODO）
 
-## Codeforces Round #285
+## [Codeforces Round #285](https://codeforces.com/contest/504)
 
 这一场手速不够，而且 C 题因为一个式子打错 FST 了（居然过了 39 个点），D 题算错转二进制的复杂度然后在死命卡 bitset。。。
 
@@ -94,7 +96,7 @@ D 线性基裸题，高精度转二进制（实际是 $O(\frac{n^2}{w}) 的$，�
 
 E 轻重链剖分 + SA + 在 $\log$ 条链上扫 / 整体二分（主要是为了 $O(n)$ 求出长度为 $\text{mid}$ 的位置）+ hash + 卡常
 
-## Codeforces Round #286
+## [Codeforces Round #286](https://codeforces.com/contest/506)
 
 这场没有 VP 记录，因为爆零了（A题多了个 $\log$ 然后就死活过不去。。。）
 
@@ -127,7 +129,7 @@ E 自动机 DP 上套矩阵（好像可以推式子）
 
 再来看最近的一场
 
-## Codeforces Round #503
+## [Codeforces Round #503](https://codeforces.com/contest/1019)
 
 两（3？）题手速场（话说 C 题 pp 比 D 多，把我带去做 C 了。。。最后只剩 7 个没 FST，中间好像还有乱搞）
 
@@ -143,7 +145,7 @@ E 边分 + 凸包合并 （写点分容易变成 3 个 $\log$ 或者在 $m$ 上�
 
 Let's continue.
 
-## Codeforces Round #290
+## [Codeforces Round #290](https://codeforces.com/contest/512)
 
 真好玩，居然最大的数据范围 $n \le 1000$。
 
@@ -169,7 +171,7 @@ E 构造题。~~（题解的转对偶图变成二叉树真神）~~
 
 ~~（前面的坑要不不填了）~~
 
-## Rockethon 2015
+## [Rockethon 2015](https://codeforces.com/contest/513)
 
 ACM 赛制 + 部分分。再次最后半小时开始 rush 最后没有调完。。。
 
@@ -229,7 +231,7 @@ $f_{t, i, j}(i < j)$ 表示在 $t$ 时刻，$a_i > a_j$ 的概率。转移枚举
 ~~(码得好累，推得好累)~~
 ~~(我已经不会解不等式了，移项各种不变号，式子推了将近一天才推对)~~
 
-## Codeforces Round #292 
+## [Codeforces Round #292](https://codeforces.com/contest/516)
 
 (又是 dreamoon 和 sorry_dreamoon)
 
@@ -245,7 +247,7 @@ D Key Observation: 求出来的 d 数组根据大小关系形成了树结构。D
 
 E 类二分图转成两侧分开取 $\max$。
 
-## Codeforces Round #295
+## [Codeforces Round #295](https://codeforces.com/contest/521)
 
 前 1h 一直在卡题
 
@@ -266,7 +268,7 @@ E （个人感觉比 D 简单）对于每个连通块，建出 DFS 树，如果�
 ![](/images/CF521E.png)
 
 
-## Codeforces Round #296
+## [Codeforces Round #296](https://codeforces.com/contest/528)
 
 A 略
 
@@ -284,7 +286,7 @@ E std 容斥 + 二维数点。然而被 [comment](https://codeforces.com/blog/en
 
 新近一场，打得很菜。
 
-## Codeforces Round #513
+## [Codeforces Round #513](https://codeforces.com/contest/1060)
 
 A, B, C 略（B 题直接贪心边界各种判错，丢了好多分）
 
@@ -308,7 +310,7 @@ H 我看到了两种构造。（首先利用`慢速乘`的原理构造乘法，�
 
 ---
 
-## Codeforces Round #516
+## [Codeforces Round #516](https://codeforces.com/contest/1063)
 
 手速不够，网炸 + 前面不知道在想些什么。
 
