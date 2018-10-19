@@ -327,3 +327,6 @@ void F::g() {
 不知道是 bug 还是 feature。
 
 （听 zrf 说在一定的下标范围内，`-fsanitize` 也不会 RE）
+
+
+UPD: 在 14.04（NOI Linux），16.04，18.04 下均有此问题，另外 `clang++` （version： `clang version 6.0.0-1ubuntu2`）也有此问题。。。
