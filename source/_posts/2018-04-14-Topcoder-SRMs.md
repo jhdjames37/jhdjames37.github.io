@@ -332,3 +332,19 @@ void F::g() {
 UPD: 在 14.04（NOI Linux），16.04，18.04 下均有此问题，另外 `clang++` （version： `clang version 6.0.0-1ubuntu2`）也有此问题。。。
 
 然而在 Mac 的 g++ 上就神奇 RE 了。。。
+
+---
+
+## SRM 564
+
+### Easy - KnightCircuit2
+
+小规模暴力，大规模直接输出 $w \times h$。
+
+### Medium - AlternateColors2
+
+分类讨论。
+
+我先按照 $r, g, b$ 的大小关系，然后再按照 $k$ 在三段中的哪一段分，一共有六类，每一类有若干个不等式，推到爆炸。
+
+但如果先按照三段分类，那么会少几种情况。（把式子合并之后还可以 $O(1)$ 做。） 
