@@ -1,0 +1,639 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>牛客出题（锅）记 - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"作为 Wannafly Round 27 的三位出锅人（czx，zzy，我）之一（先甩锅，我只出了 A，E），在这里讲一下出题的心路历程。\n（讲道理 Wannafly 25、26、27 一共有 15 / 18 道题是 xj 出题人的。。。）\n\n\n事情要从暑假开始。\nczx 收到了网友问他的一个问题（大概就是 E 题去掉恰好 $n$ 个数的限制），然后我们俩一起看错题面，看成了现在的题面。原题的构造比现在的题目要松很多，于是 czx 随便给了一个构造水过去了。然后我们就开始考虑新题。\n一开始我们并不知道一定在 $k \\le \\frac{n(n - 1)}{2}$ 时有解，然后我的思考历程和我题解中写的一样，总之是做出来了。然后本来是想投给机房里出 CF 题的，然后他们好像不缺题了（但是也被 CF 管理员咕了。。。）。然后就屯着了。\n\n后来很久之后，czx 突然找到我，说想出一套题，zzy 和他各有一道 hard，然后把我拉上，加上了那道题。\n（好像他们当时想出的两道题都被毙了。。。）\n然后我顺便把 easy 出了：写个 checker。\n\n又过了很久，czx 说要到了一场比赛（本来是初赛前一天，后来往后咕了一场）。这时候 zzy 又加强了一道题，并决定把它放在 F（就是现在的 F），我的题还是 D，结果 czx 的 E 本来也是个数据结构，然后就有两道数据结构了。。。\n然后 zzy 把 C 造了。\n然后我花了一个晚上 + 一个下午把两题的 std 和数据给造完了。（其实挺好造的，但讲道理我造得还蛮认真的。。。）\n\n\n当时的情况是 B C D (E) F 造完了，czx 想改 E。\n把题目丢给 walker（coordinator），他被 C 打自闭了，说丢到 D。然后 czx 的 E 自然而然咕掉了。然后把我的 easy 丢 A 了。\n然后就变成了 A D(zzy) D(我) F。\n然后 czx 造完了道 B 之后突然说丢一道数独题放 C 吧。\n我们自己说题目是 A B D D D F。walker 说把 C 换掉吧。\n然后 czx 自闭了。幸好他又看错一道 NOIP 模拟题，正好把看错的题意放 C。\n然后每道题就确定下来了。\n(A - 我，B、C - czx，D - zzy，E - 我，F - zzy)\n\n我和 zzy 很早就把东西准备好了，czx 因为临时造题，开始 rush，B 题是个仙人掌题，数据不好造。C 题他表示懒得写 std，把锅丢给了我。（他以为很长，结果我十几分钟写完拍上）\n然后又开始整合三个人的资料。zzy 很早前提议狙击滑稽 zzq（白[数据删除]法师），然后就搞了 {灰，紫，蓝，绿，黄，红}[数据删除]法师（牛客的 rating 颜色），加上白正好七彩[数据删除]法师。\nczx 一再确认牛客的题面格式。（做过题的都知道，它那里的排版并不美观，因为它用的不是 markdown + mathjax，而是纯文本 + 图片公式。。。）然后把我认真排版的数学公式一个一个删去（我看他删的时候真的好难受。。。），变成纯文本。\n\n然后是 dls 验题。dls 上来先说这个 F 好神仙呀。。。\n然后发现 B 题出锅了。\n我们盯了若干遍 std，都没有发现问题。我建议写个 validator，结果不但发现 generator 的锅，而且发现我的 validator 写假了。\n验 D 题，dls 操标算，然后发现 zzy 写的在牛客上 T 了。。。\n验我的 E 的时候，dls 说直接看 checker，然后看到我在读选手输出的空格时表示并不一定需要（我：我只是想卡掉分 $n$ 行输出的人。。。）\n验到 F 的时候，离比赛开始没多少时间了，dls 表示不验了，自闭了。。。（我们在机房里都说 zzy 清华集训要被 dls 狙了）\n\n比赛开始前我们看题面，发现所有的 [数据删除]法师全部变成了魔法师。。。\n（为什么我去安利大家做题大家都不敢做呀。。。）\n比赛开始，照例机房开始轰炸答疑区，结果 app 真把答疑区轰出 bug 了。。。\n2 分钟后，有人交 A，有 AC 有 WA（我 A 题就那么几个 FST 点，开始没多久就都有人踩到了）。然后看到 zzq 过了 A 题，机房一阵欢呼。\n5 分钟 zzq 过 B，之后陆续有人过 B，mls 也来打了（是被 dls 拉过来的？），A 题许多人 FST。B 题样例写挂了，修了个小锅。\n9 分钟 zzq 过 C，大家惊叹他的手速。\n然后一会儿平静，有人交 D 被卡常了。\n22 分钟 zzq 过 D，感到好害怕，感觉要被 A 穿。（dreamoon 交 A WA，大家纷纷看他的变量名），大家给我的 E 设了小目标：撑到 45 分钟。\n过了很久，E、F 只有人交乱搞。有人被 A 打自闭了（多清真的题，怎么就自闭了。。。），一片 A 题写假。\n45 分钟过去了，少部分人过 D（一些人被卡常），无人过 E，我们暗自庆幸。\n（我在看代码的时候，突然发现我们 B 题少判 $n = 1$ 的情况，幸好我答疑的时候回复的是 $n \\ge 2$）\n1h20min，突然有人 E 过了（标算），一分钟后 zzq 过 E（类似标算的东西）。调查了一下，一血是隔壁的某人，但他不愿透露细节。。。\n接下来一小时又有几个人过 E（感觉难度挺靠谱的），D 题许多人卡常成功。有人被 C 卡住了。\nczx 去隔壁提示了一下 E 题，然后大家都过了。。。\n（讲道理 lsk 验的时候花了半小时左右就得到了标算。。。）\nczx 说 dreamoon 构造题很强，事实上也如此。\n最后无人过 F。\n\n然而，还是出锅了。\n\n（本来 czx C 题数据也是全随的，在我的怂恿下加了链和菊花，还真把人给卡了。。。）\n另外，zzq 对 F 题的评价\n\n\n以下为 E 题题解。\n首先显然的一点，当 $k &gt; \\frac{n(n - 1)}{2}$ 时无解。\n而当 $k \\le \\frac{n(n - 1)}{2}$ 时，均存在解。\n我们可以首先考虑 $k = \\frac{n(n - 1)}{2} - 1$ 时的做法。此时只有一对数之和不是完全平方数。\n假设存在 $a, b$，满足 $a + a$, $a + b$ 均为完全平方数，而 $b + b$ 不是完全平方数（$a = 2, b = 7$ 就是一组解）。那么我们可以发现一个有 $n - 2$ 个 $a$ 和 $2$ 个 $b$ 的序列为合法序列。\n对于原题，采用类似的思路，我们首先可以找到最小的 $m &gt; 0$，满足 $\\frac{m(m - 1)}{2} \\ge k$。显然 $m \\le n$。我们可以解决长度为 $m$ 的问题，然后在最后添加上 $n - m$ 个不会影响答案的数。\n此时我们需要有 $\\frac{m(m - 1)}{2} - k$ 对数之和不是完全平方数。\n我们可以找到 $a, b, c$ 满足 $a + a$, $b + b$, $a + b$, $a + c$ 为完全平方数，而 $b + c$ 不是。则我们只需要放 $1$ 个 $c$，$\\frac{m(m - 1)}{2} - k$ 个 $b$，$m - (\\frac{m(m - 1)}{2} - k) - 1$ 个 $a$ 即可。\n接下来我们只需要证明 $\\frac{m(m - 1)}{2} - k &lt; m$：\n由 $m$ 定义得 $\\frac{(m - 1)(m - 2)}{2} \\le k$。\n所以 $\\frac{m(m - 1)}{2} - k \\le \\frac{m(m - 1)}{2} - \\frac{(m - 1)(m - 2)}{2} = \\frac{(m - 1)(m - (m - 2))}{2} = m - 1 &lt; m$。\n$a, b, c$ 可以通过本机暴力寻找，$a = 2, b = 98, c = 7$ 就是一组解。\n\n感觉出题还是很爽的，特别是实现了期望得到的效果的时候（但我也没想到 A 题这么多人 FST）。\n吸金最开心\n","dateCreated":"2018-10-27T21:41:00+08:00","dateModified":"2018-10-27T23:17:57+08:00","datePublished":"2018-10-27T21:41:00+08:00","description":"作为 Wannafly Round 27 的三位出锅人（czx，zzy，我）之一（先甩锅，我只出了 A，E），在这里讲一下出题的心路历程。\n（讲道理 Wannafly 25、26、27 一共有 15 / 18 道题是 xj 出题人的。。。）","headline":"牛客出题（锅）记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/10/27/Nowcoder-27/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/10/27/Nowcoder-27/","keywords":"problem-setting"}</script>
+    <meta name="description" content="作为 Wannafly Round 27 的三位出锅人（czx，zzy，我）之一（先甩锅，我只出了 A，E），在这里讲一下出题的心路历程。 （讲道理 Wannafly 25、26、27 一共有 15 / 18 道题是 xj 出题人的。。。）">
+<meta name="keywords" content="problem-setting">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="牛客出题（锅）记">
+<meta property="og:url" content="jhdjames37.github.io/2018/10/27/Nowcoder-27/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="作为 Wannafly Round 27 的三位出锅人（czx，zzy，我）之一（先甩锅，我只出了 A，E），在这里讲一下出题的心路历程。 （讲道理 Wannafly 25、26、27 一共有 15 / 18 道题是 xj 出题人的。。。）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/images/nowcoder27-1.png">
+<meta property="og:image" content="/images/nowcoder27-2.png">
+<meta property="og:image" content="/images/nowcoder27-3.png">
+<meta property="og:image" content="/images/nowcoder27-4.png">
+<meta property="og:updated_time" content="2018-10-27T15:17:57.487Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="牛客出题（锅）记">
+<meta name="twitter:description" content="作为 Wannafly Round 27 的三位出锅人（czx，zzy，我）之一（先甩锅，我只出了 A，E），在这里讲一下出题的心路历程。 （讲道理 Wannafly 25、26、27 一共有 15 / 18 道题是 xj 出题人的。。。）">
+<meta name="twitter:image" content="/images/nowcoder27-1.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/link"
+                            
+                            title="友链"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://wpa.qq.com/msgrd?uin=1285959811" target="_blank" rel="noopener" title="QQ">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            牛客出题（锅）记
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-10-27T21:41:00+08:00">
+	
+		    10月 27, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solutions/">solutions</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>作为 <a href="https://www.nowcoder.com/acm/contest/215" target="_blank" rel="noopener">Wannafly Round 27</a> 的三位出锅人（czx，zzy，我）之一（先甩锅，我只出了 A，E），在这里讲一下出题的心路历程。</p>
+<p>（讲道理 Wannafly 25、26、27 一共有 15 / 18 道题是 xj 出题人的。。。）</p>
+<a id="more"></a>
+<hr>
+<p>事情要从暑假开始。</p>
+<p>czx 收到了网友问他的一个问题（大概就是 E 题去掉恰好 $n$ 个数的限制），然后我们俩一起看错题面，看成了现在的题面。原题的构造比现在的题目要松很多，于是 czx 随便给了一个构造水过去了。然后我们就开始考虑新题。</p>
+<p>一开始我们并不知道一定在 $k \le \frac{n(n - 1)}{2}$ 时有解，然后我的思考历程和我题解中写的一样，总之是做出来了。然后本来是想投给机房里出 CF 题的，然后他们好像不缺题了（但是也被 CF 管理员咕了。。。）。然后就屯着了。</p>
+<hr>
+<p>后来很久之后，czx 突然找到我，说想出一套题，zzy 和他各有一道 hard，然后把我拉上，加上了那道题。</p>
+<p>（好像他们当时想出的两道题都被毙了。。。）</p>
+<p>然后我顺便把 easy 出了：写个 checker。</p>
+<hr>
+<p>又过了很久，czx 说要到了一场比赛（本来是初赛前一天，后来往后咕了一场）。这时候 zzy 又加强了一道题，并决定把它放在 F（就是现在的 F），我的题还是 D，结果 czx 的 E 本来也是个数据结构，然后就有两道数据结构了。。。</p>
+<p>然后 zzy 把 C 造了。</p>
+<p>然后我花了一个晚上 + 一个下午把两题的 std 和数据给造完了。（其实挺好造的，<del>但讲道理我造得还蛮认真的。。。</del>）</p>
+<p><img src="/images/nowcoder27-1.png" alt=""></p>
+<hr>
+<p>当时的情况是 B C D (E) F 造完了，czx 想改 E。</p>
+<p>把题目丢给 walker（coordinator），他被 C 打自闭了，说丢到 D。然后 czx 的 E 自然而然咕掉了。然后把我的 easy 丢 A 了。</p>
+<p>然后就变成了 A D(zzy) D(我) F。</p>
+<p>然后 czx 造完了道 B 之后突然说丢一道数独题放 C 吧。</p>
+<p>我们自己说题目是 A B D D D F。walker 说把 C 换掉吧。</p>
+<p>然后 czx 自闭了。幸好他又看错一道 NOIP 模拟题，正好把看错的题意放 C。</p>
+<p>然后每道题就确定下来了。</p>
+<p>(A - 我，B、C - czx，D - zzy，E - 我，F - zzy)</p>
+<hr>
+<p>我和 zzy 很早就把东西准备好了，czx 因为临时造题，开始 rush，B 题是个仙人掌题，数据不好造。C 题他表示懒得写 std，把锅丢给了我。（他以为很长，结果我十几分钟写完拍上）</p>
+<p>然后又开始整合三个人的资料。zzy 很早前提议<del>狙击</del>滑稽 zzq（白[数据删除]法师），然后就搞了 {灰，紫，蓝，绿，黄，红}[数据删除]法师（牛客的 rating 颜色），加上白正好七彩[数据删除]法师。</p>
+<p>czx 一再确认牛客的题面格式。（做过题的都知道，它那里的排版并不美观，因为它用的不是 markdown + mathjax，而是纯文本 + 图片公式。。。）然后把我认真排版的数学公式一个一个删去（我看他删的时候真的好难受。。。），变成纯文本。</p>
+<hr>
+<p>然后是 dls 验题。dls 上来先说这个 F 好神仙呀。。。</p>
+<p>然后发现 B 题出锅了。</p>
+<p>我们盯了若干遍 std，都没有发现问题。我建议写个 validator，结果不但发现 generator 的锅，而且发现我的 validator 写假了。</p>
+<p>验 D 题，dls 操标算，然后发现 zzy 写的在牛客上 T 了。。。</p>
+<p>验我的 E 的时候，dls 说直接看 checker，然后看到我在读选手输出的空格时表示并不一定需要（我：我只是想卡掉分 $n$ 行输出的人。。。）</p>
+<p>验到 F 的时候，离比赛开始没多少时间了，dls 表示不验了，自闭了。。。（我们在机房里都说 zzy 清华集训要被 dls 狙了）</p>
+<hr>
+<p>比赛开始前我们看题面，发现所有的 [数据删除]法师全部变成了魔法师。。。</p>
+<p>（为什么我去安利大家做题大家都不敢做呀。。。）</p>
+<p>比赛开始，照例机房开始轰炸答疑区，结果 app 真把答疑区轰出 bug 了。。。</p>
+<p>2 分钟后，有人交 A，有 AC 有 WA（我 A 题就那么几个 FST 点，开始没多久就都有人踩到了）。然后看到 zzq 过了 A 题，机房一阵欢呼。</p>
+<p>5 分钟 zzq 过 B，之后陆续有人过 B，mls 也来打了（<del>是被 dls 拉过来的？</del>），A 题许多人 FST。B 题样例写挂了，修了个小锅。</p>
+<p>9 分钟 zzq 过 C，大家惊叹他的手速。</p>
+<p>然后一会儿平静，有人交 D 被卡常了。</p>
+<p>22 分钟 zzq 过 D，感到好害怕，感觉要被 A 穿。（<del>dreamoon 交 A WA，大家纷纷看他的变量名</del>），大家给我的 E 设了小目标：撑到 45 分钟。</p>
+<p>过了很久，E、F 只有人交乱搞。<del>有人被 A 打自闭了（多清真的题，怎么就自闭了。。。），</del>一片 A 题写假。</p>
+<p>45 分钟过去了，少部分人过 D（一些人被卡常），无人过 E，我们暗自庆幸。</p>
+<p>（我在看代码的时候，突然发现我们 B 题少判 $n = 1$ 的情况，幸好我答疑的时候回复的是 $n \ge 2$）</p>
+<p>1h20min，突然有人 E 过了（标算），一分钟后 zzq 过 E（类似标算的东西）。调查了一下，一血是隔壁的某人，但他不愿透露细节。。。</p>
+<p>接下来一小时又有几个人过 E（<del>感觉难度挺靠谱的</del>），D 题许多人卡常成功。有人被 C 卡住了。</p>
+<p>czx 去隔壁提示了一下 E 题，然后大家都过了。。。</p>
+<p>（讲道理 lsk 验的时候花了半小时左右就得到了标算。。。）</p>
+<p>czx 说 dreamoon 构造题很强，事实上也如此。</p>
+<p>最后无人过 F。</p>
+<hr>
+<p>然而，还是<a href="[https://www.nowcoder.com/discuss/136727?type=101&amp;order=0&amp;pos=1&amp;page=0]">出锅了</a>。</p>
+<p><img src="/images/nowcoder27-2.png" alt="pot"></p>
+<p>（本来 czx C 题数据也是全随的，在我的怂恿下加了链和菊花，还真把人给卡了。。。）</p>
+<p>另外，zzq 对 F 题的<a href="https://www.nowcoder.com/acm/contest/view-submission?submissionId=36660237" target="_blank" rel="noopener">评价</a></p>
+<p><img src="/images/nowcoder27-3.png" alt=""><br><img src="/images/nowcoder27-4.png" alt=""></p>
+<hr>
+<p>以下为 E 题题解。</p>
+<p>首先显然的一点，当 $k &gt; \frac{n(n - 1)}{2}$ 时无解。</p>
+<p>而当 $k \le \frac{n(n - 1)}{2}$ 时，均存在解。</p>
+<p>我们可以首先考虑 $k = \frac{n(n - 1)}{2} - 1$ 时的做法。此时只有一对数之和不是完全平方数。</p>
+<p>假设存在 $a, b$，满足 $a + a$, $a + b$ 均为完全平方数，而 $b + b$ 不是完全平方数（$a = 2, b = 7$ 就是一组解）。那么我们可以发现一个有 $n - 2$ 个 $a$ 和 $2$ 个 $b$ 的序列为合法序列。</p>
+<p>对于原题，采用类似的思路，我们首先可以找到最小的 $m &gt; 0$，满足 $\frac{m(m - 1)}{2} \ge k$。显然 $m \le n$。我们可以解决长度为 $m$ 的问题，然后在最后添加上 $n - m$ 个不会影响答案的数。</p>
+<p>此时我们需要有 $\frac{m(m - 1)}{2} - k$ 对数之和不是完全平方数。</p>
+<p>我们可以找到 $a, b, c$ 满足 $a + a$, $b + b$, $a + b$, $a + c$ 为完全平方数，而 $b + c$ 不是。则我们只需要放 $1$ 个 $c$，$\frac{m(m - 1)}{2} - k$ 个 $b$，$m - (\frac{m(m - 1)}{2} - k) - 1$ 个 $a$ 即可。</p>
+<p>接下来我们只需要证明 $\frac{m(m - 1)}{2} - k &lt; m$：</p>
+<p>由 $m$ 定义得 $\frac{(m - 1)(m - 2)}{2} \le k$。</p>
+<p>所以 $\frac{m(m - 1)}{2} - k \le \frac{m(m - 1)}{2} - \frac{(m - 1)(m - 2)}{2} = \frac{(m - 1)(m - (m - 2))}{2} = m - 1 &lt; m$。</p>
+<p>$a, b, c$ 可以通过本机暴力寻找，$a = 2, b = 98, c = 7$ 就是一组解。</p>
+<hr>
+<p>感觉出题还是很爽的，特别是实现了期望得到的效果的时候（但我也没想到 A 题这么多人 FST）。</p>
+<p><del>吸金最开心</del></p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/problem-setting/">problem-setting</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/CCPC-2018-Guilin/" data-tooltip="CCPC 2018 Guilin" aria-label="上一篇: CCPC 2018 Guilin">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/08/16/CTT2016-D3T1/" data-tooltip="UOJ272 -【清华集训2016】石家庄的工人阶级队伍比较坚强" aria-label="下一篇: UOJ272 -【清华集训2016】石家庄的工人阶级队伍比较坚强">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/10/27/Nowcoder-27/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/10/27/Nowcoder-27/&amp;title=牛客出题（锅）记" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/10/27/Nowcoder-27/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="gitment"></div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/CCPC-2018-Guilin/" data-tooltip="CCPC 2018 Guilin" aria-label="上一篇: CCPC 2018 Guilin">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/08/16/CTT2016-D3T1/" data-tooltip="UOJ272 -【清华集训2016】石家庄的工人阶级队伍比较坚强" aria-label="下一篇: UOJ272 -【清华集训2016】石家庄的工人阶级队伍比较坚强">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/10/27/Nowcoder-27/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/10/27/Nowcoder-27/&amp;title=牛客出题（锅）记" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/10/27/Nowcoder-27/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/10/27/Nowcoder-27/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/10/27/Nowcoder-27/&amp;title=牛客出题（锅）记">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/10/27/Nowcoder-27/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover_new.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            (function() {
+                function render() {
+                    new Gitment({
+                        id: '牛客出题（锅）记',
+                        owner: 'jhdjames37',
+                        repo: 'jhdjames37.github.io',
+                        oauth: {
+                            client_id: 'cc81c17420b569d32e22',
+                            client_secret: 'fbc7f68c496e12ad992ccb7bba97d98936b66cee',
+                        }
+                    }).render('gitment');
+                }
+                var gc = document.createElement('script');
+                gc.type = 'text/javascript';
+                gc.src = '//jjeejj.github.io/js/gitment.js';
+                gc.charset = 'UTF-8';
+                gc.onload = render;
+                gc.async = true;
+                document.querySelector('body').appendChild(gc);
+                var gcs = document.createElement('link');
+                gcs.href = '//jjeejj.github.io/css/gitment.css';
+                gcs.type = 'text/css';
+                gcs.rel = 'stylesheet';
+                gcs.media = 'screen,print';
+                document.querySelector('head').appendChild(gcs);
+            })();
+	    </script>
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

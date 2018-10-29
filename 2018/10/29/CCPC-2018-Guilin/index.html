@@ -1,0 +1,603 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="jhdjames37&#39;s blog">
+    <title>CCPC 2018 Guilin - jhdjames37&#39;s blog</title>
+    <meta name="author" content="jhdjames37">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"CCPC 2018 桂林站。\n（别问我是怎么 py 到名额的我也不知道）\n\nOct 27th4:20 起床，前往机场。京东航空的航班，A320，进近的时候一直以为上 base/final 了，结果还在 downwind。。。不带航图出门的后果。。。（现在安检查得好严呀。。。）\n前往酒店，办理手续的时候被某队认出 xj 校服。。。感觉。。。\n然后去学校，吃中饭，开幕式（大家讲话好简短，十几分钟就搞完了。。。）。\n然后是试机赛。我们的号成功被咕掉了（之后送了个 sorry_dreamoon199），然后 D 题上来先写了个贪心，然后题意修正，发现贪心有点问题，遂换网络流，还 WA 了两发。\n然后 A 题讨论了好久，然后发现只需要把 $a \\times b - a - b$ （NOIP 2017 D1T1）以内的合法解 BFS 出来。\nC 题想错好几发。B 题 python 解释器不想动。然后爆了几发 OJ，测了一下速度就走了。\n\n回酒店发现送了一张高尔夫体验券，于是晚上就被拉去体验了一波。发现根本不会打。。。\n（酒店的环境好好呀。。。）\n然后写了一波出题记录。晚上睡得有点晚，为明天埋下伏笔。\nOct 28th进场之后，问志愿者能不能动电脑，居然得到了肯定的回答，开电脑一看，连昨天打得配置文件都没删，美滋滋。\n拿到题目，我从 F 开始，连跳两题，看到好像可以做的 H。\n三个人都想抢键盘，结果他们两个人假掉了，我先上。\n我边写边改算法，发现某鸽子队已经过 H 了。\n写完交一发，WA，感觉情况不对，把代码打印下来，让 app 先写。\n然后发现我有个细节想错了，改了一发，AC（26:59）。app 写 G，我开始随机挑题。\n听说 D 题可以做，结果越想意识越模糊，结果发现题目（大家一起）看错了。app 已经过了 G（37:46，也有一发罚时）。我于是就顺着（我们一直在想的）一个（假）方向开始写，WA，眼查了半天发现没有写挂，结果手造样例发现算法假了，然后就发现我们想复杂了，其实只是一道思博题，然后改完算法 AC（1:16:57）。\napp 想完 J 一发 AC（1:23:03），app 果然是博弈题大神 orz。\n（当时我们因为罚时爆炸排在很下面）\n接着我们就对着唯一有 AC 的 A 开始自闭（再次越想意识越模糊），zozo 突然跟我说 L 题计算几何好像可以做。其实我内心是拒绝的，计算几何这种东西，一场深陷其中都是有可能的。。。（结果 flag 是 A 题变成这样的题），结果 A 题越想越自闭，而且电脑还空着，结果我就硬着头皮开始敲计算几何板子（然后发现已经有人抢了一血）。\n然后发现有一堆特判，一个个讨论过来，幸好有人在旁边看着，否则还要挂更多次。写了很久调了很久终于过了样例，一交 WA。让 app 来造数据 hack，发现有几个边界判错，又少了一种 case。然后我去了趟厕所冷静了一下，回来 app 说 hack 不掉了，交！AC，我长吁一口气，一看罚时，2:33:33！\n（终于在 rank 榜上往前走了一点）\n然后又回去自闭 A 了。鸽子队过了 B，C，看了一下，发现 C 题不太懂。然后 B 推了一发，发现贡献数组就是一个多项式快速幂。但是我没有多项式板子，于是让 app 去写。我把一些细节推了一下，回去想 A 了。过了一会，app 把板子（我怀疑 B 题卡常，于是直接写 ln + exp）敲好了。结果一测，爆了。于是我们就开始（滑稽地）把板子放到电脑屏幕上对着看，把敲错的地方都给查出来了。提交 AC（3:43:10）。\n即将封榜，我们又回去自闭 A 题。app 和 zozo 猜了一些结论，写了一些乱搞，结果连随机数据都过不去。最后交了 4 发乱搞，权且算做过此题了。\n最后一小时，旁边的队伍 A 题时总是会发出惊叫，我们甚至都能听到他们讨论题目，也能听到他们在搞 B、L 题，听到一个队知道是多项式快速幂但是由于时间不够没有 A 掉。我们也在很远的地方看到一群志愿者围在鸽子队旁边，因为他们的气球放不下了（10 题 + 6 题 FB）。\n\n比赛结束后，我们没看滚榜就去机场了，当时我们感觉底下的人有可能会翻上来，结果前面的人全都 7 题了（鸽子队 10 题），我们变成了 6 题 rk1（话说我们前场罚时不是很大吗？）。。。还是算上 unofficial 的 rk5。。。\n听 app 说他们的乱搞（似乎）很接近正解？\n\nMF 的航班回杭州，自然是 737，进近再次蒙圈（这次意识到从 24/25 进场，结果看错航站楼布局了）\n转了好几趟车（好像也就两趟）回到 XJ（以为 9 点就能到，结果 9:40 才到）。感受到在晚上 9 点还要挤公交车的痛苦。。。\n总结（以及随想）这次比赛感觉总体难度还是有一点的，相比我们之前训练的题目是前 6 到 7 题都要排队写代码，这一次前场的东西并不是那么容易，也很容易写挂。\n总体来说的话，前场的发挥并不是那么理想。从客观角度来说，键盘不是特别好用是一个原因（Shift 和 Ctrl 极其不灵）。从主观角度来说，和当天的状态也有一定关系，前场感觉十分困，可能还是跟旅途较为劳累加上休息不足有关。另外，从技术层面来说，对算法细节的把握也做得不太到位，也容易产生思维僵化。这些因素在 OI 赛制的比赛中尤为致命。\n中场整体来说打得还行，两道题目虽然一波三折，也总算是写出来了，罚时也不大，给冲 rk 榜提供了很好的条件。\n后场显得发力不够，最后集中精力在搞 A 题，但是依然没有搞出来，感觉自己在后场的 contribution 不是很大，正解没有思路，乱搞也只能提供一点建议，最后也只能自闭。\n（zozo 开场看 A 题，到最后也没有搞出来，至始至终只糊了 L 题的主算法，感觉好惨惨。。。）\n\n感觉桂林的地形（喀斯特地貌）十分神仙，城市就像是被一个个小山丘包围一样。。。\n\n以下为我参与 A 的题的题解：\nH 逐位确定，枚举时判断用后面的位置能否构造出合法解，注意两个串相同的位置不产生贡献。\nD 发现奇数位只会在奇数位移动，偶数位只会在偶数位移动，然后分奇偶贪心匹配。\nI 首先发现样例中的 trival 情况，然后判掉平行，相交/非规范相交，一条线段延长线和另一条线段相交等情况（inf/0）\nB 发现之后的位置对某一位的贡献数组是 $(x^0 + x^1 + \\ldots + x^{L - 1})^m \\bmod x^n$ 然后和 A 数组做一下卷积即可。\n","dateCreated":"2018-10-29T14:02:34+08:00","dateModified":"2018-10-29T21:18:32+08:00","datePublished":"2018-10-29T14:02:34+08:00","description":"CCPC 2018 桂林站。\n（别问我是怎么 py 到名额的我也不知道）","headline":"CCPC 2018 Guilin","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/","keywords":"acm"}</script>
+    <meta name="description" content="CCPC 2018 桂林站。 （别问我是怎么 py 到名额的我也不知道）">
+<meta name="keywords" content="acm">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="CCPC 2018 Guilin">
+<meta property="og:url" content="jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/index.html">
+<meta property="og:site_name" content="jhdjames37&#39;s blog">
+<meta property="og:description" content="CCPC 2018 桂林站。 （别问我是怎么 py 到名额的我也不知道）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-10-29T13:18:32.092Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CCPC 2018 Guilin">
+<meta name="twitter:description" content="CCPC 2018 桂林站。 （别问我是怎么 py 到名额的我也不知道）">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640"/>
+        <link rel="shortcut icon" href="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=640" >
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END--><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    
+
+    
+</head>
+
+    <body>
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">jhdjames37&#39;s blog</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=90" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">jhdjames37</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p><a href="/About-me">An OIer.</a></p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/link"
+                            
+                            title="友链"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-link" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">友链</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/jhdjames37" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://wpa.qq.com/msgrd?uin=1285959811" target="_blank" rel="noopener" title="QQ">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-qq" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">QQ</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            CCPC 2018 Guilin
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-10-29T14:02:34+08:00">
+	
+		    10月 29, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/review/">review</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>CCPC 2018 桂林站。</p>
+<p><del>（别问我是怎么 py 到名额的我也不知道）</del></p>
+<a id="more"></a>
+<h2 id="Oct-27th"><a href="#Oct-27th" class="headerlink" title="Oct 27th"></a>Oct 27th</h2><p>4:20 起床，前往机场。<del>京东</del>航空的航班，A320，<del>进近的时候一直以为上 base/final 了，结果还在 downwind。。。不带航图出门的后果。。。</del>（现在安检查得好严呀。。。）</p>
+<p>前往酒店，办理手续的时候被某队认出 xj 校服。。。感觉。。。</p>
+<p>然后去学校，吃中饭，开幕式（大家讲话好简短，十几分钟就搞完了。。。）。</p>
+<p>然后是试机赛。我们的号成功被咕掉了（之后送了个 <code>sorry_</code><del>dreamoon</del><code>199</code>），然后 D 题上来先写了个贪心，然后题意修正，发现贪心有点问题，遂换网络流，还 WA 了两发。</p>
+<p>然后 A 题讨论了好久，然后发现只需要把 $a \times b - a - b$ （NOIP 2017 D1T1）以内的合法解 BFS 出来。</p>
+<p>C 题想错好几发。B 题 python 解释器不想动。然后爆了几发 OJ，测了一下速度就走了。</p>
+<hr>
+<p>回酒店发现送了一张高尔夫体验券，于是晚上就被拉去体验了一波。发现根本不会打。。。</p>
+<p>（酒店的环境好好呀。。。）</p>
+<p>然后写了一波<a href="/2018/10/27/Nowcoder-27/">出题记录</a>。晚上睡得有点晚，<del>为明天埋下伏笔。</del></p>
+<h2 id="Oct-28th"><a href="#Oct-28th" class="headerlink" title="Oct 28th"></a>Oct 28th</h2><p>进场之后，问志愿者能不能动电脑，居然得到了肯定的回答，开电脑一看，连昨天打得配置文件都没删，美滋滋。</p>
+<p>拿到题目，我从 F 开始，连跳两题，看到好像可以做的 H。</p>
+<p>三个人都想抢键盘，结果他们两个人假掉了，我先上。</p>
+<p>我边写边改算法，发现某鸽子队已经过 H 了。</p>
+<p>写完交一发，WA，感觉情况不对，把代码打印下来，让 app 先写。</p>
+<p>然后发现我有个细节想错了，改了一发，AC（26:59）。app 写 G，我开始随机挑题。</p>
+<p>听说 D 题可以做，结果越想意识越模糊，结果发现题目（大家一起）看错了。app 已经过了 G（37:46，也有一发罚时）。我于是就顺着（我们一直在想的）一个（假）方向开始写，WA，眼查了半天发现没有写挂，结果手造样例发现算法假了，然后就发现我们想复杂了，其实只是一道思博题，然后改完算法 AC（1:16:57）。</p>
+<p>app 想完 J 一发 AC（1:23:03），app 果然是博弈题大神 orz。</p>
+<p>（当时我们因为罚时爆炸排在很下面）</p>
+<p>接着我们就对着唯一有 AC 的 A 开始自闭（再次越想意识越模糊），zozo 突然跟我说 L 题计算几何好像可以做。其实我内心是拒绝的，<del>计算几何这种东西，一场深陷其中都是有可能的。。。</del>（结果 flag 是 A 题变成这样的题），结果 A 题越想越自闭，而且电脑还空着，结果我就硬着头皮开始敲计算几何板子（然后发现已经有人抢了一血）。</p>
+<p>然后发现有一堆特判，一个个讨论过来，幸好有人在旁边看着，否则还要挂更多次。写了很久调了很久终于过了样例，一交 WA。让 app 来造数据 hack，发现有几个边界判错，又少了一种 case。然后我去了趟厕所冷静了一下，回来 app 说 hack 不掉了，交！AC，我长吁一口气，一看罚时，2:33:33！</p>
+<p>（终于在 rank 榜上往前走了一点）</p>
+<p>然后又回去自闭 A 了。鸽子队过了 B，C，看了一下，发现 C 题不太懂。然后 B 推了一发，发现贡献数组就是一个多项式快速幂。但是我没有多项式板子，于是让 app 去写。我把一些细节推了一下，回去想 A 了。过了一会，app 把板子（我怀疑 B 题卡常，于是直接写 <code>ln + exp</code>）敲好了。结果一测，爆了。于是我们就开始（滑稽地）把板子放到电脑屏幕上对着看，把敲错的地方都给查出来了。提交 AC（3:43:10）。</p>
+<p>即将封榜，我们又回去自闭 A 题。app 和 zozo 猜了一些结论，写了一些乱搞，结果连随机数据都过不去。最后交了 4 发乱搞，权且算做过此题了。</p>
+<p>最后一小时，旁边的队伍 A 题时总是会发出惊叫，我们甚至都能听到他们讨论题目，也能听到他们在搞 B、L 题，听到一个队知道是多项式快速幂但是由于时间不够没有 A 掉。我们也在很远的地方看到一群志愿者围在鸽子队旁边，因为他们的气球放不下了（10 题 + 6 题 FB）。</p>
+<hr>
+<p>比赛结束后，我们没看滚榜就去机场了，当时我们感觉底下的人有可能会翻上来，结果前面的人全都 7 题了（鸽子队 10 题），我们变成了 6 题 rk1（话说我们前场罚时不是很大吗？）。。。还是算上 unofficial 的 rk5。。。</p>
+<p>听 app 说他们的乱搞（似乎）很接近正解？</p>
+<hr>
+<p>MF 的航班回杭州，自然是 737，<del>进近再次蒙圈（这次意识到从 24/25 进场，结果看错航站楼布局了）</del></p>
+<p>转了好几趟车（<del>好像也就两趟</del>）回到 XJ（以为 9 点就能到，结果 9:40 才到）。感受到在晚上 9 点还要挤公交车的痛苦。。。</p>
+<h2 id="总结（以及随想）"><a href="#总结（以及随想）" class="headerlink" title="总结（以及随想）"></a>总结（以及随想）</h2><p>这次比赛感觉总体难度还是有一点的，相比我们之前训练的题目是前 6 到 7 题都要排队写代码，这一次前场的东西并不是那么容易，也很容易写挂。</p>
+<p>总体来说的话，前场的发挥并不是那么理想。从客观角度来说，键盘不是特别好用是一个原因（<code>Shift</code> 和 <code>Ctrl</code> 极其不灵）。从主观角度来说，和当天的状态也有一定关系，前场感觉十分困，可能还是跟旅途较为劳累加上休息不足有关。另外，从技术层面来说，对算法细节的把握也做得不太到位，也容易产生思维僵化。这些因素在 OI 赛制的比赛中尤为致命。</p>
+<p>中场整体来说打得还行，两道题目虽然一波三折，也总算是写出来了，罚时也不大，给冲 rk 榜提供了很好的条件。</p>
+<p>后场显得发力不够，最后集中精力在搞 A 题，但是依然没有搞出来，感觉自己在后场的 contribution 不是很大，正解没有思路，乱搞也只能提供一点建议，最后也只能自闭。</p>
+<p>（zozo 开场看 A 题，到最后也没有搞出来，至始至终只糊了 L 题的主算法，感觉好惨惨。。。）</p>
+<hr>
+<p>感觉桂林的地形（喀斯特地貌）十分神仙，城市就像是被一个个小山丘包围一样。。。</p>
+<hr>
+<p>以下为我参与 A 的题的题解：</p>
+<p>H 逐位确定，枚举时判断用后面的位置能否构造出合法解，注意两个串相同的位置不产生贡献。</p>
+<p>D 发现奇数位只会在奇数位移动，偶数位只会在偶数位移动，然后分奇偶贪心匹配。</p>
+<p>I 首先发现样例中的 trival 情况，然后判掉平行，相交/非规范相交，一条线段延长线和另一条线段相交等情况（<code>inf</code>/<code>0</code>）</p>
+<p>B 发现之后的位置对某一位的贡献数组是 $(x^0 + x^1 + \ldots + x^{L - 1})^m \bmod x^n$ 然后和 A 数组做一下卷积即可。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/acm/">acm</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/Nowcoder-27/" data-tooltip="牛客出题（锅）记" aria-label="下一篇: 牛客出题（锅）记">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/&amp;title=CCPC 2018 Guilin" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="gitment"></div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 - 2018 jhdjames37. All Rights Reserved.
+        <br>
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, themed by <a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak" target="_blank">Tranquilpeak</a>
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/27/Nowcoder-27/" data-tooltip="牛客出题（锅）记" aria-label="下一篇: 牛客出题（锅）记">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/" title="分享到 Weibo">
+                    <i class="fa fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/&amp;title=CCPC 2018 Guilin" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/">
+                    <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/&amp;title=CCPC 2018 Guilin">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/10/29/CCPC-2018-Guilin/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477?s=110" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">jhdjames37</h4>
+        
+            <div id="about-card-bio"><p><a href="/About-me">An OIer.</a></p>
+</div>
+        
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                Hangzhou, China
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover_new.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            (function() {
+                function render() {
+                    new Gitment({
+                        id: 'CCPC 2018 Guilin',
+                        owner: 'jhdjames37',
+                        repo: 'jhdjames37.github.io',
+                        oauth: {
+                            client_id: 'cc81c17420b569d32e22',
+                            client_secret: 'fbc7f68c496e12ad992ccb7bba97d98936b66cee',
+                        }
+                    }).render('gitment');
+                }
+                var gc = document.createElement('script');
+                gc.type = 'text/javascript';
+                gc.src = '//jjeejj.github.io/js/gitment.js';
+                gc.charset = 'UTF-8';
+                gc.onload = render;
+                gc.async = true;
+                document.querySelector('body').appendChild(gc);
+                var gcs = document.createElement('link');
+                gcs.href = '//jjeejj.github.io/css/gitment.css';
+                gcs.type = 'text/css';
+                gcs.rel = 'stylesheet';
+                gcs.media = 'screen,print';
+                document.querySelector('head').appendChild(gcs);
+            })();
+	    </script>
+    
+
+
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+
+<script src=https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
