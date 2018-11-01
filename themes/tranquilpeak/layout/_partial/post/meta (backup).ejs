@@ -10,12 +10,4 @@
         <span><%= __('post.categorized_in')  %> </span>
         <%- partial('category', {categories: post.categories})%>
     <% } %>
-    <span>, <%= __('post.last_update') %> </span>
-    <time datetime="<%= post.updated.format() %>">
-	<% if (post.lang) { %>
-		    <%= post.updated.locale(post.lang).format(__('date_format')) %>
-    	<% } else { %>
-		    <%= post.updated.locale(page.lang).format(__('date_format')) %>
-    	<% } %>
-    </time>
 </div>
