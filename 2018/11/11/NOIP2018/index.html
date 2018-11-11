@@ -6,26 +6,23 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="jhdjames37&#39;s blog">
-    <title>ZJOI2018-Round2 - jhdjames37&#39;s blog</title>
+    <title>NOIP2018 - jhdjames37&#39;s blog</title>
     <meta name="author" content="jhdjames37">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"ZJOI Day2 继续爆零记。（依然无需划去）\n\nApr. 23rd - Day 0前往余姚。 惯例等 2 分钟，分房间的一般图匹配成功 WA 掉，要“手动重新增广”。。。\n尝试做前两天 World Final 的题（前两题看题口胡的时候就感到一阵深深的恶意，看起来道道极难写无比。。）结果 4 道签到题（A,B,F,K），平均 2 ～ 3 发才能 A。（看起来罚时比所有赛场上的队伍都要多。。。）凉凉。。。\nApr. 24th - Day 1XJ 讲课专场。（cbh &amp; mls）\n关于 2-SCSS 的 DP 解法和证明确实挺有趣（尤其是交换的那个转移的证明，似乎挺有用的样子。。）\n后面的证明好复杂。。。\n然后是杂题选讲，有几点印象深刻（一些经典思路）：\n\n对于 01 序列的操作，可以用 xor 简化\n带入未知数的 dp\n只验证交点\n\n\n下午 mls 讲课，感觉好 high。 讲题的 dalao 先批判一发数据范围，然后随手写化学方程式（然而 WA 了，就像这样 $2H_2O = 2H_2 + O_2$, 请自行查错）\n接着是 qzh（祁花花）/zzy（珂珂）/zrf（花花）的各种。。\nTCO 的题目看起来挺不错的。。\nRound 1 看起来并不是那么难（除了那道计算几何有点。。），思路都很经典（利用分配律转移 dp，meeting in the middle 等等）。\nRound 2 也有几道不错的题目：利用最短路的三角形不等式来构造，用费用流计算达到某个最小割的最小加边数。\nRound 3, Semi-final, Final 就有点神了。2-SAT 脑洞，利用函数单调性维护数据结构，用合理的枚举顺序来方便计数。\n\n晚上的试机，对老年机的吐槽（据说 Win 下编译 a+b 要 10 秒）。\n到今天才发现 NOI Linux 的 gdb 是残的，无法输出 STL 变量。。。（作为一个提交 WA on 1 后看了 5 分钟才发现忘记删调试信息的人表示凉凉，真的要手动输出吗？）\n（好吧，有解决方案 , #define debug(...) + 条件编译。。。，　真不行手写 STL 输出。。。）\nApr. 25th - Day 2上午的讲课真心不懂。。。（讲题如同飙车一般。。。队爷们的各种（天道轮回式卡常，三元环等等）。。）\n\n下午清真多了。。\nC******网站选讲。\n有几道不错的题目：ST 表 / 线段树优化建图，利用区间交的性质的贪心，（怎么二分图都往矩阵理论靠的呀。。）\n然后因为懒得出去吃了，听了高校选（瞎）讲（扯）。\n怎么 HDU 官方撒狗粮的呀。。。\n( 手动滑稽 ) \nApr. 26th - Day3 (Contest Day)又是不可做题。\n开场一群老师搞不清文件夹的建法。。差点忘记公布解压密码。（这次感叹号终于正常了。。。）\n27 条可怜与 cedyks(skydec)。。。the place(palace)。。。the salt(soul)。。。butter(buffer)。。。贝尔福德曼 (bellman-ford)。。。\n第一题阶乘算法好像是树哈希，好难写。。。两个小时没调出（换一个模数变一个答案。。。）还是直接打表吧。。。\n第二题似乎可做，先写个模拟再说。\n第三题计算几何，好像 $n=3$ 答案就是 3。。。来撒一波点，精确到 4 位小数。。。\n这时已经（快）12 点了。赶紧推了一波第二题的二分，写完调完还有 15 分钟，嗯，吃面包。\n出场讨论了一下，T1T3 不可做（zrf 写了 9k T3 还没写完，据说标程 21k。。。）。真 谁做 T2 谁 Win。\n( 听说 T2 暴力模拟会被卡？ ) 又听说二分也会被卡？ T2 爆零？ 凉凉。。。\nUPD: T2 最后还是卡掉了 20 分。。。（20+20+10）\n观察了一下数据，似乎前 20 分没有卡，看起来是中间 20 分 WA 了。\n\n总结：\n\n这次的时间分配出现很大的问题：T2 已经感觉可做了，但是因为 T1 的暴力写了太久导致来不及思考。\n\n接 1，比赛时候应该用选择得分效率最高的方法。比如 T2 不树 hash，20 分的表也打得出来。\n\n\n","dateCreated":"2018-04-23T16:34:16+08:00","dateModified":"2018-06-03T20:36:15+08:00","datePublished":"2018-04-23T16:34:16+08:00","description":"ZJOI Day2 继续爆零记。（依然无需划去）","headline":"ZJOI2018-Round2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/","keywords":"review, ZJOI"}</script>
-    <meta name="description" content="ZJOI Day2 继续爆零记。（依然无需划去）">
-<meta name="keywords" content="review,ZJOI">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"NOIP 2018 再次爆零记。\n（考场就在家隔壁。。。）\n【禁赛警告！】\n\nNov. 9th - Day 0（这次好像没有 Day 0）\n校内举办了场毒瘤题大战，打成自闭。zzf 的 T1 推式子推了 2h，后来听说打表只要 5 分钟。。。\n（以上这句话为下文……内容埋下了伏笔）\nNov. 10th - Day 1（CCF 终于把老年机换了，T2 题目名太暴露 CCF 本质了）\n开题发现 T1 是前两天模拟赛的弱化版（【禁赛警告】），（然后当时在说那道题是 NOIP 2013 T1 的强化版，然后成功就变成了 NOIP 2018 D1T1 == NOIP 2013 D1T1）。\nT2 第一眼【小凯的疑惑】升级版，然后就陷入模意义背包中无法自拔。。。最后写了个能过大样例的东西，极限数据 T 飞，优化了一下，极限数据还有点虚，感觉出题人不会卡评测机这么好，应该 T 不掉吧。\n（最后发现我傻逼了，只要能用小的表示出大的，这个数就是无关的。有点线性相关的意味）\nT3 二分完感觉就是个贪心，（从小的开始选能够选的最小的搭配，然后 return 最大的未选子树）结合着部分分，证明了一下正确性，然后就写完了？\n然后上了 $O(1)$ 发厕所，然后假装在叉 T2 假算法，最后 15 分钟突然发现 T3 菊花要 1.5s？？！（std::multiset 大常数）信仰 i7-8700k 的力量没有管。\n获得成就：五万两个 $\\log$ 被卡常。。。\n\n出场之后大家纷纷表示最后两个小时都在打 tetris，有人把三道题原题都扒出来了。。。(CCF 真 niubi)\n100 + 80 + 90 = 270（假设都被卡常了）。\nNov. 11th - Day 2各个论调都表示，Day 1 如此简单，Day 2 有可能会 extremely-hard。\nT1 $m = n$ 或 $m = n - 1$ 莫名戳中笑点，然后发现暴力即可。\nT2 $n \\le 8$ 感觉很神奇，感觉是个状压，然后设计了半天连状态都不知道是啥。讨论了一下 $n \\le 3$。\nT3 有点像我模拟题的 T3，感觉又像个动态 DP，结果被取 $\\min$ 打自闭了，不会合并。写了个 44 分暴力。\n10:40，100 + 65 + 44 = 209。\n想到 Day 0 的经历，决定开始写爆搜，写呀写，发现 $m = 8$ 跑贼慢，然后开始打表，$n = 7$ 跑了 10 分钟，$n = 8, m = 8$ 死活出不来。\n11:10，100 + 75 + 44 = 219。\n然后写了 T3 的 B1，100 + 75 + 52 = 227。\n然后开始自闭，然后突然开始观察起 T2 的表，发现 $f_{n, m} = 3 f_{n, m - 1} (m \\ge n + 2)$，$f_{n, n + 1} = 3 f_{n, n} - \\text{magic_number}$，$\\text{magic_number}$ 好像是 $48, 96, 192, 394, \\ldots$。\n然后就开始等 $n = 8, m = 8$ 的答案，然后发现 $f_{n, n} = 8 f_{n - 1, n - 1} - \\text{another_magic_number}$，发现 $\\text{another_magic_number}$ 又是个等比数列，然后把这个数敲了上去。过了一会儿，发现 $n = 8, m = 8$ 答案出来了，就是这个数。\n（所以 T2 真的是打表题？）\n11:40, 100 + 100(?) + 52 = 252(?)。\n\n未完待续。\n","dateCreated":"2018-11-11T15:15:22+08:00","dateModified":"2018-11-11T16:02:22+08:00","datePublished":"2018-11-11T15:15:22+08:00","description":"NOIP 2018 再次爆零记。\n（考场就在家隔壁。。。）\n【禁赛警告！】","headline":"NOIP2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/11/11/NOIP2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/11/11/NOIP2018/"}</script>
+    <meta name="description" content="NOIP 2018 再次爆零记。 （考场就在家隔壁。。。） 【禁赛警告！】">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="ZJOI2018-Round2">
-<meta property="og:url" content="jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/index.html">
+<meta property="og:title" content="NOIP2018">
+<meta property="og:url" content="jhdjames37.github.io/2018/11/11/NOIP2018/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
-<meta property="og:description" content="ZJOI Day2 继续爆零记。（依然无需划去）">
+<meta property="og:description" content="NOIP 2018 再次爆零记。 （考场就在家隔壁。。。） 【禁赛警告！】">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="/images/wys_in_PKU.jpg">
-<meta property="og:updated_time" content="2018-06-03T12:36:15.586Z">
+<meta property="og:updated_time" content="2018-11-11T08:02:22.345Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ZJOI2018-Round2">
-<meta name="twitter:description" content="ZJOI Day2 继续爆零记。（依然无需划去）">
-<meta name="twitter:image" content="/images/wys_in_PKU.jpg">
+<meta name="twitter:title" content="NOIP2018">
+<meta name="twitter:description" content="NOIP 2018 再次爆零记。 （考场就在家隔壁。。。） 【禁赛警告！】">
     
     
         
@@ -227,27 +224,27 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            ZJOI2018-Round2
+            NOIP2018
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-04-23T16:34:16+08:00">
+    <time datetime="2018-11-11T15:15:22+08:00">
 	
-		    2018-04-23
+		    2018-11-11
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/reviews-plans/">reviews & plans</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/review/">review</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2018-06-03T20:36:15+08:00">
+    <time datetime="2018-11-11T16:02:22+08:00">
 	
-		    2018-06-03
+		    2018-11-11
     	
     </time>
 </div>
@@ -258,57 +255,37 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>ZJOI Day2 继续爆零记。（依然无需划去）</p>
+            <p>NOIP 2018 再次爆零记。</p>
+<p>（考场就在家隔壁。。。）</p>
+<p>【禁赛警告！】</p>
 <a id="more"></a>
-<h2 id="Apr-23rd-Day-0"><a href="#Apr-23rd-Day-0" class="headerlink" title="Apr. 23rd - Day 0"></a>Apr. 23rd - Day 0</h2><p>前往余姚。 <del>惯例等 2 分钟，分房间的一般图匹配成功 WA 掉，要“手动重新增广”。。。</del></p>
-<p>尝试做前两天 World Final 的题（前两题看题口胡的时候就感到一阵深深的恶意，看起来道道极难写无比。。）结果 4 道签到题（A,B,F,K），平均 2 ～ 3 发才能 A。（看起来罚时比所有赛场上的队伍都要多。。。）凉凉。。。</p>
-<h2 id="Apr-24th-Day-1"><a href="#Apr-24th-Day-1" class="headerlink" title="Apr. 24th - Day 1"></a>Apr. 24th - Day 1</h2><p>XJ 讲课专场。（cbh &amp; mls）</p>
-<p>关于 2-SCSS 的 DP 解法和证明确实挺有趣（尤其是交换的那个转移的证明，似乎挺有用的样子。。）</p>
-<p>后面的证明好复杂。。。</p>
-<p>然后是杂题选讲，有几点印象深刻（一些经典思路）：</p>
-<ul>
-<li>对于 01 序列的操作，可以用 xor 简化</li>
-<li>带入未知数的 dp</li>
-<li>只验证交点</li>
-</ul>
+<h2 id="Nov-9th-Day-0"><a href="#Nov-9th-Day-0" class="headerlink" title="Nov. 9th - Day 0"></a>Nov. 9th - Day 0</h2><p><del>（这次好像没有 Day 0）</del></p>
+<p>校内举办了场毒瘤题大战，打成自闭。zzf 的 T1 推式子推了 2h，后来听说打表只要 5 分钟。。。</p>
+<p><del>（以上这句话为下文……内容埋下了伏笔）</del></p>
+<h2 id="Nov-10th-Day-1"><a href="#Nov-10th-Day-1" class="headerlink" title="Nov. 10th - Day 1"></a>Nov. 10th - Day 1</h2><p>（CCF 终于把老年机换了，<del>T2 题目名太暴露 CCF 本质了</del>）</p>
+<p>开题发现 T1 是前两天模拟赛的弱化版（【禁赛警告】），（然后当时在说那道题是 NOIP 2013 T1 的强化版，然后成功就变成了 <code>NOIP 2018 D1T1 == NOIP 2013 D1T1</code>）。</p>
+<p>T2 第一眼【小凯的疑惑】升级版，然后就陷入模意义背包中无法自拔。。。最后写了个能过大样例的东西，极限数据 T 飞，优化了一下，极限数据还有点虚，感觉<del>出题人不会卡</del>评测机这么好，应该 T 不掉吧。</p>
+<p>（最后发现我傻逼了，只要能用小的表示出大的，这个数就是无关的。<del>有点线性相关的意味</del>）</p>
+<p>T3 二分完感觉就是个贪心，（从小的开始选能够选的最小的搭配，然后 <code>return</code> 最大的未选子树）结合着部分分，证明了一下正确性，然后就写完了？</p>
+<p>然后上了 $O(1)$ 发厕所，然后假装在叉 T2 假算法，最后 15 分钟突然发现 T3 菊花要 1.5s？？！（<code>std::multiset</code> 大常数）信仰 <code>i7-8700k</code> 的力量没有管。</p>
+<p>获得成就：五万两个 $\log$ 被卡常。。。</p>
 <hr>
-<p>下午 mls 讲课，感觉好 high。 讲题的 dalao 先批判一发数据范围，然后随手写化学方程式（然而 WA 了，就像这样 $2H_2O = 2H_2 + O_2$, 请自行查错）</p>
-<p>接着是 qzh（祁花花）/zzy（珂珂）/zrf（花花）的各种。。</p>
-<p>TCO 的题目看起来挺不错的。。</p>
-<p>Round 1 看起来并不是那么难（除了那道计算几何有点。。），思路都很经典（利用分配律转移 dp，meeting in the middle 等等）。</p>
-<p>Round 2 也有几道不错的题目：利用最短路的三角形不等式来构造，用费用流计算达到某个最小割的最小加边数。</p>
-<p>Round 3, Semi-final, Final 就有点神了。2-SAT 脑洞，利用函数单调性维护数据结构，用合理的枚举顺序来方便计数。</p>
+<p>出场之后大家纷纷表示最后两个小时都在打 tetris，有人把三道题原题都扒出来了。。。(CCF 真 niubi)</p>
+<p>100 + 80 + 90 = 270（假设都被卡常了）。</p>
+<h2 id="Nov-11th-Day-2"><a href="#Nov-11th-Day-2" class="headerlink" title="Nov. 11th - Day 2"></a>Nov. 11th - Day 2</h2><p>各个论调都表示，Day 1 如此简单，Day 2 有可能会 extremely-hard。</p>
+<p>T1 $m = n$ 或 $m = n - 1$ 莫名戳中笑点，然后发现暴力即可。</p>
+<p>T2 $n \le 8$ 感觉很神奇，感觉是个状压，然后设计了半天连状态都不知道是啥。讨论了一下 $n \le 3$。</p>
+<p>T3 有点像我模拟题的 T3，感觉又像个动态 DP，结果被取 $\min$ 打自闭了，不会合并。写了个 44 分暴力。</p>
+<p>10:40，100 + 65 + 44 = 209。</p>
+<p>想到 Day 0 的经历，决定开始写爆搜，写呀写，发现 $m = 8$ 跑贼慢，然后开始打表，$n = 7$ 跑了 10 分钟，$n = 8, m = 8$ 死活出不来。</p>
+<p>11:10，100 + 75 + 44 = 219。</p>
+<p>然后写了 T3 的 B1，100 + 75 + 52 = 227。</p>
+<p>然后开始自闭，然后突然开始观察起 T2 的表，发现 $f_{n, m} = 3 f_{n, m - 1} (m \ge n + 2)$，$f_{n, n + 1} = 3 f_{n, n} - \text{magic_number}$，$\text{magic_number}$ 好像是 $48, 96, 192, 394, \ldots$。</p>
+<p>然后就开始等 $n = 8, m = 8$ 的答案，然后发现 $f_{n, n} = 8 f_{n - 1, n - 1} - \text{another_magic_number}$，发现 $\text{another_magic_number}$ 又是个等比数列，然后把这个数敲了上去。过了一会儿，发现 $n = 8, m = 8$ 答案出来了，就是这个数。</p>
+<p>（所以 T2 真的是打表题？）</p>
+<p>11:40, 100 + 100(?) + 52 = 252(?)。</p>
 <hr>
-<p>晚上的试机，对老年机的吐槽（据说 Win 下编译 a+b 要 10 秒）。</p>
-<p>到今天才发现 NOI Linux 的 gdb 是残的，无法输出 STL 变量。。。（作为一个提交 WA on 1 后看了 5 分钟才发现忘记删调试信息的人表示凉凉，真的要手动输出吗？）</p>
-<p>（好吧，有解决方案 , <code>#define debug(...)</code> + 条件编译。。。，　真不行手写 STL 输出。。。）</p>
-<h2 id="Apr-25th-Day-2"><a href="#Apr-25th-Day-2" class="headerlink" title="Apr. 25th - Day 2"></a>Apr. 25th - Day 2</h2><p>上午的讲课真心不懂。。。（讲题如同飙车一般。。。队爷们的各种<del>（天道轮回式卡常，三元环等等）</del>。。）</p>
-<hr>
-<p>下午清真多了。。</p>
-<p>C******网站选讲。</p>
-<p>有几道不错的题目：ST 表 / 线段树优化建图，利用区间交的性质的贪心，（怎么二分图都往矩阵理论靠的呀。。）</p>
-<p>然后因为懒得出去吃了，听了高校选（瞎）讲（扯）。</p>
-<p>怎么 HDU 官方撒狗粮的呀。。。</p>
-<p><del>( 手动滑稽 )</del><br><img src="/images/wys_in_PKU.jpg" alt="wys_in_PKU"> </p>
-<h2 id="Apr-26th-Day3-Contest-Day"><a href="#Apr-26th-Day3-Contest-Day" class="headerlink" title="Apr. 26th - Day3 (Contest Day)"></a>Apr. 26th - Day3 (Contest Day)</h2><p>又是不可做题。</p>
-<p>开场一群老师搞不清文件夹的建法。。差点忘记公布解压密码。（这次感叹号终于正常了。。。）</p>
-<p>27 条可怜与 cedyks(skydec)。。。<br>the place(palace)。。。<br>the salt(soul)。。。<br>butter(buffer)。。。<br>贝尔福德曼 (bellman-ford)。。。</p>
-<p>第一题阶乘算法好像是树哈希，好难写。。。两个小时没调出（换一个模数变一个答案。。。）还是直接打表吧。。。</p>
-<p>第二题似乎可做，先写个模拟再说。</p>
-<p>第三题计算几何，好像 $n=3$ 答案就是 3。。。来撒一波点，精确到 4 位小数。。。</p>
-<p>这时已经（快）12 点了。赶紧推了一波第二题的二分，写完调完还有 15 分钟，嗯，吃面包。</p>
-<p>出场讨论了一下，T1T3 不可做（zrf 写了 9k T3 还没写完，据说标程 21k。。。）。真 谁做 T2 谁 Win。</p>
-<p>( 听说 T2 暴力模拟会被卡？ ) 又听说二分也会被卡？ T2 爆零？ 凉凉。。。</p>
-<p>UPD: T2 最后还是卡掉了 20 分。。。（20+20+10）</p>
-<p>观察了一下数据，似乎前 20 分没有卡，看起来是中间 20 分 WA 了。</p>
-<hr>
-<p>总结：</p>
-<ol>
-<li><p>这次的时间分配出现很大的问题：T2 已经感觉可做了，但是因为 T1 的暴力写了太久导致来不及思考。</p>
-</li>
-<li><p>接 1，比赛时候应该用选择得分效率最高的方法。比如 T2 不树 hash，20 分的表也打得出来。</p>
-</li>
-</ol>
+<p>未完待续。</p>
 
             
 
@@ -316,21 +293,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">标签</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/ZJOI/">ZJOI</a> <a class="tag tag--primary tag--small t-link" href="/tags/review/">review</a>
-
-            </div>
-        
         
             <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/27/CTSC-APIO-2018/" data-tooltip="CTSC&amp;APIO 2018" aria-label="上一篇: CTSC&amp;APIO 2018">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -339,7 +308,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/16/HNOI2016-lcm/" data-tooltip="BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数" aria-label="下一篇: BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/CCPC-2018-Guilin/" data-tooltip="CCPC 2018 Guilin" aria-label="下一篇: CCPC 2018 Guilin">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -357,7 +326,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/11/11/NOIP2018/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -365,7 +334,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/&amp;title=ZJOI2018-Round2" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/11/11/NOIP2018/&amp;title=NOIP2018" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -373,7 +342,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/11/11/NOIP2018/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -430,8 +399,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/27/CTSC-APIO-2018/" data-tooltip="CTSC&amp;APIO 2018" aria-label="上一篇: CTSC&amp;APIO 2018">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -440,7 +408,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/16/HNOI2016-lcm/" data-tooltip="BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数" aria-label="下一篇: BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/10/29/CCPC-2018-Guilin/" data-tooltip="CCPC 2018 Guilin" aria-label="下一篇: CCPC 2018 Guilin">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -458,7 +426,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/11/11/NOIP2018/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -466,7 +434,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/&amp;title=ZJOI2018-Round2" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/11/11/NOIP2018/&amp;title=NOIP2018" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -474,7 +442,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/11/11/NOIP2018/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -507,7 +475,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/11/11/NOIP2018/">
                     <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
@@ -515,7 +483,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/&amp;title=ZJOI2018-Round2">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/11/11/NOIP2018/&amp;title=NOIP2018">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -523,7 +491,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/11/11/NOIP2018/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -574,7 +542,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'ZJOI2018-Round2',
+                        id: 'NOIP2018',
                         owner: 'jhdjames37',
                         repo: 'jhdjames37.github.io',
                         oauth: {
