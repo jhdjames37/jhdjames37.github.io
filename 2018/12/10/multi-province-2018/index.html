@@ -6,26 +6,25 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="jhdjames37&#39;s blog">
-    <title>ZJOI2018-Round2 - jhdjames37&#39;s blog</title>
+    <title>九省联考 2018 切题记录 - jhdjames37&#39;s blog</title>
     <meta name="author" content="jhdjames37">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"ZJOI Day2 继续爆零记。（依然无需划去）\n\nApr. 23rd - Day 0前往余姚。 惯例等 2 分钟，分房间的一般图匹配成功 WA 掉，要“手动重新增广”。。。\n尝试做前两天 World Final 的题（前两题看题口胡的时候就感到一阵深深的恶意，看起来道道极难写无比。。）结果 4 道签到题（A,B,F,K），平均 2 ～ 3 发才能 A。（看起来罚时比所有赛场上的队伍都要多。。。）凉凉。。。\nApr. 24th - Day 1XJ 讲课专场。（cbh &amp; mls）\n关于 2-SCSS 的 DP 解法和证明确实挺有趣（尤其是交换的那个转移的证明，似乎挺有用的样子。。）\n后面的证明好复杂。。。\n然后是杂题选讲，有几点印象深刻（一些经典思路）：\n\n对于 01 序列的操作，可以用 xor 简化\n带入未知数的 dp\n只验证交点\n\n\n下午 mls 讲课，感觉好 high。 讲题的 dalao 先批判一发数据范围，然后随手写化学方程式（然而 WA 了，就像这样 $2H_2O = 2H_2 + O_2$, 请自行查错）\n接着是 qzh（祁花花）/zzy（珂珂）/zrf（花花）的各种。。\nTCO 的题目看起来挺不错的。。\nRound 1 看起来并不是那么难（除了那道计算几何有点。。），思路都很经典（利用分配律转移 dp，meeting in the middle 等等）。\nRound 2 也有几道不错的题目：利用最短路的三角形不等式来构造，用费用流计算达到某个最小割的最小加边数。\nRound 3, Semi-final, Final 就有点神了。2-SAT 脑洞，利用函数单调性维护数据结构，用合理的枚举顺序来方便计数。\n\n晚上的试机，对老年机的吐槽（据说 Win 下编译 a+b 要 10 秒）。\n到今天才发现 NOI Linux 的 gdb 是残的，无法输出 STL 变量。。。（作为一个提交 WA on 1 后看了 5 分钟才发现忘记删调试信息的人表示凉凉，真的要手动输出吗？）\n（好吧，有解决方案 , #define debug(...) + 条件编译。。。，　真不行手写 STL 输出。。。）\nApr. 25th - Day 2上午的讲课真心不懂。。。（讲题如同飙车一般。。。队爷们的各种（天道轮回式卡常，三元环等等）。。）\n\n下午清真多了。。\nC******网站选讲。\n有几道不错的题目：ST 表 / 线段树优化建图，利用区间交的性质的贪心，（怎么二分图都往矩阵理论靠的呀。。）\n然后因为懒得出去吃了，听了高校选（瞎）讲（扯）。\n怎么 HDU 官方撒狗粮的呀。。。\n( 手动滑稽 ) \nApr. 26th - Day3 (Contest Day)又是不可做题。\n开场一群老师搞不清文件夹的建法。。差点忘记公布解压密码。（这次感叹号终于正常了。。。）\n27 条可怜与 cedyks(skydec)。。。the place(palace)。。。the salt(soul)。。。butter(buffer)。。。贝尔福德曼 (bellman-ford)。。。\n第一题阶乘算法好像是树哈希，好难写。。。两个小时没调出（换一个模数变一个答案。。。）还是直接打表吧。。。\n第二题似乎可做，先写个模拟再说。\n第三题计算几何，好像 $n=3$ 答案就是 3。。。来撒一波点，精确到 4 位小数。。。\n这时已经（快）12 点了。赶紧推了一波第二题的二分，写完调完还有 15 分钟，嗯，吃面包。\n出场讨论了一下，T1T3 不可做（zrf 写了 9k T3 还没写完，据说标程 21k。。。）。真 谁做 T2 谁 Win。\n( 听说 T2 暴力模拟会被卡？ ) 又听说二分也会被卡？ T2 爆零？ 凉凉。。。\nUPD: T2 最后还是卡掉了 20 分。。。（20+20+10）\n观察了一下数据，似乎前 20 分没有卡，看起来是中间 20 分 WA 了。\n\n总结：\n\n这次的时间分配出现很大的问题：T2 已经感觉可做了，但是因为 T1 的暴力写了太久导致来不及思考。\n\n接 1，比赛时候应该用选择得分效率最高的方法。比如 T2 不树 hash，20 分的表也打得出来。\n\n\n","dateCreated":"2018-04-23T16:34:16+08:00","dateModified":"2018-06-03T20:36:15+08:00","datePublished":"2018-04-23T16:34:16+08:00","description":"ZJOI Day2 继续爆零记。（依然无需划去）","headline":"ZJOI2018-Round2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/","keywords":"review, ZJOI"}</script>
-    <meta name="description" content="ZJOI Day2 继续爆零记。（依然无需划去）">
-<meta name="keywords" content="review,ZJOI">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"九省联考 2018 切题（被题虐）记录。\n（为什么现在我写代码要写这么长。。。）\n\n（自闭大赛）\n\n（继续懒得抄题）\n一双木棋直接暴力，略。\nIIIDXLOJ / luogu\n如果权值互不相同，那么可以直接按照 DFS 序贪心（60 pts）。但是对于有权值相同情况，有可能出现更优解（因为它在多出来的相同权值中还可以塞子树）。\n容易想到逐位确定 + 二分。关键在如何 check。\n最简单的实现是对于每个数 $x$，计算 $\\ge x$ 的数的数量 减去 权值 $\\ge x$ 的子树的 size 和。然后一个点最多能放的数就是它的前缀 $\\min$。线段树 + 二分。\n实现时注意在求一个结点的答案时，将其父亲结点子树的贡献去掉，只留父节点本身的贡献。\n然后我在写的时候写复杂了，多维护了个东西，然后就调自闭了。code\n秘密袭击LOJ / luogu\n猫锟又一道被乱搞艹爆的题。\n容易想到 $O(n^3)$ 解法：求出以每个结点为第 $k$ 大的连通块个数，以这个点为根背包合并即可。可以优化到 $O(n(n - k)k)$（前 $k - 1$ 大的数不产生贡献，背包只枚到 $k$），然后就过了。。。\n首先把每个点 DFS 一遍变成固定根 DFS：将贡献数组差分，然后对于每个 $i$，需要计算的就是有至少 $k$ 个权值大于 $i$ 的连通块数量。\n将背包看成多项式 $F_{w, i}$，表示 $i$ 子树中经过 $i$ 点，且 $x ^ j$ 前系数表示权值 $\\ge w$ 的点有 $j$ 个连通块数量，转移可以表示为 $F_{w, u} = \\prod_{v \\in \\text{son(u)}} (F_{w, v} + 1) \\cdot x ^ {[val_u \\ge w]}$。总答案为 $\\sum_{i} F_{w, i}$。\n回忆猫锟的 WC 课件，发现有个叫【整体DP】的 trick 中有一页的内容和以上的内容很像，而且讲得很抽象，一脸不想让人看懂的模样。所以我们可以用线段树对所有 $w$ 维护 $F_{w, u}$ 和 $Ans_{w}$，支持区间乘 $x$ ，区间加 $1$， $Ans_{w}$ += $F_{w, u}$，以及线段树合并。\n最后一个问题是这道题的模数不是 $998244353$，没法 NTT。但是我们可以任意选择 $n + 1$ 个点值，求出答案，并将不同的 $w$ 按照贡献合并，最后做一次 $O(n^2)$ 的拉格朗日插值变回系数表达。\n另外，含有 lazy_tag 的线段树合并时为了避免 pushdown 时新增结点破坏复杂度，所以要在其中一个结点没有子节点的时候就直接合并。\n我因为把所有的点值全部丢进线段树里，然后就变得巨难写，代码长度也遥遥领先。code\n劈配按题意建模，略。\n林克卡特树LOJ / luogu\n首先 Link/Cut 操作可以认为是选 $k + 1$ 个点不相交的链，最大化总长度。\n考虑一个暴力：$F_{i, j, 0/1/2}$ 表示在 $i$ 子树，进行了 $j$ 次切割，存在 $0/1/2$ 个连向儿子的边。然后暴力转移，转移的细节较为繁琐。\n最后把第二位搞掉，猜想它可以凸优化（感觉比较直观，但不会证）。\nDP 的转移调了比较久，用不相交的链的思想写转移，但是这样会多减掉一次 Link/Cut 的代价，需要加上。code\n制胡窜LOJ / luogu\n一道 SAM 好码农题。\n首先补集转化（但是要看清题面，总方案数只有 $\\frac{(n - 1)(n - 2)}{2}$ 种），接着我们考虑只有一组询问时候的求法。\n首先我们找到询问串的位置，接着进行这样的模型转换：将每一个合法位置的串 $S[l:r]$ 看做 $[l, r]$ 的线段。则每一个不合法的数对 $(i, j)$ 可以认为是在 $[i, i + 1]$ 和 $[j - 1, j]$ 的位置上各“切一刀”，每条线段至少被切一次。\n统计这样的切法有多少次。\n分成两种情况，一种情况是所有线段之间都有交。另一种情况则是交集为空。两种情况的求法类似，都是将左右端点看做关键点，枚举 $i$ 所在区间，求出 $j$ 所在区间大小，然后合并式子。\n然后剩下的部分就是数据结构了，需要数据结构维护 $\\text{right}$ 集以及推式子中需要的一些求和项，然后完成树上合并即可。\n我的合并用 DSU on tree 实现的，实际效果和一个 $\\log$ 的线段树合并差不多。code\n","dateCreated":"2018-12-10T11:35:05+08:00","dateModified":"2018-12-10T18:04:55+08:00","datePublished":"2018-12-10T11:35:05+08:00","description":"九省联考 2018 切题（被题虐）记录。\n（为什么现在我写代码要写这么长。。。）\n\n（自闭大赛）","headline":"九省联考 2018 切题记录","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/12/10/multi-province-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/12/10/multi-province-2018/"}</script>
+    <meta name="description" content="九省联考 2018 切题（被题虐）记录。 （为什么现在我写代码要写这么长。。。）  （自闭大赛）">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="ZJOI2018-Round2">
-<meta property="og:url" content="jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/index.html">
+<meta property="og:title" content="九省联考 2018 切题记录">
+<meta property="og:url" content="jhdjames37.github.io/2018/12/10/multi-province-2018/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
-<meta property="og:description" content="ZJOI Day2 继续爆零记。（依然无需划去）">
+<meta property="og:description" content="九省联考 2018 切题（被题虐）记录。 （为什么现在我写代码要写这么长。。。）  （自闭大赛）">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="/images/wys_in_PKU.jpg">
-<meta property="og:updated_time" content="2018-06-03T12:36:15.586Z">
+<meta property="og:image" content="/images/2018-12-10-long-code.png">
+<meta property="og:updated_time" content="2018-12-10T10:04:55.690Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ZJOI2018-Round2">
-<meta name="twitter:description" content="ZJOI Day2 继续爆零记。（依然无需划去）">
-<meta name="twitter:image" content="/images/wys_in_PKU.jpg">
+<meta name="twitter:title" content="九省联考 2018 切题记录">
+<meta name="twitter:description" content="九省联考 2018 切题（被题虐）记录。 （为什么现在我写代码要写这么长。。。）  （自闭大赛）">
+<meta name="twitter:image" content="/images/2018-12-10-long-code.png">
     
     
         
@@ -227,27 +226,27 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            ZJOI2018-Round2
+            九省联考 2018 切题记录
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2018-04-23T16:34:16+08:00">
+    <time datetime="2018-12-10T11:35:05+08:00">
 	
-		    2018-04-23
+		    2018-12-10
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/reviews-plans/">reviews & plans</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/reviews/">reviews</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2018-06-03T20:36:15+08:00">
+    <time datetime="2018-12-10T18:04:55+08:00">
 	
-		    2018-06-03
+		    2018-12-10
     	
     </time>
 </div>
@@ -258,57 +257,42 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>ZJOI Day2 继续爆零记。（依然无需划去）</p>
+            <p>九省联考 2018 切题（被题虐）记录。</p>
+<p>（为什么现在我写代码要写这么长。。。）</p>
+<p><img src="/images/2018-12-10-long-code.png" alt=""></p>
+<p>（自闭大赛）</p>
 <a id="more"></a>
-<h2 id="Apr-23rd-Day-0"><a href="#Apr-23rd-Day-0" class="headerlink" title="Apr. 23rd - Day 0"></a>Apr. 23rd - Day 0</h2><p>前往余姚。 <del>惯例等 2 分钟，分房间的一般图匹配成功 WA 掉，要“手动重新增广”。。。</del></p>
-<p>尝试做前两天 World Final 的题（前两题看题口胡的时候就感到一阵深深的恶意，看起来道道极难写无比。。）结果 4 道签到题（A,B,F,K），平均 2 ～ 3 发才能 A。（看起来罚时比所有赛场上的队伍都要多。。。）凉凉。。。</p>
-<h2 id="Apr-24th-Day-1"><a href="#Apr-24th-Day-1" class="headerlink" title="Apr. 24th - Day 1"></a>Apr. 24th - Day 1</h2><p>XJ 讲课专场。（cbh &amp; mls）</p>
-<p>关于 2-SCSS 的 DP 解法和证明确实挺有趣（尤其是交换的那个转移的证明，似乎挺有用的样子。。）</p>
-<p>后面的证明好复杂。。。</p>
-<p>然后是杂题选讲，有几点印象深刻（一些经典思路）：</p>
-<ul>
-<li>对于 01 序列的操作，可以用 xor 简化</li>
-<li>带入未知数的 dp</li>
-<li>只验证交点</li>
-</ul>
-<hr>
-<p>下午 mls 讲课，感觉好 high。 讲题的 dalao 先批判一发数据范围，然后随手写化学方程式（然而 WA 了，就像这样 $2H_2O = 2H_2 + O_2$, 请自行查错）</p>
-<p>接着是 qzh（祁花花）/zzy（珂珂）/zrf（花花）的各种。。</p>
-<p>TCO 的题目看起来挺不错的。。</p>
-<p>Round 1 看起来并不是那么难（除了那道计算几何有点。。），思路都很经典（利用分配律转移 dp，meeting in the middle 等等）。</p>
-<p>Round 2 也有几道不错的题目：利用最短路的三角形不等式来构造，用费用流计算达到某个最小割的最小加边数。</p>
-<p>Round 3, Semi-final, Final 就有点神了。2-SAT 脑洞，利用函数单调性维护数据结构，用合理的枚举顺序来方便计数。</p>
-<hr>
-<p>晚上的试机，对老年机的吐槽（据说 Win 下编译 a+b 要 10 秒）。</p>
-<p>到今天才发现 NOI Linux 的 gdb 是残的，无法输出 STL 变量。。。（作为一个提交 WA on 1 后看了 5 分钟才发现忘记删调试信息的人表示凉凉，真的要手动输出吗？）</p>
-<p>（好吧，有解决方案 , <code>#define debug(...)</code> + 条件编译。。。，　真不行手写 STL 输出。。。）</p>
-<h2 id="Apr-25th-Day-2"><a href="#Apr-25th-Day-2" class="headerlink" title="Apr. 25th - Day 2"></a>Apr. 25th - Day 2</h2><p>上午的讲课真心不懂。。。（讲题如同飙车一般。。。队爷们的各种<del>（天道轮回式卡常，三元环等等）</del>。。）</p>
-<hr>
-<p>下午清真多了。。</p>
-<p>C******网站选讲。</p>
-<p>有几道不错的题目：ST 表 / 线段树优化建图，利用区间交的性质的贪心，（怎么二分图都往矩阵理论靠的呀。。）</p>
-<p>然后因为懒得出去吃了，听了高校选（瞎）讲（扯）。</p>
-<p>怎么 HDU 官方撒狗粮的呀。。。</p>
-<p><del>( 手动滑稽 )</del><br><img src="/images/wys_in_PKU.jpg" alt="wys_in_PKU"> </p>
-<h2 id="Apr-26th-Day3-Contest-Day"><a href="#Apr-26th-Day3-Contest-Day" class="headerlink" title="Apr. 26th - Day3 (Contest Day)"></a>Apr. 26th - Day3 (Contest Day)</h2><p>又是不可做题。</p>
-<p>开场一群老师搞不清文件夹的建法。。差点忘记公布解压密码。（这次感叹号终于正常了。。。）</p>
-<p>27 条可怜与 cedyks(skydec)。。。<br>the place(palace)。。。<br>the salt(soul)。。。<br>butter(buffer)。。。<br>贝尔福德曼 (bellman-ford)。。。</p>
-<p>第一题阶乘算法好像是树哈希，好难写。。。两个小时没调出（换一个模数变一个答案。。。）还是直接打表吧。。。</p>
-<p>第二题似乎可做，先写个模拟再说。</p>
-<p>第三题计算几何，好像 $n=3$ 答案就是 3。。。来撒一波点，精确到 4 位小数。。。</p>
-<p>这时已经（快）12 点了。赶紧推了一波第二题的二分，写完调完还有 15 分钟，嗯，吃面包。</p>
-<p>出场讨论了一下，T1T3 不可做（zrf 写了 9k T3 还没写完，据说标程 21k。。。）。真 谁做 T2 谁 Win。</p>
-<p>( 听说 T2 暴力模拟会被卡？ ) 又听说二分也会被卡？ T2 爆零？ 凉凉。。。</p>
-<p>UPD: T2 最后还是卡掉了 20 分。。。（20+20+10）</p>
-<p>观察了一下数据，似乎前 20 分没有卡，看起来是中间 20 分 WA 了。</p>
-<hr>
-<p>总结：</p>
-<ol>
-<li><p>这次的时间分配出现很大的问题：T2 已经感觉可做了，但是因为 T1 的暴力写了太久导致来不及思考。</p>
-</li>
-<li><p>接 1，比赛时候应该用选择得分效率最高的方法。比如 T2 不树 hash，20 分的表也打得出来。</p>
-</li>
-</ol>
+<p>（继续懒得抄题）</p>
+<h2 id="一双木棋"><a href="#一双木棋" class="headerlink" title="一双木棋"></a>一双木棋</h2><p>直接暴力，略。</p>
+<h2 id="IIIDX"><a href="#IIIDX" class="headerlink" title="IIIDX"></a>IIIDX</h2><p><a href="https://loj.ac/problem/2472" target="_blank" rel="noopener">LOJ</a> / <a href="https://www.luogu.org/problemnew/show/P4364" target="_blank" rel="noopener">luogu</a></p>
+<p>如果权值互不相同，那么可以直接按照 DFS 序贪心（60 pts）。但是对于有权值相同情况，有可能出现更优解（因为它在多出来的相同权值中还可以塞子树）。</p>
+<p>容易想到逐位确定 + 二分。关键在如何 check。</p>
+<p>最简单的实现是对于每个数 $x$，计算 $\ge x$ 的数的数量 减去 权值 $\ge x$ 的子树的 <code>size</code> 和。然后一个点最多能放的数就是它的前缀 $\min$。线段树 + 二分。</p>
+<p>实现时注意在求一个结点的答案时，将其父亲结点子树的贡献去掉，只留父节点本身的贡献。</p>
+<p>然后我在写的时候写复杂了，多维护了个东西，然后就调自闭了。<a href="https://loj.ac/submission/276804" target="_blank" rel="noopener">code</a></p>
+<h2 id="秘密袭击"><a href="#秘密袭击" class="headerlink" title="秘密袭击"></a>秘密袭击</h2><p><a href="https://loj.ac/problem/2473" target="_blank" rel="noopener">LOJ</a> / <a href="https://www.luogu.org/problemnew/show/P4365" target="_blank" rel="noopener">luogu</a></p>
+<p>猫锟又一道被乱搞艹爆的题。</p>
+<p>容易想到 $O(n^3)$ 解法：求出以每个结点为第 $k$ 大的连通块个数，以这个点为根背包合并即可。可以优化到 $O(n(n - k)k)$（前 $k - 1$ 大的数不产生贡献，背包只枚到 $k$），然后就过了。。。</p>
+<p>首先把每个点 DFS 一遍变成固定根 DFS：将贡献数组差分，然后对于每个 $i$，需要计算的就是有至少 $k$ 个权值大于 $i$ 的连通块数量。</p>
+<p>将背包看成多项式 $F_{w, i}$，表示 $i$ 子树中经过 $i$ 点，且 $x ^ j$ 前系数表示权值 $\ge w$ 的点有 $j$ 个连通块数量，转移可以表示为 $F_{w, u} = \prod_{v \in \text{son(u)}} (F_{w, v} + 1) \cdot x ^ {[val_u \ge w]}$。总答案为 $\sum_{i} F_{w, i}$。</p>
+<p>回忆猫锟的 WC 课件，发现有个叫【整体DP】的 trick 中有一页的内容和以上的内容很像<del>，而且讲得很抽象，一脸不想让人看懂的模样</del>。所以我们可以用线段树对所有 $w$ 维护 $F_{w, u}$ 和 $Ans_{w}$，支持区间乘 $x$ ，区间加 $1$， $Ans_{w}$ += $F_{w, u}$，以及线段树合并。</p>
+<p>最后一个问题是这道题的模数不是 $998244353$，没法 NTT。但是我们可以任意选择 $n + 1$ 个点值，求出答案，并将不同的 $w$ 按照贡献合并，最后做一次 $O(n^2)$ 的拉格朗日插值变回系数表达。</p>
+<p>另外，含有 lazy_tag 的线段树合并时为了避免 <code>pushdown</code> 时新增结点破坏复杂度，所以要在其中一个结点没有子节点的时候就直接合并。</p>
+<p>我因为把所有的点值全部丢进线段树里，然后就变得巨难写<del>，代码长度也遥遥领先</del>。<a href="https://loj.ac/submission/276139" target="_blank" rel="noopener">code</a></p>
+<h2 id="劈配"><a href="#劈配" class="headerlink" title="劈配"></a>劈配</h2><p>按题意建模，略。</p>
+<h2 id="林克卡特树"><a href="#林克卡特树" class="headerlink" title="林克卡特树"></a>林克卡特树</h2><p><a href="https://loj.ac/problem/2478" target="_blank" rel="noopener">LOJ</a> / <a href="https://www.luogu.org/problemnew/show/P4383" target="_blank" rel="noopener">luogu</a></p>
+<p>首先 Link/Cut 操作可以认为是选 $k + 1$ 个点不相交的链，最大化总长度。</p>
+<p>考虑一个暴力：$F_{i, j, 0/1/2}$ 表示在 $i$ 子树，进行了 $j$ 次切割，存在 $0/1/2$ 个连向儿子的边。然后暴力转移，转移的细节较为繁琐。</p>
+<p>最后把第二位搞掉，猜想它可以凸优化（感觉比较直观，但不会证）。</p>
+<p>DP 的转移调了比较久，用不相交的链的思想写转移，但是这样会多减掉一次 Link/Cut 的代价，需要加上。<a href="https://loj.ac/submission/280204" target="_blank" rel="noopener">code</a></p>
+<h2 id="制胡窜"><a href="#制胡窜" class="headerlink" title="制胡窜"></a>制胡窜</h2><p><a href="https://loj.ac/problem/2479" target="_blank" rel="noopener">LOJ</a> / <a href="https://www.luogu.org/problemnew/show/P4384" target="_blank" rel="noopener">luogu</a></p>
+<p>一道 SAM 好<del>码农</del>题。</p>
+<p>首先补集转化（但是要看清题面，总方案数只有 $\frac{(n - 1)(n - 2)}{2}$ 种），接着我们考虑只有一组询问时候的求法。</p>
+<p>首先我们找到询问串的位置，接着进行这样的模型转换：将每一个合法位置的串 $S[l:r]$ 看做 $[l, r]$ 的线段。则每一个<strong>不合法</strong>的数对 $(i, j)$ 可以认为是在 $[i, i + 1]$ 和 $[j - 1, j]$ 的位置上各“切一刀”，每条线段至少被切一次。</p>
+<p>统计这样的切法有多少次。</p>
+<p>分成两种情况，一种情况是所有线段之间都有交。另一种情况则是交集为空。两种情况的求法类似，都是将左右端点看做关键点，枚举 $i$ 所在区间，求出 $j$ 所在区间大小，然后合并式子。</p>
+<p>然后剩下的部分就是数据结构了，需要数据结构维护 $\text{right}$ 集以及推式子中需要的一些求和项，然后完成树上合并即可。</p>
+<p>我的合并用 <code>DSU on tree</code> 实现的，实际效果和一个 $\log$ 的线段树合并差不多。<a href="https://loj.ac/submission/284311" target="_blank" rel="noopener">code</a></p>
 
             
 
@@ -316,21 +300,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">标签</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/ZJOI/">ZJOI</a> <a class="tag tag--primary tag--small t-link" href="/tags/review/">review</a>
-
-            </div>
-        
         
             <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/27/CTSC-APIO-2018/" data-tooltip="CTSC&amp;APIO 2018" aria-label="上一篇: CTSC&amp;APIO 2018">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -339,7 +315,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/16/HNOI2016-lcm/" data-tooltip="BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数" aria-label="下一篇: BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/11/11/NOIP2018/" data-tooltip="NOIP2018" aria-label="下一篇: NOIP2018">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -357,7 +333,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/12/10/multi-province-2018/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -365,7 +341,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/&amp;title=ZJOI2018-Round2" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/12/10/multi-province-2018/&amp;title=九省联考 2018 切题记录" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -373,7 +349,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/12/10/multi-province-2018/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -430,8 +406,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/27/CTSC-APIO-2018/" data-tooltip="CTSC&amp;APIO 2018" aria-label="上一篇: CTSC&amp;APIO 2018">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -440,7 +415,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/16/HNOI2016-lcm/" data-tooltip="BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数" aria-label="下一篇: BZOJ4537/LOJ2048/luogu3247 - 【 HNOI2016 】 最小公倍数">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/11/11/NOIP2018/" data-tooltip="NOIP2018" aria-label="下一篇: NOIP2018">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -458,7 +433,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/12/10/multi-province-2018/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -466,7 +441,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/&amp;title=ZJOI2018-Round2" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/12/10/multi-province-2018/&amp;title=九省联考 2018 切题记录" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -474,7 +449,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/12/10/multi-province-2018/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -507,7 +482,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2018/12/10/multi-province-2018/">
                     <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
@@ -515,7 +490,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/&amp;title=ZJOI2018-Round2">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2018/12/10/multi-province-2018/&amp;title=九省联考 2018 切题记录">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -523,7 +498,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/04/23/ZJOI2018-Round2/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2018/12/10/multi-province-2018/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -574,7 +549,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'ZJOI2018-Round2',
+                        id: '九省联考 2018 切题记录',
                         owner: 'jhdjames37',
                         repo: 'jhdjames37.github.io',
                         oauth: {
