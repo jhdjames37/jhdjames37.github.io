@@ -11,7 +11,7 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"到了年终终于有机会打比赛了。\n（连着被两道 F 坑）\n\nAtcoder Grand Contest 30A 略\nB 考虑任意一个方案每一段经过的次数，可以发现是中间向两端递减的，显然要最大化中间的数量，枚举中间的值，可以算出两边的位置，前后缀和优化。\nC \nD 类似于 这一场 的 G，记 $f_{i, j, k}$ 表示 $i$ 步之后 $A_j &gt; A_k$ 的方案数，转移需要交换的只有 $O(n)$ 的位置，剩下位置是乘二，维护出需要乘二的次数即可。\nE \nF 首先去掉两个位置都确定的。 按权值从大到小DP，记 $f_{i, j, k}$ 表示前 $i$ 个数，有 $j$ 个不在原序列的数和 $k$ 个在原序列里的数是两个数中较大的且没有被匹配的方案。转移枚举这个数是作为较大数还是较小数，和哪个数匹配，需要注意每种转移贡献值不同。一开始我从小到大做，然后死活过不去，原因是这样会把一种情况算重。\nGoodbye 2018A, B, C, D 略\nE 阅读理解题。根据出题人提供的提示，点进 wiki，使用第二种判定方法，使用前缀后缀和 + 数据结构 + 二分来维护这些不等式。$O(n \\log n)$。\nF 又被坑了。把需要来回走的区间（一定是个前缀）处理了，然后后半部分首先一定是让原来 walk 的变成 fly，那么扫一遍，贪心地计算每个 walk 的区间能有多少变成 fly（这里我在比赛的时候犯了个大错，因为要让后面能量不会掉到 0 以下，然后这个东西写错了，实际上只需要从后向前扫一遍，求出每个位置至少需要多少能量才能保证后面不会掉到 0 以下），同时维护剩余能量，最后如果还有多余的能量，就分配给 swim 的。因为中间计算的时候要除以二，所以先全部乘二，最后再除掉。\nG 根据题解，我们只需要利用 sqrt。随机选取 $x$，询问 $x^2$ 二次剩余，设为 $y$。则 $x^2 = y^2 \\rightarrow (x + y)(x - y) = 0$（均在模 $n$ 意义下），则 $x + y$ 和 $x - y$ 一定分别拿到了 $n$ 的部分质因子，多做几次，取每个子集的 $\\gcd$，我们就有很大概率得到所有 $n$ 的因子，然后从小到大，把是某个数约数的数删了，剩下的数就是质因子。\nH 先把“不平等博弈”变成计算 SG 值，然后打表发现 SG 值很小，然后我们就可以用 bitset 来维护每个点的后继状态是否存在这个 SG 值，然后更新就是直接将转移用的 bitset 左移。\n\n连续被两道栈相关的题坑，感觉有点不对劲。\nCF 每次涨 Rating 都是手速压制，感觉也有点不大对劲。\nHappy New Year! Goodbye 81022018 &amp;&amp; Hello 91022019!\n","dateCreated":"2018-12-31T18:30:14+08:00","dateModified":"2018-12-31T19:01:32+08:00","datePublished":"2018-12-31T18:30:14+08:00","description":"到了年终终于有机会打比赛了。\n（连着被两道 F 坑）","headline":"Goodbye 2018 & AGC030","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/12/31/Goodbye-2018-AGC030/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/12/31/Goodbye-2018-AGC030/","keywords":"Codeforces, Atcoder"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"到了年终终于有机会打比赛了。\n（连着被两道 F 坑）\n\nAtcoder Grand Contest 30A 略\nB 考虑任意一个方案每一段经过的次数，可以发现是中间向两端递减的，显然要最大化中间的数量，枚举中间的值，可以算出两边的位置，前后缀和优化。\nC 神仙构造题。可能能够得到类似于 $k$ 是偶数，或者说是 4 的倍数或者类似的东西的做法。但是很难拓展到其它的 $k$。根据题解，特判 $k = 1$，对于剩下的 $k$，令 $n = 2\\lceil \\frac{k}{4} \\rceil$。然后先对于 $(i, j)$ 放 $(i + j) \\bmod n + [i \\text{ 为奇数}] n$。然后将 $k \\le i \\le 2n$ 变成 $i - n$。发现它是对的。。。。\nD 类似于 这一场 的 G，记 $f_{i, j, k}$ 表示 $i$ 步之后 $A_j &gt; A_k$ 的方案数，转移需要交换的只有 $O(n)$ 的位置，剩下位置是乘二，维护出需要乘二的次数即可。\nE 一个很显然也很 fake 的贪心就是从左到右扫，能换则换，不能换先把右边的换了。根据题解，这个东西把它考虑差分标记的移动，由题目限制得到其合法性，然后就暴力枚举差分标记如何匹配，然后计算。\nF 首先去掉两个位置都确定的。 按权值从大到小DP，记 $f_{i, j, k}$ 表示前 $i$ 个数，有 $j$ 个不在原序列的数和 $k$ 个在原序列里的数是两个数中较大的且没有被匹配的方案。转移枚举这个数是作为较大数还是较小数，和哪个数匹配，需要注意每种转移贡献值不同。一开始我从小到大做，然后死活过不去，原因是这样会把一种情况算重。\nGoodbye 2018A, B, C, D 略\nE 阅读理解题。根据出题人提供的提示，点进 wiki，使用第二种判定方法，使用前缀后缀和 + 数据结构 + 二分来维护这些不等式。$O(n \\log n)$。\nF 又被坑了。把需要来回走的区间（一定是个前缀）处理了，然后后半部分首先一定是让原来 walk 的变成 fly，那么扫一遍，贪心地计算每个 walk 的区间能有多少变成 fly（这里我在比赛的时候犯了个大错，因为要让后面能量不会掉到 0 以下，然后这个东西写错了，实际上只需要从后向前扫一遍，求出每个位置至少需要多少能量才能保证后面不会掉到 0 以下），同时维护剩余能量，最后如果还有多余的能量，就分配给 swim 的。因为中间计算的时候要除以二，所以先全部乘二，最后再除掉。\nG 根据题解，我们只需要利用 sqrt。随机选取 $x$，询问 $x^2$ 二次剩余，设为 $y$。则 $x^2 = y^2 \\rightarrow (x + y)(x - y) = 0$（均在模 $n$ 意义下），则 $x + y$ 和 $x - y$ 一定分别拿到了 $n$ 的部分质因子，多做几次，取每个子集的 $\\gcd$，我们就有很大概率得到所有 $n$ 的因子，然后从小到大，把是某个数约数的数删了，剩下的数就是质因子。\nH 先把“不平等博弈”变成计算 SG 值，然后打表发现 SG 值很小，然后我们就可以用 bitset 来维护每个点的后继状态是否存在这个 SG 值，然后更新就是直接将转移用的 bitset 左移。\n\n连续被两道栈相关的题坑，感觉有点不对劲。\nCF 每次涨 Rating 都是手速压制，感觉也有点不大对劲。\nHappy New Year! Goodbye 81022018 &amp;&amp; Hello 91022019!\n","dateCreated":"2018-12-31T18:30:14+08:00","dateModified":"2019-01-02T18:58:30+08:00","datePublished":"2018-12-31T18:30:14+08:00","description":"到了年终终于有机会打比赛了。\n（连着被两道 F 坑）","headline":"Goodbye 2018 & AGC030","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/12/31/Goodbye-2018-AGC030/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/12/31/Goodbye-2018-AGC030/","keywords":"Codeforces, Atcoder"}</script>
     <meta name="description" content="到了年终终于有机会打比赛了。 （连着被两道 F 坑）">
 <meta name="keywords" content="Codeforces,Atcoder">
 <meta property="og:type" content="blog">
@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
 <meta property="og:description" content="到了年终终于有机会打比赛了。 （连着被两道 F 坑）">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-31T11:01:32.577Z">
+<meta property="og:updated_time" content="2019-01-02T10:58:30.329Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Goodbye 2018 &amp; AGC030">
 <meta name="twitter:description" content="到了年终终于有机会打比赛了。 （连着被两道 F 坑）">
@@ -243,9 +243,9 @@
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2018-12-31T19:01:32+08:00">
+    <time datetime="2019-01-02T18:58:30+08:00">
 	
-		    2018-12-31
+		    2019-01-02
     	
     </time>
 </div>
@@ -261,9 +261,9 @@
 <a id="more"></a>
 <h2 id="Atcoder-Grand-Contest-30"><a href="#Atcoder-Grand-Contest-30" class="headerlink" title="Atcoder Grand Contest 30"></a>Atcoder Grand Contest 30</h2><p>A 略</p>
 <p>B 考虑任意一个方案每一段经过的次数，可以发现是中间向两端递减的，显然要最大化中间的数量，枚举中间的值，可以算出两边的位置，前后缀和优化。</p>
-<p>C </p>
+<p>C 神仙构造题。可能能够得到类似于 $k$ 是偶数，或者说是 4 的倍数或者类似的东西的做法。但是很难拓展到其它的 $k$。<br>根据题解，特判 $k = 1$，对于剩下的 $k$，令 $n = 2\lceil \frac{k}{4} \rceil$。然后先对于 $(i, j)$ 放 $(i + j) \bmod n + [i \text{ 为奇数}] n$。然后将 $k \le i \le 2n$ 变成 $i - n$。发现它是对的。。。。</p>
 <p>D 类似于 <a href="/2018/08/16/record-of-Codeforces/#Rockethon-2015">这一场</a> 的 G，记 $f_{i, j, k}$ 表示 $i$ 步之后 $A_j &gt; A_k$ 的方案数，转移需要交换的只有 $O(n)$ 的位置，剩下位置是乘二，维护出需要乘二的次数即可。</p>
-<p>E </p>
+<p>E 一个很显然也很 fake 的贪心就是从左到右扫，能换则换，不能换先把右边的换了。<br>根据题解，这个东西把它考虑差分标记的移动，由题目限制得到其合法性，然后就暴力枚举差分标记如何匹配，然后计算。</p>
 <p>F 首先去掉两个位置都确定的。 按权值<strong>从大到小</strong>DP，记 $f_{i, j, k}$ 表示前 $i$ 个数，有 $j$ 个不在原序列的数和 $k$ 个在原序列里的数是两个数中较大的且没有被匹配的方案。转移枚举这个数是作为较大数还是较小数，和哪个数匹配，需要注意每种转移贡献值不同。<br>一开始我从小到大做，然后死活过不去，原因是这样会把一种情况算重。</p>
 <h2 id="Goodbye-2018"><a href="#Goodbye-2018" class="headerlink" title="Goodbye 2018"></a>Goodbye 2018</h2><p>A, B, C, D 略</p>
 <p>E 阅读理解题。根据出题人提供的提示，点进 wiki，使用第二种判定方法，使用前缀后缀和 + 数据结构 + 二分来维护这些不等式。$O(n \log n)$。</p>
@@ -377,7 +377,7 @@
     <span class="copyrights">
         <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
         <br />
-        Copyrights &copy; 2017 - 2018 jhdjames37.
+        Copyrights &copy; 2017 - 2019 jhdjames37.
         <br>
         本作品采用<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a>进行许可。
         <br>
