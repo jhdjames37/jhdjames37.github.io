@@ -3,7 +3,7 @@ title: POJ Problems
 date: 2017-10-13 20:21:20
 categories: 
 - oi
-- solutions
+- solution
 tags:
 - POJ
 mathjax: true

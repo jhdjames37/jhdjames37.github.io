@@ -3,9 +3,9 @@ title: UOJ268 - 【清华集训 2016 】数据交互
 date: 2018-04-03
 categories:
 - oi
-- solutions
+- solution
 tags:
-- trees
+- tree
 - UOJ
 - segment tree
 - heavy-light decomposition

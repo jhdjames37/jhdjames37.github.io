@@ -8,6 +8,8 @@ mathjax: true
 
 ## 一些记录
 
+2019.2.6：更新关于 category 和 tag 的说明，将所有文章进行更新。
+
 2018.10.6: 修了关于 theme assets 的小锅。另外添加了多地部署所需要的通过更改修改时间更新文章列表顺序（~~似乎可以手动置顶了。。。~~）
 
 2018.10.2: 关于多地部署：
@@ -54,10 +56,10 @@ Reference：https://ruanx.pw/bzojch/bzojno.html
 Last UPD: 2019.02.06
 
 category 的大致想法
-- oi 系列
-  - review （不加 -s）：以游记为主
-  - algorithms & data structures：纯算法
-  - solutions：题解（包括联合题解、线上比赛总结）
+- oi 系列（全部都不加 s 算了。。。）
+  - review：以游记为主
+  - algorithm：纯算法
+  - solution：题解（包括联合题解、线上比赛总结）
 - 其它之后再说.
 
 tags
@@ -65,7 +67,7 @@ tags
   - 对于比赛 - 赛事类型
     - NOIP/NOI/WC/icpc（所有该赛制的比赛，把原来的 acm 改回来吧。。。）/...
     - CF/TC/ATC/...
-  - 相关知识点 ...
+  - 相关知识点 ...（关于加不加 s 。。。 难说。。。要不直接只有 general 和必须加 s 的加 s）
     - 对于联合总结，这一项要不就不填了。。。
 - 其它之后再说.
 

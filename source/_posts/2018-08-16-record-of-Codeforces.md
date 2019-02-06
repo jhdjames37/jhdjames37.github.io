@@ -3,10 +3,9 @@ title: Codeforces FST 记录
 date: 2018-08-16 10:09:19
 categories:
 - oi
-- reviews & plans
+- solution
 tags:
 - Codeforces
-- review
 ---
 
 暑假里 VP 了 $O(1)$ 场 CF。现记录如下（大致就是 2014 年底到 2015 年初的）

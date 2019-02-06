@@ -2,7 +2,7 @@ title: 集合卷积
 author: jhdjames37
 categories:
   - oi
-  - algorithms & data structures
+  - algorithm
 tags:
   - math
   - FWT

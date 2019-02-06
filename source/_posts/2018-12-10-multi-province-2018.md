@@ -3,7 +3,7 @@ title: 九省联考 2018 切题记录
 date: 2018-12-10 11:35:05
 categories:
 - oi
-- reviews
+- solution
 tags:
 ---
 

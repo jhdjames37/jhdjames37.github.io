@@ -3,7 +3,7 @@ title: Stirling Number
 date: 2018-04-13 22:05:18
 categories:
 - oi
-- algorithms & data structures
+- algorithm
 tags:
 - math
 ---

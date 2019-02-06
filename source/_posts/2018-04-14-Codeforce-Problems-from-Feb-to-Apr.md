@@ -2,7 +2,10 @@
 title: Codeforces 题目总结
 date: 2018-04-14 20:18:12
 categories:
+- oi
+- solution
 tags:
+- Codeforces
 ---
 
 最近 Codeforces 的比赛打的有点少。( 其实有几场 Div2 在口胡算法。。。)

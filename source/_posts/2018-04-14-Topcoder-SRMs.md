@@ -3,7 +3,7 @@ title: Topcoder SRMs
 date: 2018-04-14 14:31:02
 categories:
 - oi
-- solutions
+- solution
 tags:
 - TopCoder
 toc: true
