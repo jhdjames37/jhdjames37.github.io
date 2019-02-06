@@ -51,19 +51,23 @@ Reference：https://ruanx.pw/bzojch/bzojno.html
 
 ## 关于 category & tag
 
+Last UPD: 2019.02.06
+
 category 的大致想法
 - oi 系列
-  - reviews & plans
-  - algorithms & data structures
-  - solutions
-- 其它之后再说 .
+  - review （不加 -s）：以游记为主
+  - algorithms & data structures：纯算法
+  - solutions：题解（包括联合题解、线上比赛总结）
+- 其它之后再说.
 
 tags
 - oi 这边的 tags
-  - review
-  - plan
+  - 对于比赛 - 赛事类型
+    - NOIP/NOI/WC/icpc（所有该赛制的比赛，把原来的 acm 改回来吧。。。）/...
+    - CF/TC/ATC/...
   - 相关知识点 ...
-- 其它之后再说 .
+    - 对于联合总结，这一项要不就不填了。。。
+- 其它之后再说.
 
 ---
 

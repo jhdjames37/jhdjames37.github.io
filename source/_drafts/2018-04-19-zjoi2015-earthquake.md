@@ -1,14 +1,13 @@
----
 title: BZOJ3925/LOJ2136/luogu3343 - 【 ZJOI2015 】 地震后的幻想乡
-date: 2018-04-19 20:33:53
 categories:
-- oi
-- solutions
+  - oi
+  - solutions
 tags:
-- possibility & expectations
-- calculus
-- DP
-- bitmask
+  - possibility & expectations
+  - calculus
+  - DP
+  - bitmask
+date: 2018-04-19 20:33:00
 ---
 
 ## 题意
