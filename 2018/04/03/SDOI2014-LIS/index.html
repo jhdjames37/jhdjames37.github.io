@@ -11,7 +11,7 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：给定序列 A，序列中的每一项 $A_i$ 有删除代价 $B_i$ 和附加属性 $C_i$。请删除若干项，使得 A 的最长上升子序列长度减少至少 1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。\n$n \\leq 700$\n\n题解：列出 LIS 的转移方程：\nf[i] = \\max_{j < i, a_j < a_i} f[j] + 1后就会发现 :\n$f[i]$ 的取值由所有满足 $j &lt; i, a_j &lt; a_i, f[j] + 1 = f[i]$ 的 j 制约着。\n考虑建图：先拆点，并在中间连 $b_i$ 的边 , 将满足所有上述条件的 $(i, j)$ 连一条正无穷的边。\n容易观察，答案为这张图的最小割。\n接着考虑输出方案。\n首先考虑这样一个事实：一条边能够出现在最小割边集中，当且仅当它在所有最大流方案中均满流。（证明可以考虑将这条边容量减小 1，最大流的变化）\n实际验证时，只需要检查这条边所连接两点在残量网络中是否连通即可，（如果连通，则可以将这条边减少流量）\n这时我们就可以按 $c$ 值从小到大考虑每一条边 $(u, v)$。若能够在最小割中，就将其加入答案，并删除这条边。（当然将 $s \\rightarrow u, v \\rightarrow t$ 的流量退回）。\n( 话说这道题卡常，谁会网络流卡常的？ )\nCode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121int n;int a[MAXN], b[MAXN], c[MAXN];namespace solver1 &#123;  const int MAXM = 3e6;  struct Edge &#123;    int v, cap, next;  &#125;edge[MAXM];  int head[MAXN &lt;&lt; 1], tail, s, t;  int f[MAXN], p[MAXN], seq[MAXN], asq[MAXN];  inline int insert(int u, int v, int cap) &#123;    edge[++tail] = (Edge) &#123;v, cap, head[u]&#125;; head[u] = tail;    edge[++tail] = (Edge) &#123;u, 0, head[v]&#125;; head[v] = tail;    return tail - 1;  &#125;  inline bool cmp(int x, int y) &#123;return c[x] &lt; c[y];&#125;    namespace maxflow &#123;    int cur[MAXN &lt;&lt; 1];    int dis[MAXN &lt;&lt; 1], t;    bool bfs(int s, int t) &#123;      std::queue &lt;int&gt; q;      q.push(s);      memset(dis, 63, sizeof dis);      dis[s] = 0;      while(!q.empty()) &#123;        int u = q.front(); q.pop();        for (register int i = head[u]; i; i = edge[i].next) &#123;          register int v = edge[i].v;          if (edge[i].cap &amp;&amp; dis[v] == INF) &#123;            dis[v] = dis[u] + 1;            q.push(v);          &#125;        &#125;      &#125;      return dis[t] != INF;              &#125;    int dfs(int u, int a) &#123;      if (u == t || a == 0) return a;      int ans = 0;      for (int &amp;i = cur[u]; i; i = edge[i].next) &#123;        int v = edge[i].v, f;        if (dis[u] + 1 == dis[v] &amp;&amp; (f = dfs(v, std::min(a, edge[i].cap))) &gt; 0) &#123;          edge[i].cap -= f;          edge[i ^ 1].cap += f;          a -= f;          ans += f;        &#125;      &#125;      return ans;    &#125;    long long main(int ss, int tt) &#123;      t = tt;      long long ans = 0;      while(bfs(ss, tt)) &#123;        memcpy(cur, head, sizeof cur);        ans += dfs(ss, INF);      &#125;      return ans;    &#125;  &#125;  void main() &#123;    memset(head, 0, sizeof head); tail = 1;        s = 2 * n + 1, t = 2 * n + 2;    int maxf = 0;    for (int i = 1; i &lt;= n; i++) &#123;      f[i] = 1;      for (int j = 1; j &lt; i; j++) &#123;        if (a[j] &lt; a[i]) &#123;          f[i] = std::max(f[j] + 1, f[i]);        &#125;      &#125;      maxf = std::max(maxf, f[i]);    &#125;        for (int i = 1; i &lt;= n; i++) &#123;      p[i] = insert(i * 2 - 1, i * 2, b[i]);    &#125;    for (int i = 1; i &lt;= n; i++) &#123;      if (f[i] == 1) &#123;        insert(s, i * 2 - 1, INF);      &#125; else &#123;        for (int j = 1; j &lt; i; j++) &#123;          if (a[j] &lt; a[i] &amp;&amp; f[j] + 1 == f[i]) &#123;            insert(j * 2, i * 2 - 1, INF);          &#125;        &#125;      &#125;      if (f[i] == maxf) &#123;        insert(i * 2, t, INF);      &#125;    &#125;        long long ans = maxflow::main(s, t);    printf(\"%lld \", ans);            for (int i = 1; i &lt;= n; i++) seq[i] = i;    std::sort(seq + 1, seq + n + 1, cmp);    int cnt = 0;    for (int x = 1; x &lt;= n; x++) &#123;      int i = seq[x];      if (!edge[p[i]].cap &amp;&amp;          !maxflow::bfs(i * 2 - 1, i * 2)) &#123;        maxflow::main(i * 2 - 1, s);        maxflow::main(t, i * 2);        asq[++cnt] = i;        edge[p[i]].cap = 0;        edge[p[i] ^ 1].cap = 0;      &#125;    &#125;    std::sort(asq + 1, asq + cnt + 1);    printf(\"%d\\n\", cnt);    for (int i = 1; i &lt;= cnt; i++) &#123;      printf(\"%d%c\", asq[i], \" \\n\"[i == cnt]);    &#125;      &#125;&#125;\n","dateCreated":"2018-04-03T00:00:00+08:00","dateModified":"2018-06-03T20:36:09+08:00","datePublished":"2018-04-03T00:00:00+08:00","description":"题意：给定序列 A，序列中的每一项 $A_i$ 有删除代价 $B_i$ 和附加属性 $C_i$。请删除若干项，使得 A 的最长上升子序列长度减少至少 1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。\n$n \\leq 700$","headline":"BZOJ3532/LOJ2196/luogu3308 - 【 SDOI2014 】 LIS","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/03/SDOI2014-LIS/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/03/SDOI2014-LIS/","keywords":"flow"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"题意：给定序列 A，序列中的每一项 $A_i$ 有删除代价 $B_i$ 和附加属性 $C_i$。请删除若干项，使得 A 的最长上升子序列长度减少至少 1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。\n$n \\leq 700$\n\n题解：列出 LIS 的转移方程：\nf[i] = \\max_{j < i, a_j < a_i} f[j] + 1后就会发现 :\n$f[i]$ 的取值由所有满足 $j &lt; i, a_j &lt; a_i, f[j] + 1 = f[i]$ 的 j 制约着。\n考虑建图：先拆点，并在中间连 $b_i$ 的边 , 将满足所有上述条件的 $(i, j)$ 连一条正无穷的边。\n容易观察，答案为这张图的最小割。\n接着考虑输出方案。\n首先考虑这样一个事实：一条边能够出现在最小割边集中，当且仅当它在所有最大流方案中均满流。（证明可以考虑将这条边容量减小 1，最大流的变化）\n实际验证时，只需要检查这条边所连接两点在残量网络中是否连通即可，（如果连通，则可以将这条边减少流量）\n这时我们就可以按 $c$ 值从小到大考虑每一条边 $(u, v)$。若能够在最小割中，就将其加入答案，并删除这条边。（当然将 $s \\rightarrow u, v \\rightarrow t$ 的流量退回）。\n( 话说这道题卡常，谁会网络流卡常的？ )\nCode123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121int n;int a[MAXN], b[MAXN], c[MAXN];namespace solver1 &#123;  const int MAXM = 3e6;  struct Edge &#123;    int v, cap, next;  &#125;edge[MAXM];  int head[MAXN &lt;&lt; 1], tail, s, t;  int f[MAXN], p[MAXN], seq[MAXN], asq[MAXN];  inline int insert(int u, int v, int cap) &#123;    edge[++tail] = (Edge) &#123;v, cap, head[u]&#125;; head[u] = tail;    edge[++tail] = (Edge) &#123;u, 0, head[v]&#125;; head[v] = tail;    return tail - 1;  &#125;  inline bool cmp(int x, int y) &#123;return c[x] &lt; c[y];&#125;    namespace maxflow &#123;    int cur[MAXN &lt;&lt; 1];    int dis[MAXN &lt;&lt; 1], t;    bool bfs(int s, int t) &#123;      std::queue &lt;int&gt; q;      q.push(s);      memset(dis, 63, sizeof dis);      dis[s] = 0;      while(!q.empty()) &#123;        int u = q.front(); q.pop();        for (register int i = head[u]; i; i = edge[i].next) &#123;          register int v = edge[i].v;          if (edge[i].cap &amp;&amp; dis[v] == INF) &#123;            dis[v] = dis[u] + 1;            q.push(v);          &#125;        &#125;      &#125;      return dis[t] != INF;              &#125;    int dfs(int u, int a) &#123;      if (u == t || a == 0) return a;      int ans = 0;      for (int &amp;i = cur[u]; i; i = edge[i].next) &#123;        int v = edge[i].v, f;        if (dis[u] + 1 == dis[v] &amp;&amp; (f = dfs(v, std::min(a, edge[i].cap))) &gt; 0) &#123;          edge[i].cap -= f;          edge[i ^ 1].cap += f;          a -= f;          ans += f;        &#125;      &#125;      return ans;    &#125;    long long main(int ss, int tt) &#123;      t = tt;      long long ans = 0;      while(bfs(ss, tt)) &#123;        memcpy(cur, head, sizeof cur);        ans += dfs(ss, INF);      &#125;      return ans;    &#125;  &#125;  void main() &#123;    memset(head, 0, sizeof head); tail = 1;        s = 2 * n + 1, t = 2 * n + 2;    int maxf = 0;    for (int i = 1; i &lt;= n; i++) &#123;      f[i] = 1;      for (int j = 1; j &lt; i; j++) &#123;        if (a[j] &lt; a[i]) &#123;          f[i] = std::max(f[j] + 1, f[i]);        &#125;      &#125;      maxf = std::max(maxf, f[i]);    &#125;        for (int i = 1; i &lt;= n; i++) &#123;      p[i] = insert(i * 2 - 1, i * 2, b[i]);    &#125;    for (int i = 1; i &lt;= n; i++) &#123;      if (f[i] == 1) &#123;        insert(s, i * 2 - 1, INF);      &#125; else &#123;        for (int j = 1; j &lt; i; j++) &#123;          if (a[j] &lt; a[i] &amp;&amp; f[j] + 1 == f[i]) &#123;            insert(j * 2, i * 2 - 1, INF);          &#125;        &#125;      &#125;      if (f[i] == maxf) &#123;        insert(i * 2, t, INF);      &#125;    &#125;        long long ans = maxflow::main(s, t);    printf(\"%lld \", ans);            for (int i = 1; i &lt;= n; i++) seq[i] = i;    std::sort(seq + 1, seq + n + 1, cmp);    int cnt = 0;    for (int x = 1; x &lt;= n; x++) &#123;      int i = seq[x];      if (!edge[p[i]].cap &amp;&amp;          !maxflow::bfs(i * 2 - 1, i * 2)) &#123;        maxflow::main(i * 2 - 1, s);        maxflow::main(t, i * 2);        asq[++cnt] = i;        edge[p[i]].cap = 0;        edge[p[i] ^ 1].cap = 0;      &#125;    &#125;    std::sort(asq + 1, asq + cnt + 1);    printf(\"%d\\n\", cnt);    for (int i = 1; i &lt;= cnt; i++) &#123;      printf(\"%d%c\", asq[i], \" \\n\"[i == cnt]);    &#125;      &#125;&#125;\n","dateCreated":"2018-04-03T00:00:00+08:00","dateModified":"2019-02-06T20:53:00+08:00","datePublished":"2018-04-03T00:00:00+08:00","description":"题意：给定序列 A，序列中的每一项 $A_i$ 有删除代价 $B_i$ 和附加属性 $C_i$。请删除若干项，使得 A 的最长上升子序列长度减少至少 1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。\n$n \\leq 700$","headline":"BZOJ3532/LOJ2196/luogu3308 - 【 SDOI2014 】 LIS","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/03/SDOI2014-LIS/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/03/SDOI2014-LIS/","keywords":"flow"}</script>
     <meta name="description" content="题意：给定序列 A，序列中的每一项 $A_i$ 有删除代价 $B_i$ 和附加属性 $C_i$。请删除若干项，使得 A 的最长上升子序列长度减少至少 1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。 $n \leq 700$">
 <meta name="keywords" content="flow">
 <meta property="og:type" content="blog">
@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
 <meta property="og:description" content="题意：给定序列 A，序列中的每一项 $A_i$ 有删除代价 $B_i$ 和附加属性 $C_i$。请删除若干项，使得 A 的最长上升子序列长度减少至少 1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。 $n \leq 700$">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-03T12:36:09.442Z">
+<meta property="og:updated_time" content="2019-02-06T12:53:00.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BZOJ3532&#x2F;LOJ2196&#x2F;luogu3308 - 【 SDOI2014 】 LIS">
 <meta name="twitter:description" content="题意：给定序列 A，序列中的每一项 $A_i$ 有删除代价 $B_i$ 和附加属性 $C_i$。请删除若干项，使得 A 的最长上升子序列长度减少至少 1，且付出的代价之和最小，并输出方案。如果有多种方案，请输出将删去项的附加属性排序之后，字典序最小的一种。 $n \leq 700$">
@@ -238,14 +238,14 @@
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solutions/">solutions</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solution/">solution</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2018-06-03T20:36:09+08:00">
+    <time datetime="2019-02-06T20:53:00+08:00">
 	
-		    2018-06-03
+		    2019-02-06
     	
     </time>
 </div>
@@ -291,7 +291,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/ZJOI2012-mrx/" data-tooltip="BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友" aria-label="上一篇: BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训 2016 】数据交互" aria-label="上一篇: UOJ268 - 【清华集训 2016 】数据交互">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -300,7 +300,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训 2016 】数据交互" aria-label="下一篇: UOJ268 - 【清华集训 2016 】数据交互">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/21/ZJOI2018/" data-tooltip="ZJOI2018" aria-label="下一篇: ZJOI2018">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -310,7 +310,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -350,7 +350,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -392,7 +392,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/ZJOI2012-mrx/" data-tooltip="BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友" aria-label="上一篇: BZOJ2658/luogu2611 - 【 ZJOI2012 】小蓝的好友">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训 2016 】数据交互" aria-label="上一篇: UOJ268 - 【清华集训 2016 】数据交互">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -401,7 +401,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/03/THU2014-data-interaction/" data-tooltip="UOJ268 - 【清华集训 2016 】数据交互" aria-label="下一篇: UOJ268 - 【清华集训 2016 】数据交互">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/21/ZJOI2018/" data-tooltip="ZJOI2018" aria-label="下一篇: ZJOI2018">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -411,7 +411,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -451,7 +451,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

@@ -11,16 +11,16 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"Review of January.\n懒癌晚期，开始狂补总结。\n\nTrainings On CF, ATC and Others.CF - GoodBye 2017 (#908)D: 概率 DP， 注意实现细节（无穷级数处理及特殊情况。）\nE: XOR, AND, OR 互推。Bell 数（将 n 个元素分成若干份的方案，转移时考虑首元素如何分）\nF: 贪心。注意边界\nG: 对原数进行数位 DP，将第 k 大转化成有最多 k 个数比它大。\nCF - Hello 2018 (#913)E: 将字符串作为 DP 的值。\nF: 将步骤分解（题面要求分成多个 SCC，DP 时可以一个一个分解）\nCF - Edu. R36 (#915)G: 莫比乌斯函数容斥，整除符号：$\\lfloor \\frac{x}{y} \\rfloor$ 当 y 不变 x 增加时，仅当 y|x 时答案改变。当 x 不变时，原式取值仅$O(\\sqrt{n})$种， 可分块求解\nCF - R172 (#280)D: k 段最大和的 DP 解法及线段树优化，网络流解法及线段树优化。（详见题解）\nCF - R174 (#283)D: 将相邻两数性质拓展成区间性质。\nE: 三元环： 三元环 (a-&gt;b, b-&gt;c, c-&gt;a) 个数：    ${n \\choose 3} - \\sum_{i=1}^n{deg_i \\choose 2}$    即总三元组个数 - 非三元环个数 (a-&gt;b, a-&gt;c, b-&gt;c, 则必有一点入度为 2)。扫描线，线段树维护区间反转。\nCF - Gym (#100959)Title: 2015-2016 Petrozavodsk Winter Training Camp, Makoto rng_58 Soejima Contest 4\nA: 按质因数个数扩展。\nB: 曼哈顿距离和切比雪夫距离，用公共点减少连边。\nC: 代数式变换。数轴上 BFS（只需要搜到取值范围的 3 ～ 4 倍）\nF: 转化成整除式 $\\lfloor \\frac {a_i} {m} \\rfloor$ 的关系，分块 ( 数论函数式 ) 求解。\nJ: 树的编码： Prufer 编码。\nL: 注意考虑特例。\nAGC20D: 求值可以解方程不等式，也可以二分（有些时候更方便）。\nCF - Codecraft-18 and Codeforces Round #458 (Div. 1 + Div. 2, combined) (#914)C: 类数位 DP， 注意 k=0 时的细节。\nE: 树分治（类模板）， 解决路径问题。\nG: 集合卷积\nCF - Mashup 1Div1C 训练\n\nA: 297C\nB: 303C\nC: 314C  注意题意（原串的不下降子序列）， 用 pre[]数组维护重复计算的信息以便减去\nD: 319C  斜率优化 DP 思想。单调栈维护转移，当一条直线不在凸包上时（比较交点）弹出，如果改用单调队列可优化二分寻找最优转移的 log\nE: 321C  树分治思想，则只需分治中心比其子树任意点权值大即可。（分治时也可采取取直径中点为中心，最小化深度）\n\n","dateCreated":"2018-01-21T14:40:00+08:00","dateModified":"2018-06-03T20:35:49+08:00","datePublished":"2018-01-21T14:40:00+08:00","description":"Review of January.\n懒癌晚期，开始狂补总结。","headline":"Review of January","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/01/21/Review-of-January/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/01/21/Review-of-January/","keywords":"review, Codeforces, Atcoder"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"Review of January.\n懒癌晚期，开始狂补总结。\n\nTrainings On CF, ATC and Others.CF - GoodBye 2017 (#908)D: 概率 DP， 注意实现细节（无穷级数处理及特殊情况。）\nE: XOR, AND, OR 互推。Bell 数（将 n 个元素分成若干份的方案，转移时考虑首元素如何分）\nF: 贪心。注意边界\nG: 对原数进行数位 DP，将第 k 大转化成有最多 k 个数比它大。\nCF - Hello 2018 (#913)E: 将字符串作为 DP 的值。\nF: 将步骤分解（题面要求分成多个 SCC，DP 时可以一个一个分解）\nCF - Edu. R36 (#915)G: 莫比乌斯函数容斥，整除符号：$\\lfloor \\frac{x}{y} \\rfloor$ 当 y 不变 x 增加时，仅当 y|x 时答案改变。当 x 不变时，原式取值仅$O(\\sqrt{n})$种， 可分块求解\nCF - R172 (#280)D: k 段最大和的 DP 解法及线段树优化，网络流解法及线段树优化。（详见题解）\nCF - R174 (#283)D: 将相邻两数性质拓展成区间性质。\nE: 三元环： 三元环 (a-&gt;b, b-&gt;c, c-&gt;a) 个数：    ${n \\choose 3} - \\sum_{i=1}^n{deg_i \\choose 2}$    即总三元组个数 - 非三元环个数 (a-&gt;b, a-&gt;c, b-&gt;c, 则必有一点入度为 2)。扫描线，线段树维护区间反转。\nCF - Gym (#100959)Title: 2015-2016 Petrozavodsk Winter Training Camp, Makoto rng_58 Soejima Contest 4\nA: 按质因数个数扩展。\nB: 曼哈顿距离和切比雪夫距离，用公共点减少连边。\nC: 代数式变换。数轴上 BFS（只需要搜到取值范围的 3 ～ 4 倍）\nF: 转化成整除式 $\\lfloor \\frac {a_i} {m} \\rfloor$ 的关系，分块 ( 数论函数式 ) 求解。\nJ: 树的编码： Prufer 编码。\nL: 注意考虑特例。\nAGC20D: 求值可以解方程不等式，也可以二分（有些时候更方便）。\nCF - Codecraft-18 and Codeforces Round #458 (Div. 1 + Div. 2, combined) (#914)C: 类数位 DP， 注意 k=0 时的细节。\nE: 树分治（类模板）， 解决路径问题。\nG: 集合卷积\nCF - Mashup 1Div1C 训练\n\nA: 297C\nB: 303C\nC: 314C  注意题意（原串的不下降子序列）， 用 pre[]数组维护重复计算的信息以便减去\nD: 319C  斜率优化 DP 思想。单调栈维护转移，当一条直线不在凸包上时（比较交点）弹出，如果改用单调队列可优化二分寻找最优转移的 log\nE: 321C  树分治思想，则只需分治中心比其子树任意点权值大即可。（分治时也可采取取直径中点为中心，最小化深度）\n\n","dateCreated":"2018-01-21T14:40:00+08:00","dateModified":"2019-02-06T20:52:46+08:00","datePublished":"2018-01-21T14:40:00+08:00","description":"Review of January.\n懒癌晚期，开始狂补总结。","headline":"Review of January","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/01/21/Review-of-January/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/01/21/Review-of-January/","keywords":"Codeforces, Atcoder"}</script>
     <meta name="description" content="Review of January. 懒癌晚期，开始狂补总结。">
-<meta name="keywords" content="review,Codeforces,Atcoder">
+<meta name="keywords" content="Codeforces,Atcoder">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Review of January">
 <meta property="og:url" content="jhdjames37.github.io/2018/01/21/Review-of-January/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
 <meta property="og:description" content="Review of January. 懒癌晚期，开始狂补总结。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-03T12:35:49.475Z">
+<meta property="og:updated_time" content="2019-02-06T12:52:46.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Review of January">
 <meta name="twitter:description" content="Review of January. 懒癌晚期，开始狂补总结。">
@@ -238,14 +238,14 @@
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solutions/">solutions</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solution/">solution</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2018-06-03T20:35:49+08:00">
+    <time datetime="2019-02-06T20:52:46+08:00">
 	
-		    2018-06-03
+		    2019-02-06
     	
     </time>
 </div>
@@ -298,7 +298,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Atcoder/">Atcoder</a> <a class="tag tag--primary tag--small t-link" href="/tags/Codeforces/">Codeforces</a> <a class="tag tag--primary tag--small t-link" href="/tags/review/">review</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Atcoder/">Atcoder</a> <a class="tag tag--primary tag--small t-link" href="/tags/Codeforces/">Codeforces</a>
 
             </div>
         
@@ -328,7 +328,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -368,7 +368,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -429,7 +429,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -469,7 +469,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

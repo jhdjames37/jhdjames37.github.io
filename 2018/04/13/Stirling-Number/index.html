@@ -11,7 +11,7 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"最近在 CF 上出现了一道斯特林数 (Stirling Number) 的题（CF960G， HDU 上 有解法相同的一道题）,（在 ZJOI Day1 讲课的时候也提到了）。\n所以先来总结一波公式。\n\n文中所用记号组合数 $\\binom{n}{m}$ 不用讲了吧。\n定义 $x$ 的 $n$ 阶下降幂 $x ^ {\\underline{n}} = \\prod_{i = 0}^{n - 1} (x - i)$，当 $x$ 为正整数时就等于 $A_{x} ^ {n}$，A 就是排列数。$x$ 的 $n$ 阶上升幂 $x ^ {\\overline{n}} = \\prod_{i = 0} ^ {n - 1} (x + i)$。\n定义 $[x ^ i]f(x)$ 为多项式 $f(x)$ 中 $x ^ i$ 项前的系数。\n则易证 $[x ^ i]x ^ {\\underline{n}} = (-1) ^ {n - i} [x ^ i]x ^ {\\overline{n}}$\n第一类 Stirling 数定义定义第一类 Stirling 数 $\\left[ {n \\atop m} \\right]$ 或 $s(n, m)$ ($0 \\le m \\le n$)：\n\n\\left[ {n \\atop m} \\right] = s(n, m) = \\begin{cases}\n\\left[ {n - 1 \\atop m - 1} \\right] + \\left[ {n - 1 \\atop m} \\right] \\times (n - 1), & m < n \\\\\n1, & m = n \\\\\n0, & m = 0, n \\ne 0\n\\end{cases}组合意义：将 $n$ 个点组成 $m$ 个有向环的方案数（考虑第一个点独立成环，或插入到原有环的某个地方）。\n一些性质\n\\left[ {n \\atop 0} \\right] = 0, \\\\\n\\left[ {n \\atop 1} \\right] = (n - 1)!, \\\\\n\\sum_{i = 1}^{n} \\left[ {n \\atop i} \\right] = n!最后一项可以由其组合意义得到。\n将递推式后面一项展开，可以得到\n\\left[  {n \\atop m} \\right] \n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] \\binom{n - 1}{i - 1} (i - 1)! \\\\\n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] \\frac {(n - 1)!} {(n - i)!} \\\\\n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] (n - 1)^{\\underline{i - 1}}也说明了其组合意义。\n计算根据递推式计算是 $O(n ^ 2)$ 的 , 考虑如何优化。\n观察 $x ^ {\\overline{n}}$ 的各项系数：\n首先可以发现 $x ^ \\overline{n} = (x + n - 1) \\times x ^ {\\overline{n - 1}} = x \\times x ^ {\\overline{n - 1}} + (n - 1) \\times x ^ {\\overline{n - 1}} (n \\ge 1)$.则 $[x ^ i]x ^ {\\overline{n}}=[x ^ {i - 1}]x ^ {\\overline{n - 1}} + (n - 1) [x ^ i]x ^ {\\overline{n - 1}}$显然有 $[x ^ 0]x ^ {\\overline{n}} = 0, [x ^ n]x ^ {\\overline{n}} = 1$\n观察发现，它与第一类 Stirling 数的定义相同。即 $[x ^ i]x ^ {\\overline{n}} = \\left[ {n \\atop i} \\right]$.\n而上升幂可以用两两合并 FFT 在 $O(n \\log ^ 2 n)$ 内计算，那么我们就得到了 $O(n \\log ^ 2 n)$ 的解法。\n然而这玩意还能继续优化（虽然从常数意义来说不一定优）：\n首先假设 $n$ 为偶数（如果是奇数最后手动乘一项）。\n假设我们已经知道了 $x ^ {\\overline{\\frac{n}{2}}}$ 的各项系数，记 $f_i = [x ^ i]x ^ {\\overline{\\frac{n}{2}}}$。\n则 $x ^ {\\overline{n}} = x ^ {\\overline{\\frac{n}{2}}} \\times (x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}$\n所以我们只需要知道 $(x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}$ 即可。\n令 $t = x + \\frac{n}{2}$, 则 $(x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}} = t ^ {\\overline{\\frac{n}{2}}}$\n由二项式定理得 $t ^ i = (x + \\frac{n}{2}) ^ i =\\sum_{j = 0} ^ {i} \\binom{i}{j} x ^ j \\left( \\frac{n}{2} \\right) ^ {i - j}$\n则\n[x^i] (x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}\n= [x^i] t ^ {\\overline{\\frac{n}{2}}} \\\\\n= \\sum_{j = i} ^ {\\frac{n}{2}} [t^j]{t ^ {\\overline{\\frac{n}{2}}}} \\times [x^i]t^j \\\\\n= \\sum_{j = i} ^ {\\frac{n}{2}} f_j \\binom{j}{i} \\left( \\frac{n}{2} \\right) ^ {j - i}这又是一个卷积式，继续 FFT。总复杂度 $T(n) = T(\\frac{n}{2}) + O(n \\log n) = O(n \\log n)$\n第二类 Stirling 数定义定义第二类 Stirling 数 $\\{ {n \\atop m} \\}$ 或 $S(n, m)$ ($0 \\le m \\le n$): \n\n\\left\\{ {n \\atop m} \\right\\} = \\begin{cases}\n\\left\\{ {n - 1 \\atop m - 1} \\right\\} + m\\left\\{ {n - 1 \\atop m} \\right\\}, & n < m\\\\\n1, &n = m \\\\\n0, &m = 0, n \\ne 0\n\\end{cases}组合意义：将 n 个球分成 m 组的方案数（球有标号，分组没有标号，盒子非空）。（同样考虑第一个球的分组状况）\n一些性质\n\\left\\{ {n \\atop 0} \\right\\} = 0 \\\\\n\\left\\{ {n \\atop 1} \\right\\} = \\left\\{ {n \\atop n} \\right\\} = 1根据其组合意义，还可以得到其它一些组合问题的解（可以参考《离散数学》）。\n将 $n$ 个球放到 $m$ 个盒子中，球有标号 .\n\n盒子有标号，盒子非空：$m! \\left\\{ {n \\atop m} \\right\\}$\n盒子没有标号，盒子可空：$\\sum_{i = 1}^{m} \\left\\{ {n \\atop m} \\right\\}$\n盒子有标号，盒子可空：$\\sum_{i = 1}^{m} \\left\\{ {n \\atop i} \\right\\} i! \\binom{m}{i} = \\sum_{i = 1}^{m} \\left\\{ {n \\atop i} \\right\\} m ^ {\\underline{i}} = m ^ n$\n\n其中最后一点说明，可以将乘方用下降幂形式表示。\n( 根据前面的公式，其实第一类 Stirling 数也可以将下降幂用乘方表示。)\n这一点的好处在于从 $x ^ {\\underline{n}}$ 变成 $(x + 1) ^ {\\underline{n}}$ 比将 $x ^ n$ 变成 $(x + 1) ^ n$ 方便（前者 $O(1)$, 后者 $O(n)$）。\n计算考虑第三个问题的组合意义，我们可以得到一个容斥的式子（从所有方案中减去有空盒子的方案，最后去除标号）：\n\n\\left\\{ {n \\atop m} \\right\\} = \\frac{1}{m!} \\sum_{k = 0} ^ m (-1) ^ k \\binom{m}{k} (m - k) ^ n \\\\\n= \\sum_{k = 0}^m (-1) ^ k \\frac{1}{k!} \\frac{1}{(m - k)!} (m - k) ^ n也是一个卷积式，继续 FFT。\n\nReference &amp; Notes:一些公式是从这里 找到的。（包括 Stirling 数 $O(n \\log n)$ 的计算方法，其中也有一些关于 Stirling 数的例题。）\n《离散数学》中介绍了 Stirling 数的一些性质。\n关于如何输入 Stirling 数，参考了 Wikipedia 相关词条的原代码，这里也给出。\n12\\left[ &#123;n \\atop m&#125; \\right] \\left\\&#123; &#123;n \\atop m&#125; \\right\\&#125;\n（我说，我怎么都把这种东西写了出来）\n\n","dateCreated":"2018-04-13T22:05:18+08:00","dateModified":"2018-06-03T20:36:00+08:00","datePublished":"2018-04-13T22:05:18+08:00","description":"最近在 CF 上出现了一道斯特林数 (Stirling Number) 的题（CF960G， HDU 上 有解法相同的一道题）,（在 ZJOI Day1 讲课的时候也提到了）。\n所以先来总结一波公式。","headline":"Stirling Number","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/13/Stirling-Number/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/13/Stirling-Number/","keywords":"math"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"最近在 CF 上出现了一道斯特林数 (Stirling Number) 的题（CF960G， HDU 上 有解法相同的一道题）,（在 ZJOI Day1 讲课的时候也提到了）。\n所以先来总结一波公式。\n\n文中所用记号组合数 $\\binom{n}{m}$ 不用讲了吧。\n定义 $x$ 的 $n$ 阶下降幂 $x ^ {\\underline{n}} = \\prod_{i = 0}^{n - 1} (x - i)$，当 $x$ 为正整数时就等于 $A_{x} ^ {n}$，A 就是排列数。$x$ 的 $n$ 阶上升幂 $x ^ {\\overline{n}} = \\prod_{i = 0} ^ {n - 1} (x + i)$。\n定义 $[x ^ i]f(x)$ 为多项式 $f(x)$ 中 $x ^ i$ 项前的系数。\n则易证 $[x ^ i]x ^ {\\underline{n}} = (-1) ^ {n - i} [x ^ i]x ^ {\\overline{n}}$\n第一类 Stirling 数定义定义第一类 Stirling 数 $\\left[ {n \\atop m} \\right]$ 或 $s(n, m)$ ($0 \\le m \\le n$)：\n\n\\left[ {n \\atop m} \\right] = s(n, m) = \\begin{cases}\n\\left[ {n - 1 \\atop m - 1} \\right] + \\left[ {n - 1 \\atop m} \\right] \\times (n - 1), & m < n \\\\\n1, & m = n \\\\\n0, & m = 0, n \\ne 0\n\\end{cases}组合意义：将 $n$ 个点组成 $m$ 个有向环的方案数（考虑第一个点独立成环，或插入到原有环的某个地方）。\n一些性质\n\\left[ {n \\atop 0} \\right] = 0, \\\\\n\\left[ {n \\atop 1} \\right] = (n - 1)!, \\\\\n\\sum_{i = 1}^{n} \\left[ {n \\atop i} \\right] = n!最后一项可以由其组合意义得到。\n将递推式后面一项展开，可以得到\n\\left[  {n \\atop m} \\right] \n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] \\binom{n - 1}{i - 1} (i - 1)! \\\\\n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] \\frac {(n - 1)!} {(n - i)!} \\\\\n= \\sum_{i} \\left[ {n - i \\atop m - 1} \\right] (n - 1)^{\\underline{i - 1}}也说明了其组合意义。\n计算根据递推式计算是 $O(n ^ 2)$ 的 , 考虑如何优化。\n观察 $x ^ {\\overline{n}}$ 的各项系数：\n首先可以发现 $x ^ \\overline{n} = (x + n - 1) \\times x ^ {\\overline{n - 1}} = x \\times x ^ {\\overline{n - 1}} + (n - 1) \\times x ^ {\\overline{n - 1}} (n \\ge 1)$.则 $[x ^ i]x ^ {\\overline{n}}=[x ^ {i - 1}]x ^ {\\overline{n - 1}} + (n - 1) [x ^ i]x ^ {\\overline{n - 1}}$显然有 $[x ^ 0]x ^ {\\overline{n}} = 0, [x ^ n]x ^ {\\overline{n}} = 1$\n观察发现，它与第一类 Stirling 数的定义相同。即 $[x ^ i]x ^ {\\overline{n}} = \\left[ {n \\atop i} \\right]$.\n而上升幂可以用两两合并 FFT 在 $O(n \\log ^ 2 n)$ 内计算，那么我们就得到了 $O(n \\log ^ 2 n)$ 的解法。\n然而这玩意还能继续优化（虽然从常数意义来说不一定优）：\n首先假设 $n$ 为偶数（如果是奇数最后手动乘一项）。\n假设我们已经知道了 $x ^ {\\overline{\\frac{n}{2}}}$ 的各项系数，记 $f_i = [x ^ i]x ^ {\\overline{\\frac{n}{2}}}$。\n则 $x ^ {\\overline{n}} = x ^ {\\overline{\\frac{n}{2}}} \\times (x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}$\n所以我们只需要知道 $(x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}$ 即可。\n令 $t = x + \\frac{n}{2}$, 则 $(x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}} = t ^ {\\overline{\\frac{n}{2}}}$\n由二项式定理得 $t ^ i = (x + \\frac{n}{2}) ^ i =\\sum_{j = 0} ^ {i} \\binom{i}{j} x ^ j \\left( \\frac{n}{2} \\right) ^ {i - j}$\n则\n[x^i] (x + \\frac{n}{2}) ^ {\\overline{\\frac{n}{2}}}\n= [x^i] t ^ {\\overline{\\frac{n}{2}}} \\\\\n= \\sum_{j = i} ^ {\\frac{n}{2}} [t^j]{t ^ {\\overline{\\frac{n}{2}}}} \\times [x^i]t^j \\\\\n= \\sum_{j = i} ^ {\\frac{n}{2}} f_j \\binom{j}{i} \\left( \\frac{n}{2} \\right) ^ {j - i}这又是一个卷积式，继续 FFT。总复杂度 $T(n) = T(\\frac{n}{2}) + O(n \\log n) = O(n \\log n)$\n第二类 Stirling 数定义定义第二类 Stirling 数 $\\{ {n \\atop m} \\}$ 或 $S(n, m)$ ($0 \\le m \\le n$): \n\n\\left\\{ {n \\atop m} \\right\\} = \\begin{cases}\n\\left\\{ {n - 1 \\atop m - 1} \\right\\} + m\\left\\{ {n - 1 \\atop m} \\right\\}, & n < m\\\\\n1, &n = m \\\\\n0, &m = 0, n \\ne 0\n\\end{cases}组合意义：将 n 个球分成 m 组的方案数（球有标号，分组没有标号，盒子非空）。（同样考虑第一个球的分组状况）\n一些性质\n\\left\\{ {n \\atop 0} \\right\\} = 0 \\\\\n\\left\\{ {n \\atop 1} \\right\\} = \\left\\{ {n \\atop n} \\right\\} = 1根据其组合意义，还可以得到其它一些组合问题的解（可以参考《离散数学》）。\n将 $n$ 个球放到 $m$ 个盒子中，球有标号 .\n\n盒子有标号，盒子非空：$m! \\left\\{ {n \\atop m} \\right\\}$\n盒子没有标号，盒子可空：$\\sum_{i = 1}^{m} \\left\\{ {n \\atop m} \\right\\}$\n盒子有标号，盒子可空：$\\sum_{i = 1}^{m} \\left\\{ {n \\atop i} \\right\\} i! \\binom{m}{i} = \\sum_{i = 1}^{m} \\left\\{ {n \\atop i} \\right\\} m ^ {\\underline{i}} = m ^ n$\n\n其中最后一点说明，可以将乘方用下降幂形式表示。\n( 根据前面的公式，其实第一类 Stirling 数也可以将下降幂用乘方表示。)\n这一点的好处在于从 $x ^ {\\underline{n}}$ 变成 $(x + 1) ^ {\\underline{n}}$ 比将 $x ^ n$ 变成 $(x + 1) ^ n$ 方便（前者 $O(1)$, 后者 $O(n)$）。\n计算考虑第三个问题的组合意义，我们可以得到一个容斥的式子（从所有方案中减去有空盒子的方案，最后去除标号）：\n\n\\left\\{ {n \\atop m} \\right\\} = \\frac{1}{m!} \\sum_{k = 0} ^ m (-1) ^ k \\binom{m}{k} (m - k) ^ n \\\\\n= \\sum_{k = 0}^m (-1) ^ k \\frac{1}{k!} \\frac{1}{(m - k)!} (m - k) ^ n也是一个卷积式，继续 FFT。\n\nReference &amp; Notes:一些公式是从这里 找到的。（包括 Stirling 数 $O(n \\log n)$ 的计算方法，其中也有一些关于 Stirling 数的例题。）\n《离散数学》中介绍了 Stirling 数的一些性质。\n关于如何输入 Stirling 数，参考了 Wikipedia 相关词条的原代码，这里也给出。\n12\\left[ &#123;n \\atop m&#125; \\right] \\left\\&#123; &#123;n \\atop m&#125; \\right\\&#125;\n（我说，我怎么都把这种东西写了出来）\n\n","dateCreated":"2018-04-13T22:05:18+08:00","dateModified":"2019-02-06T20:52:51+08:00","datePublished":"2018-04-13T22:05:18+08:00","description":"最近在 CF 上出现了一道斯特林数 (Stirling Number) 的题（CF960G， HDU 上 有解法相同的一道题）,（在 ZJOI Day1 讲课的时候也提到了）。\n所以先来总结一波公式。","headline":"Stirling Number","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/04/13/Stirling-Number/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/04/13/Stirling-Number/","keywords":"math"}</script>
     <meta name="description" content="最近在 CF 上出现了一道斯特林数 (Stirling Number) 的题（CF960G， HDU 上 有解法相同的一道题）,（在 ZJOI Day1 讲课的时候也提到了）。 所以先来总结一波公式。">
 <meta name="keywords" content="math">
 <meta property="og:type" content="blog">
@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
 <meta property="og:description" content="最近在 CF 上出现了一道斯特林数 (Stirling Number) 的题（CF960G， HDU 上 有解法相同的一道题）,（在 ZJOI Day1 讲课的时候也提到了）。 所以先来总结一波公式。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-03T12:36:00.195Z">
+<meta property="og:updated_time" content="2019-02-06T12:52:51.305Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Stirling Number">
 <meta name="twitter:description" content="最近在 CF 上出现了一道斯特林数 (Stirling Number) 的题（CF960G， HDU 上 有解法相同的一道题）,（在 ZJOI Day1 讲课的时候也提到了）。 所以先来总结一波公式。">
@@ -238,14 +238,14 @@
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/algorithms-data-structures/">algorithms & data structures</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/algorithm/">algorithm</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2018-06-03T20:36:00+08:00">
+    <time datetime="2019-02-06T20:52:51+08:00">
 	
-		    2018-06-03
+		    2019-02-06
     	
     </time>
 </div>
@@ -372,7 +372,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -412,7 +412,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -473,7 +473,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -513,7 +513,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>

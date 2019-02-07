@@ -11,15 +11,16 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"迟到了一年的总结。\n\n通道LOJ / luogu / UOJ\n来自猫锟的一道好（码农）题。著名的树上最优化直径乱搞题。\n从部分分出发：\n树 + 链：端点带权的直径，一样做。\n树 + 树：利用两个点集并的直径端点一定是两个点集的端点。在一棵树上子树合并，将这棵树的 $\\text{dep}$ 作为端点权值，维护每个子树中的点集的直径。合并时两两合并，更新答案的时候减掉 lca 的 $\\text{dep}$。\n树 + 树 + 树：一棵树上边分，将两个部分的点集到分治中心的距离也加入端点的权值，然后建立在第二棵树虚树和上面一样做。\n代码实现因为有三棵树，所以最好把它用合理的方式分开。然后维护两个部分点集的时候，要分开维护直径。code\n州区划分LOJ / luogu / UOJ\n首先需要说明的 $p = 0, p = 1$ 的部分分。\n它们分别对应有序和无序的方案（$p = 1$ 表示无序证明：每个无序划分所有总排列贡献之和等于 $1$,计算时每次将依次将前两项、三项、四项相同的排列贡献合并）。\n有序集合生成函数为 $F(x) = 1 + f(x) + f^2(x) + \\ldots = \\frac{1}{1 - f(x)}$；无序集合生成函数为 $F(x) = 1 + \\frac{f(x)}{1!} + \\frac{f^2(x)}{2!} + \\ldots = e^{f(x)}$。\n带入子集卷积计算（外层 FMT，内层暴力求逆 / exp）。\n接着考虑标算（和 $p$ 无关）：\n转移式：$f_S = \\sum_{T \\subseteq S} [\\text{T 合法}] f_{S-T} \\left( \\frac{sum_T}{sum_S}\\right)^p$。\n这有点像分治 FFT，然而子集卷积并不存在明显的分治对象。\n但是我们可以直接使用子集卷积解法：$f_{i, S}$ 表示选了 $i$ 个元素，并集为 $S$ 的方案。然后外层 FMT，内层套卷积。我们只需要修改里面的卷积部分。\n因为计算 $f_{i, S}$ 的时候只会利用 $j &lt; i$ 的 $f_{j}$，所以完全可以将 $i$ 在外层枚举，然后 DP。\n然后 $sum_S$ 那一部分放不进卷积（是个点积），这就只需要每一层计算完毕之后，IFMT 回来做点积，然后再 FMT 回去。所以常数有点大。code\n即时战略LOJ / UOJ\n容易从二叉树的部分分想到分治。\n然后需要动态分治。\n然后写个类似 ScapeGoatTree 的东西维护分治树，要重构的时候暴力 2-DFS 找重心重新分治。要找在哪一棵子树的时候，沿着 father 一直往上跳。\n感觉递归版的替罪羊比以前写的迭代版要好些多了。。。code\n另外还有 LCT 做法，好像是每次判断这个点在不在当前 splay 中，然后一直沿 splay 往下找，找到之后 access 一下。\n","dateCreated":"2018-12-18T17:29:03+08:00","dateModified":"2018-12-20T18:45:02+08:00","datePublished":"2018-12-18T17:29:03+08:00","description":"迟到了一年的总结。","headline":"WC 2018 做题记录","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/12/18/WC-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/12/18/WC-2018/"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"迟到了一年的总结。\n\n通道LOJ / luogu / UOJ\n来自猫锟的一道好（码农）题。著名的树上最优化直径乱搞题。\n从部分分出发：\n树 + 链：端点带权的直径，一样做。\n树 + 树：利用两个点集并的直径端点一定是两个点集的端点。在一棵树上子树合并，将这棵树的 $\\text{dep}$ 作为端点权值，维护每个子树中的点集的直径。合并时两两合并，更新答案的时候减掉 lca 的 $\\text{dep}$。\n树 + 树 + 树：一棵树上边分，将两个部分的点集到分治中心的距离也加入端点的权值，然后建立在第二棵树虚树和上面一样做。\n代码实现因为有三棵树，所以最好把它用合理的方式分开。然后维护两个部分点集的时候，要分开维护直径。code\n州区划分LOJ / luogu / UOJ\n首先需要说明的 $p = 0, p = 1$ 的部分分。\n它们分别对应有序和无序的方案（$p = 1$ 表示无序证明：每个无序划分所有总排列贡献之和等于 $1$,计算时每次将依次将前两项、三项、四项相同的排列贡献合并）。\n有序集合生成函数为 $F(x) = 1 + f(x) + f^2(x) + \\ldots = \\frac{1}{1 - f(x)}$；无序集合生成函数为 $F(x) = 1 + \\frac{f(x)}{1!} + \\frac{f^2(x)}{2!} + \\ldots = e^{f(x)}$。\n带入子集卷积计算（外层 FMT，内层暴力求逆 / exp）。\n接着考虑标算（和 $p$ 无关）：\n转移式：$f_S = \\sum_{T \\subseteq S} [\\text{T 合法}] f_{S-T} \\left( \\frac{sum_T}{sum_S}\\right)^p$。\n这有点像分治 FFT，然而子集卷积并不存在明显的分治对象。\n但是我们可以直接使用子集卷积解法：$f_{i, S}$ 表示选了 $i$ 个元素，并集为 $S$ 的方案。然后外层 FMT，内层套卷积。我们只需要修改里面的卷积部分。\n因为计算 $f_{i, S}$ 的时候只会利用 $j &lt; i$ 的 $f_{j}$，所以完全可以将 $i$ 在外层枚举，然后 DP。\n然后 $sum_S$ 那一部分放不进卷积（是个点积），这就只需要每一层计算完毕之后，IFMT 回来做点积，然后再 FMT 回去。所以常数有点大。code\n即时战略LOJ / UOJ\n容易从二叉树的部分分想到分治。\n然后需要动态分治。\n然后写个类似 ScapeGoatTree 的东西维护分治树，要重构的时候暴力 2-DFS 找重心重新分治。要找在哪一棵子树的时候，沿着 father 一直往上跳。\n感觉递归版的替罪羊比以前写的迭代版要好些多了。。。code\n另外还有 LCT 做法，好像是每次判断这个点在不在当前 splay 中，然后一直沿 splay 往下找，找到之后 access 一下。\n","dateCreated":"2018-12-18T17:29:03+08:00","dateModified":"2019-02-06T20:53:16+08:00","datePublished":"2018-12-18T17:29:03+08:00","description":"迟到了一年的总结。","headline":"WC 2018 做题记录","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2018/12/18/WC-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2018/12/18/WC-2018/","keywords":"WC"}</script>
     <meta name="description" content="迟到了一年的总结。">
+<meta name="keywords" content="WC">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="WC 2018 做题记录">
 <meta property="og:url" content="jhdjames37.github.io/2018/12/18/WC-2018/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
 <meta property="og:description" content="迟到了一年的总结。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-12-20T10:45:02.676Z">
+<meta property="og:updated_time" content="2019-02-06T12:53:16.876Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WC 2018 做题记录">
 <meta name="twitter:description" content="迟到了一年的总结。">
@@ -237,14 +238,14 @@
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/reviews/">reviews</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solution/">solution</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2018-12-20T18:45:02+08:00">
+    <time datetime="2019-02-06T20:53:16+08:00">
 	
-		    2018-12-20
+		    2019-02-06
     	
     </time>
 </div>
@@ -288,6 +289,13 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/WC/">WC</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
@@ -314,7 +322,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -354,7 +362,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -415,7 +423,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -455,7 +463,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
