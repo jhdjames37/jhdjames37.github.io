@@ -6,24 +6,24 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="jhdjames37&#39;s blog">
-    <title>EC Final 2018 - jhdjames37&#39;s blog</title>
+    <title>Codeforces Global Round 1 - jhdjames37&#39;s blog</title>
     <meta name="author" content="jhdjames37">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"EC Final 2018 做题记录。\n没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地）\n（本来应该在 WC 之前就发出来的。。。）\n（参考吉老师 B 站讲课）。\n\nD, L, I 略（两道签到 + 一道不是我写的。。。）\nF 题搞出最优解在三点形成的平面上，然后就变成初中几何题了。而且不爆精。。。\n然后我们去搞 C，把满足 $2^2, 3^2, 5^2, 7^2$ 的 $\\mu$ 的周期规律的筛出来，然后 CRT + 判断（居然状态这么少！）（一开始写残了）。\n（然后我们去吃饭了。。。）\n\nJ 题比赛的时候没搞懂这个长式子在干什么，然后说是纳什均衡，其实只要在后缀树上 DP，合并的时候根据定义推一下式子，然后是两个一次函数取 $\\min$，然后就是取交点。\nK 题均摊，按照 $k$ 从小到大，维护每个点为左端点时的最左右端点，然后把相同的合并，复杂度就是对的了。。。\nG 题大分讨。我的构造选择 gap 总长更长的 $2m$ 个点。然后将所有区间按照和 $k$ 的大小关系分成两份，然后两边轮换放置（需要特判 size = 1），不够的地方用对面的补齐，然后多出来的全部放在一个位置上。\nE 有趣的括号序列题。首先推出结论：两个序列任意位置前缀和之和大于 $-2$ ，且一个串前缀加一个整串的和要大于 $-1$（感性理解，发现它是对的）。然后 $O(n^3)$ 是个经典的栈 DP，$O(n^2)$ 只需要把它反过来，让原先所有的终止状态同时 DP（我写的还要容斥？）。\nB 是 LCA 的营员交流。\nA 题有几步转化。首先观察权值范围较小，根据最小生成树的性质，我们如果知道对于 $x \\in [1, 30]$，权值 $\\le x$ 的边形成的生成森林的形态（具体地说，只需要知道有几条边在生成森林上），我们就可以求出答案。这时发现任意的生成森林这个值都是相同的，所以我们就可以不管权值限制。然后我们就可以采取暴力求出前 $i$ 层生成森林边数：第一层直接求，然后每次合并，如果有这两个连通块各有一个在右边的点，我们记录这两个点（因为这个连通块在下一层中相当于一条边）。对于某一层，如果成环，这一层就必须额外删去一条边。最后求一下前缀和。$O(w^2 m)$。\n","dateCreated":"2019-02-06T20:11:42+08:00","dateModified":"2019-02-13T20:55:18+08:00","datePublished":"2019-02-06T20:11:42+08:00","description":"EC Final 2018 做题记录。\n没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地）\n（本来应该在 WC 之前就发出来的。。。）\n（参考吉老师 B 站讲课）。","headline":"EC Final 2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/02/06/EC-Final-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/02/06/EC-Final-2018/","keywords":"icpc"}</script>
-    <meta name="description" content="EC Final 2018 做题记录。 没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地） （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
-<meta name="keywords" content="icpc">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。\n\nA B 略，C $2^n - 1$ 直接打表。\nD 经典问题（似乎是 ZJOI2006 弱化版），每种顺子最多两个。写起来有点烦。\nE 结论题，只要去观察差分数组就做完了。\nF 题挺讨厌的，有一个在线倍增的做法（超级难写，各种分讨，比赛时就在搞这玩意自闭），（赛后一躺下来就想到）也有一个离线 DFS 时维护每个点 LCA 深度做法（超级好写，第二天 15 分钟写完。。。）\nG 题很容易想到一回合定胜负的分讨（也还好写）。其实还有一种【打劫】（套用围棋中的话）方式：两个距离为奇数的白点，因为你可以在路径上隔一个位置放一个棋子，这样对方只能先堵那个 $2$，同时规模缩小。对于度数为 $3$ 的点，也有类似的结论，只需要在分叉旁边的位置放一个，对手只能放分叉，然后就转化成为上述情况。\nH 题本质还是数位 DP。每个在 $[l, r]$ 之间的数可以表示成 $\\text{num} + ? \\times k$ （$?$ 为通配符）的形式。建出 AC 机跑 DP，每个匹配在 $\\text{num}$ 的终止结点处计算贡献。\n","dateCreated":"2019-02-13T20:58:05+08:00","dateModified":"2019-02-13T21:13:22+08:00","datePublished":"2019-02-13T20:58:05+08:00","description":"新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。","headline":"Codeforces Global Round 1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/","keywords":"Codeforces"}</script>
+    <meta name="description" content="新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。">
+<meta name="keywords" content="Codeforces">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="EC Final 2018">
-<meta property="og:url" content="jhdjames37.github.io/2019/02/06/EC-Final-2018/index.html">
+<meta property="og:title" content="Codeforces Global Round 1">
+<meta property="og:url" content="jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
-<meta property="og:description" content="EC Final 2018 做题记录。 没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地） （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
+<meta property="og:description" content="新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-13T12:55:18.437Z">
+<meta property="og:updated_time" content="2019-02-13T13:13:22.470Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EC Final 2018">
-<meta name="twitter:description" content="EC Final 2018 做题记录。 没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地） （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
+<meta name="twitter:title" content="Codeforces Global Round 1">
+<meta name="twitter:description" content="新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。">
     
     
         
@@ -225,14 +225,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            EC Final 2018
+            Codeforces Global Round 1
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-02-06T20:11:42+08:00">
+    <time datetime="2019-02-13T20:58:05+08:00">
 	
-		    2019-02-06
+		    2019-02-13
     	
     </time>
     
@@ -243,7 +243,7 @@
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2019-02-13T20:55:18+08:00">
+    <time datetime="2019-02-13T21:13:22+08:00">
 	
 		    2019-02-13
     	
@@ -256,22 +256,14 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p><a href="https://codeforces.com/gym/102056" target="_blank" rel="noopener">EC Final 2018</a> 做题记录。</p>
-<p>没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地）</p>
-<p>（本来应该在 WC 之前就发出来的。。。）</p>
-<p>（参考<a href="https://www.bilibili.com/video/av38542305" target="_blank" rel="noopener">吉老师 B 站讲课</a>）。</p>
+            <p>新鲜出炉的 <a href="https://codeforces.com/contest/1110" target="_blank" rel="noopener">Global Round</a> （其实就是个 Div1 + Div2）。</p>
 <a id="more"></a>
-<p>D, L, I 略（两道签到 + 一道不是我写的。。。）</p>
-<p>F 题搞出最优解在三点形成的平面上，然后就变成初中几何题了。而且不爆精。。。</p>
-<p>然后我们去搞 C，把满足 $2^2, 3^2, 5^2, 7^2$ 的 $\mu$ 的周期规律的筛出来，然后 CRT + 判断（居然状态这么少！）（一开始写残了）。</p>
-<p>（然后我们去吃饭了。。。）</p>
-<hr>
-<p>J 题比赛的时候没搞懂这个长式子在干什么，<del>然后说是纳什均衡</del>，其实只要在后缀树上 DP，合并的时候根据定义推一下式子，然后是两个一次函数取 $\min$，然后就是取交点。</p>
-<p>K 题均摊，按照 $k$ 从小到大，维护每个点为左端点时的最左右端点，然后把相同的合并，复杂度就是对的了。。。</p>
-<p>G 题大分讨。我的构造选择 gap 总长更长的 $2m$ 个点。然后将所有区间按照和 $k$ 的大小关系分成两份，然后两边轮换放置（需要特判 <code>size = 1</code>），不够的地方用对面的补齐，然后多出来的全部放在一个位置上。</p>
-<p>E 有趣的括号序列题。首先推出结论：两个序列任意位置前缀和之和大于 $-2$ ，且一个串前缀加一个整串的和要大于 $-1$（感性理解，发现它是对的）。然后 $O(n^3)$ 是个经典的栈 DP，$O(n^2)$ 只需要把它反过来，让原先所有的终止状态同时 DP（我写的还要容斥？）。</p>
-<p>B 是 LCA 的营员交流。</p>
-<p>A 题有几步转化。首先观察权值范围较小，根据最小生成树的性质，我们如果知道对于 $x \in [1, 30]$，权值 $\le x$ 的边形成的生成森林的形态（具体地说，只需要知道有几条边在生成森林上），我们就可以求出答案。这时发现任意的生成森林这个值都是相同的，所以我们就可以不管权值限制。然后我们就可以采取暴力求出前 $i$ 层生成森林边数：第一层直接求，然后每次合并，如果有这两个连通块各有一个在右边的点，我们记录这两个点（因为这个连通块在下一层中相当于一条边）。对于某一层，如果成环，这一层就必须额外删去一条边。最后求一下前缀和。$O(w^2 m)$。</p>
+<p>A B 略，C $2^n - 1$ 直接打表。</p>
+<p>D 经典问题（似乎是 ZJOI2006 弱化版），每种顺子最多两个。写起来有点烦。</p>
+<p>E 结论题，只要去观察差分数组就做完了。</p>
+<p>F 题挺讨厌的，有一个在线倍增的做法（超级难写，各种分讨，比赛时就在搞这玩意自闭），<del>（赛后一躺下来就想到）</del>也有一个离线 DFS 时维护每个点 LCA 深度做法（超级好写，第二天 15 分钟写完。。。）</p>
+<p>G 题很容易想到一回合定胜负的分讨（也还好写）。其实还有一种【打劫】（套用围棋中的话）方式：两个距离为奇数的白点，因为你可以在路径上隔一个位置放一个棋子，这样对方只能先堵那个 $2$，同时规模缩小。对于度数为 $3$ 的点，也有类似的结论，只需要在分叉旁边的位置放一个，对手只能放分叉，然后就转化成为上述情况。</p>
+<p>H 题本质还是数位 DP。每个在 $[l, r]$ 之间的数可以表示成 $\text{num} + ? \times k$ （$?$ 为通配符）的形式。建出 AC 机跑 DP，每个匹配在 $\text{num}$ 的终止结点处计算贡献。</p>
 
             
 
@@ -282,7 +274,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/icpc/">icpc</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/Codeforces/">Codeforces</a>
 
             </div>
         
@@ -292,8 +284,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/06/WC-2019-Problems/" data-tooltip="WC 2019 补题记录" aria-label="上一篇: WC 2019 补题记录">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -302,7 +293,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/18/THUWC-2019-WC-2019/" data-tooltip="THUWC 2019 &amp; WC 2019" aria-label="下一篇: THUWC 2019 &amp; WC 2019">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/UOJ-Goodbye-Wuxu/" data-tooltip="UOJ Goodbye Wuxu" aria-label="下一篇: UOJ Goodbye Wuxu">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -320,7 +311,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/06/EC-Final-2018/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -328,7 +319,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/06/EC-Final-2018/&amp;title=EC Final 2018" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/&amp;title=Codeforces Global Round 1" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -336,7 +327,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/06/EC-Final-2018/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -393,8 +384,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/06/WC-2019-Problems/" data-tooltip="WC 2019 补题记录" aria-label="上一篇: WC 2019 补题记录">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -403,7 +393,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/18/THUWC-2019-WC-2019/" data-tooltip="THUWC 2019 &amp; WC 2019" aria-label="下一篇: THUWC 2019 &amp; WC 2019">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/UOJ-Goodbye-Wuxu/" data-tooltip="UOJ Goodbye Wuxu" aria-label="下一篇: UOJ Goodbye Wuxu">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -421,7 +411,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/06/EC-Final-2018/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -429,7 +419,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/06/EC-Final-2018/&amp;title=EC Final 2018" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/&amp;title=Codeforces Global Round 1" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -437,7 +427,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/06/EC-Final-2018/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -470,7 +460,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/06/EC-Final-2018/">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/">
                     <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
@@ -478,7 +468,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/06/EC-Final-2018/&amp;title=EC Final 2018">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/&amp;title=Codeforces Global Round 1">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -486,7 +476,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/06/EC-Final-2018/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -537,7 +527,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'EC Final 2018',
+                        id: 'Codeforces Global Round 1',
                         owner: 'jhdjames37',
                         repo: 'jhdjames37.github.io',
                         oauth: {
