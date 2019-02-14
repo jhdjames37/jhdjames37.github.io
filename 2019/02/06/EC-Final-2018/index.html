@@ -11,19 +11,19 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"EC Final 2018 做题记录。\n没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地）\n（本来应该在 WC 之前就发出来的。。。）\n（参考吉老师 B 站讲课）。\n\nD, L, I 略（两道签到 + 一道不是我写的。。。）\nF 题搞出最优解在三点形成的平面上，然后就变成初中几何题了。而且不爆精。。。\n然后我们去搞 C，把满足 $2^2, 3^2, 5^2, 7^2$ 的 $\\mu$ 的周期规律的筛出来，然后 CRT + 判断（居然状态这么少！）（一开始写残了）。\n（然后我们去吃饭了。。。）\n\nJ 题比赛的时候没搞懂这个长式子在干什么，然后说是纳什均衡，其实只要在后缀树上 DP，合并的时候根据定义推一下式子，然后是两个一次函数取 $\\min$，然后就是取交点。\nK 题均摊，按照 $k$ 从小到大，维护每个点为左端点时的最左右端点，然后把相同的合并，复杂度就是对的了。。。\nG 题大分讨。我的构造选择 gap 总长更长的 $2m$ 个点。然后将所有区间按照和 $k$ 的大小关系分成两份，然后两边轮换放置（需要特判 size = 1），不够的地方用对面的补齐，然后多出来的全部放在一个位置上。\nE 有趣的括号序列题。首先推出结论：两个序列任意位置前缀和之和大于 $-2$ ，且一个串前缀加一个整串的和要大于 $-1$（感性理解，发现它是对的）。然后 $O(n^3)$ 是个经典的栈 DP，$O(n^2)$ 只需要把它反过来，让原先所有的终止状态同时 DP（我写的还要容斥？）。\nB 是 LCA 的营员交流。\nA 题有几步转化。首先观察权值范围较小，根据最小生成树的性质，我们如果知道对于 $x \\in [1, 30]$，权值 $\\le x$ 的边形成的生成森林的形态（具体地说，只需要知道有几条边在生成森林上），我们就可以求出答案。这时发现任意的生成森林这个值都是相同的，所以我们就可以不管权值限制。然后我们就可以采取暴力求出前 $i$ 层生成森林边数：第一层直接求，然后每次合并，如果有这两个连通块各有一个在右边的点，我们记录这两个点（因为这个连通块在下一层中相当于一条边）。对于某一层，如果成环，这一层就必须额外删去一条边。最后求一下前缀和。$O(w^2 m)$。\n","dateCreated":"2019-02-06T20:11:42+08:00","dateModified":"2019-02-13T20:55:18+08:00","datePublished":"2019-02-06T20:11:42+08:00","description":"EC Final 2018 做题记录。\n没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地）\n（本来应该在 WC 之前就发出来的。。。）\n（参考吉老师 B 站讲课）。","headline":"EC Final 2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/02/06/EC-Final-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/02/06/EC-Final-2018/","keywords":"icpc"}</script>
-    <meta name="description" content="EC Final 2018 做题记录。 没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地） （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"EC Final 2018 做题记录。\n\n（本来应该在 WC 之前就发出来的。。。）\n（参考吉老师 B 站讲课）。\n\nD, L, I 略（两道签到 + 一道不是我写的。。。）\nF 题搞出最优解在三点形成的平面上，然后就变成初中几何题了。而且不爆精。。。\n然后我们去搞 C，把满足 $2^2, 3^2, 5^2, 7^2$ 的 $\\mu$ 的周期规律的筛出来，然后 CRT + 判断（居然状态这么少！）（一开始写残了）。\n（然后我们去吃饭了。。。）\n\nJ 题比赛的时候没搞懂这个长式子在干什么，然后说是纳什均衡，其实只要在后缀树上 DP，合并的时候根据定义推一下式子，然后是两个一次函数取 $\\min$，然后就是取交点。\nK 题均摊，按照 $k$ 从小到大，维护每个点为左端点时的最左右端点，然后把相同的合并，复杂度就是对的了。。。\nG 题大分讨。我的构造选择 gap 总长更长的 $2m$ 个点。然后将所有区间按照和 $k$ 的大小关系分成两份，然后两边轮换放置（需要特判 size = 1），不够的地方用对面的补齐，然后多出来的全部放在一个位置上。\nE 有趣的括号序列题。首先推出结论：两个序列任意位置前缀和之和大于 $-2$ ，且一个串前缀加一个整串的和要大于 $-1$（感性理解，发现它是对的）。然后 $O(n^3)$ 是个经典的栈 DP，$O(n^2)$ 只需要把它反过来，让原先所有的终止状态同时 DP（我写的还要容斥？）。\nB 是 LCA 的营员交流。其实这个想法的出发点是若 $A, B, C$ 相连， $AB$ 连续，$BC$ 连续则 $ABC$ 连续，且 $A &lt; B &lt; C$ 或 $A &gt; B &gt; C$。所以如果一个区间是 sorted 的，那么其所有子区间都是连续的，然后我们可以把它缩成一个点，并附上新权值。而且，不考虑非平凡子区间，所有区间形成了树形结构。然后可以发现，如果每个非叶结点都有多于一个儿子的话，则它是合法的（可以考虑如何构造），且与一个连续区间集合一一对应。但是，还有这个反例：2 4 1 3，它的每个非平凡子区间都不连续，但整个区间都连续。发现这一种情况，也满足树形结构关系，且孩子数量至少为 $4$。而且，父亲-儿子关系满足所有非平凡子区间要么都连续，要么都不连续。有了这个我们可以 DP，也可以多项式 ($f$ 表示第一类点，$g$ 表示第二类点，$h$ 表示答案)：\nh = f + g, f = x + h ^ 2 + h ^ 3 + \\ldots, g = h ^ 4 + h ^ 5 + \\ldots.可以得到关于 $h$ 的表达式，多项式求解。\nA 题有几步转化。首先观察权值范围较小，根据最小生成树的性质，我们如果知道对于 $x \\in [1, 30]$，权值 $\\le x$ 的边形成的生成森林的形态（具体地说，只需要知道有几条边在生成森林上），我们就可以求出答案。这时发现任意的生成森林这个值都是相同的，所以我们就可以不管权值限制。然后我们就可以采取暴力求出前 $i$ 层生成森林边数：第一层直接求，然后每次合并，如果有这两个连通块各有一个在右边的点，我们记录这两个点（因为这个连通块在下一层中相当于一条边）。对于某一层，如果成环，这一层就必须额外删去一条边。最后求一下前缀和。$O(w^2 m)$。\n","dateCreated":"2019-02-06T20:11:42+08:00","dateModified":"2019-02-14T15:34:23+08:00","datePublished":"2019-02-06T20:11:42+08:00","description":"EC Final 2018 做题记录。\n\n（本来应该在 WC 之前就发出来的。。。）\n（参考吉老师 B 站讲课）。","headline":"EC Final 2018","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/02/06/EC-Final-2018/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/02/06/EC-Final-2018/","keywords":"icpc"}</script>
+    <meta name="description" content="EC Final 2018 做题记录。  （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
 <meta name="keywords" content="icpc">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="EC Final 2018">
 <meta property="og:url" content="jhdjames37.github.io/2019/02/06/EC-Final-2018/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
-<meta property="og:description" content="EC Final 2018 做题记录。 没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地） （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
+<meta property="og:description" content="EC Final 2018 做题记录。  （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-13T12:55:18.437Z">
+<meta property="og:updated_time" content="2019-02-14T07:34:23.355Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EC Final 2018">
-<meta name="twitter:description" content="EC Final 2018 做题记录。 没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地） （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
+<meta name="twitter:description" content="EC Final 2018 做题记录。  （本来应该在 WC 之前就发出来的。。。） （参考吉老师 B 站讲课）。">
     
     
         
@@ -243,9 +243,9 @@
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2019-02-13T20:55:18+08:00">
+    <time datetime="2019-02-14T15:34:23+08:00">
 	
-		    2019-02-13
+		    2019-02-14
     	
     </time>
 </div>
@@ -257,7 +257,7 @@
     <div class="post-content markdown">
         <div class="main-content-wrap">
             <p><a href="https://codeforces.com/gym/102056" target="_blank" rel="noopener">EC Final 2018</a> 做题记录。</p>
-<p>没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地）</p>
+<!--- 没有正式参赛，但是 VP 完还是觉得我校代表队打得真的有点凉。。。（虽然自己也打得不咋地） --->
 <p>（本来应该在 WC 之前就发出来的。。。）</p>
 <p>（参考<a href="https://www.bilibili.com/video/av38542305" target="_blank" rel="noopener">吉老师 B 站讲课</a>）。</p>
 <a id="more"></a>
@@ -270,8 +270,9 @@
 <p>K 题均摊，按照 $k$ 从小到大，维护每个点为左端点时的最左右端点，然后把相同的合并，复杂度就是对的了。。。</p>
 <p>G 题大分讨。我的构造选择 gap 总长更长的 $2m$ 个点。然后将所有区间按照和 $k$ 的大小关系分成两份，然后两边轮换放置（需要特判 <code>size = 1</code>），不够的地方用对面的补齐，然后多出来的全部放在一个位置上。</p>
 <p>E 有趣的括号序列题。首先推出结论：两个序列任意位置前缀和之和大于 $-2$ ，且一个串前缀加一个整串的和要大于 $-1$（感性理解，发现它是对的）。然后 $O(n^3)$ 是个经典的栈 DP，$O(n^2)$ 只需要把它反过来，让原先所有的终止状态同时 DP（我写的还要容斥？）。</p>
-<p>B 是 LCA 的营员交流。</p>
-<p>A 题有几步转化。首先观察权值范围较小，根据最小生成树的性质，我们如果知道对于 $x \in [1, 30]$，权值 $\le x$ 的边形成的生成森林的形态（具体地说，只需要知道有几条边在生成森林上），我们就可以求出答案。这时发现任意的生成森林这个值都是相同的，所以我们就可以不管权值限制。然后我们就可以采取暴力求出前 $i$ 层生成森林边数：第一层直接求，然后每次合并，如果有这两个连通块各有一个在右边的点，我们记录这两个点（因为这个连通块在下一层中相当于一条边）。对于某一层，如果成环，这一层就必须额外删去一条边。最后求一下前缀和。$O(w^2 m)$。</p>
+<p>B 是 LCA 的营员交流。其实这个想法的出发点是若 $A, B, C$ 相连， $AB$ 连续，$BC$ 连续则 $ABC$ 连续，且 $A &lt; B &lt; C$ 或 $A &gt; B &gt; C$。所以如果一个区间是 sorted 的，那么其所有子区间都是连续的，然后我们可以把它缩成一个点，并附上新权值。而且，不考虑非平凡子区间，所有区间形成了树形结构。然后可以发现，如果每个非叶结点都有多于一个儿子的话，则它是合法的（可以考虑如何构造），且与一个连续区间集合一一对应。<br><strong>但是</strong>，还有这个反例：<code>2 4 1 3</code>，它的每个非平凡子区间都不连续，但整个区间都连续。发现这一种情况，也满足树形结构关系，且孩子数量至少为 $4$。而且，父亲-儿子关系满足所有非平凡子区间要么都连续，要么都不连续。<br>有了这个我们可以 DP，也可以多项式 ($f$ 表示第一类点，$g$ 表示第二类点，$h$ 表示答案)：</p>
+<script type="math/tex; mode=display">h = f + g, f = x + h ^ 2 + h ^ 3 + \ldots, g = h ^ 4 + h ^ 5 + \ldots.</script><p>可以得到关于 $h$ 的表达式，多项式求解。</p>
+<p>A 题有几步转化。首先观察权值范围较小，根据最小生成树的性质，我们如果知道对于 $x \in [1, 30]$，权值 $\le x$ 的边形成的生成森林的形态（具体地说，只需要知道有几条边在生成森林上），我们就可以求出答案。这时发现任意的生成森林这个值都是相同的，所以我们就可以不管权值限制。<br>然后我们就可以采取暴力求出前 $i$ 层生成森林边数：第一层直接求，然后每次合并，如果有这两个连通块各有一个在右边的点，我们记录这两个点（因为这个连通块在下一层中相当于一条边）。对于某一层，如果成环，这一层就必须额外删去一条边。最后求一下前缀和。$O(w^2 m)$。</p>
 
             
 
