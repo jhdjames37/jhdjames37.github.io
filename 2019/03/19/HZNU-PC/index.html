@@ -6,24 +6,24 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="jhdjames37&#39;s blog">
-    <title>Codeforces Global Round 1 - jhdjames37&#39;s blog</title>
+    <title>HZNU 校赛游记 - jhdjames37&#39;s blog</title>
     <meta name="author" content="jhdjames37">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。\n\nA B 略，C $2^n - 1$ 直接打表。\nD 经典问题（似乎是 ZJOI2006 弱化版），每种顺子最多两个。写起来有点烦。\nE 结论题，只要去观察差分数组就做完了。\nF 题挺讨厌的，有一个在线倍增的做法（超级难写，各种分讨，比赛时就在搞这玩意自闭），（赛后一躺下来就想到）也有一个离线 DFS 时维护每个点 LCA 深度做法（超级好写，第二天 15 分钟写完。。。）\nG 题很容易想到一回合定胜负的分讨（也还好写）。其实还有一种【打劫】（套用围棋中的话）方式：两个距离为奇数的白点，因为你可以在路径上隔一个位置放一个棋子，这样对方只能先堵那个 $2$，同时规模缩小。对于度数为 $3$ 的点，也有类似的结论，只需要在分叉旁边的位置放一个，对手只能放分叉，然后就转化成为上述情况。\nH 题本质还是数位 DP。每个在 $[l, r]$ 之间的数可以表示成 $\\text{num} + ? \\times k$ （$?$ 为通配符）的形式。建出 AC 机跑 DP，每个匹配在 $\\text{num}$ 的终止结点处计算贡献。\n","dateCreated":"2019-02-13T20:58:05+08:00","dateModified":"2019-02-13T21:13:22+08:00","datePublished":"2019-02-13T20:58:05+08:00","description":"新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。","headline":"Codeforces Global Round 1","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/","keywords":"Codeforces"}</script>
-    <meta name="description" content="新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。">
-<meta name="keywords" content="Codeforces">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"杭师大校赛。ZJU (cjb) 出题。因为奇奇怪怪的原因，XJ、杭二、填海等校都派队参加，然后变成省选模拟。\n我校阵容：（按照终榜排名）(AwD, zzy), (wzz, jxc, cxt), (xtr, qxj, yn), (app, czx, me), (yzy, zkc, fx)\n反正马上就要退役了，多打打现场赛玩一玩。。。\n\n早上到的时候，app 已经签完到，然后已经过了测 RP 题（一发。。。）。\n然后推了个两圆求交（公式各种抄错），然后阅读 T3，app 在认真的列了张表后，发现了事情的真相。然后练习赛 rk1。zzy T2 死活过不去，以为标算爆了，然后晚上研究了一下，发现是 $\\pi$ 他没取 $3.1415$。\n\n去食堂等 czx。然后和碰到了范老师他们俩，一起去买饭。（感觉价格还挺平价的，不知道某些二十块的是怎么吃出来的）吃饭的时候几个人和 cjb 谈笑风生，比如听说好多高中来然后疯狂加题的故事，比如拿到了题面里有 app 的重要信息。（cjb 疯狂吐槽广二集训队 16 17 18 名，“搞个营员交流不行呀”）。\n\n进赛场，以为走错到了 (NOI)WC，刚想喷谁把小黄鸭带到赛场，然后发现桌子上有三只小粉猪（以下习惯起见还是叫鸭子）。广播里一直在说不要捏鸭子，然后鸭子声还是整场没停。\n发题面，其他队伍都有三份题面，就我们只有一份，然后不得不把题面拆开看。\n\n前 5 分钟我一脸懵逼，app 和 czx 一开一道签到题(ADJ)，然后我一道签到题都没开到。然后从他们的手上拿到了道可做题(H)。然后（因为一些原因）被拉上去写，然后手抖 WA 了一发。\n然后被拉过去确认 I 题题面，4 个黑体词 3 个不认识，看解释理解了它是个双射，然后让 app 写，然后 WA。眼查不出来，先让 czx 写 K。回头我又看了一遍题意，看到一个黑体词 deducted，猜测它是推断的意思，然后让 app 把 25 推 26 加上就过了。之后 cjb 走过来问候我们，“这个 I 题是签到题里最坑的”。\n之后推了 B 的小范围结论（然后一发范围不够，一发爆 int），让 app 打了发 M 的 SG 表，终于基本追平了榜。还剩 CEFGL。CEG 有提交。\n然后 G 题是个 DP 优化，稍微写了一下 1A (91min)。然后分头想 CE。\n他们对着 E 题的表想了半天，我一开始 C 题以为是区间操作。不知道谁喊了句“C 题五万估计带根号”，然后我搞出个分块 + trie 合并（分块可以搞成线段树，然后我以为这个东西复杂度不对又超级难写），然后感觉很难写。但是他们打出 E 的表之后就把我扔上去写了。写了半个多小时就写出来了，然后爆了两发 + 对拍正确性对了，然后 T 了。。。\n开始卡常，乱调块大小，减少 vector 使用都加上还 T。然后看着杭二一群数据结构大师过了此题。然后封榜了。然后把动态开点变成静态，又快了一点，然后又枚举了一波块大小。修改数据存储方式无效，然后最后手动定义中间变量，居然跑快了。。。\n（中间想到可以用主席 trie，然后不会合并，又来不及改，于是放弃）\n最后开始疯狂乱交，枚举块大小交。然后比赛结束，还有两发没有评出来。等我们收拾完东西准备离开的时候，我随手点了一发刷新，然后 A 了？！！离场的时候感觉十分快乐。（感觉像吉老师 WF 绝杀）\n最后出场的时候问了一下，说只要每次变化的时候直接整体重构就行了。。。\n\n填海队三个半小时 AK，不知道派了谁，然后范老师队封榜后（在 cjb 的注视下）也 AK 了。wzz 队差一题 AK。我们因为前场罚时少，总罚时 1000 多一点，好像能干过好多队。\n\n看滚榜。前面浙大教授又开始吹浙江高中选手。cjb 讲题，特意提到了 app，然后说也算是给 ZJOI 加油吧。。。\n\nApplese has just passed his 17-th birthday, we wish him and his friends very good luck in the future study and programming competitions.\n\n接着是滚榜，看到了 20 发 30 发 40 发提交的选手，余姚小哥硬是打成 OI 赛制，封榜后过 4 题，翻到前榜。凭借前场罚时苟在 Cu，骗到一些奖品。\n\n参加这种比赛最大的还是快乐吧。（zrf 说这是 XJ 第一次没拿 rk1，我倒不怎么 care）包括前面一周的准备，其实也是挺好玩的。\n希望还有机会参加之后的浙大校赛。\n感受了一下，感觉我们还是数据结构不行。平时 VP 的话数据结构题不多。另外，windows 是真的不能打代码。感觉那个编译器也挺沙雕的，在我电脑上最后几发实际上效率没啥区别。要是省选没退役的话，确实还要认真研究研究卡常数。。。\n","dateCreated":"2019-03-19T22:03:15+08:00","dateModified":"2019-03-20T17:41:27+08:00","datePublished":"2019-03-19T22:03:15+08:00","description":"杭师大校赛。ZJU (cjb) 出题。因为奇奇怪怪的原因，XJ、杭二、填海等校都派队参加，然后变成省选模拟。\n我校阵容：（按照终榜排名）(AwD, zzy), (wzz, jxc, cxt), (xtr, qxj, yn), (app, czx, me), (yzy, zkc, fx)\n反正马上就要退役了，多打打现场赛玩一玩。。。","headline":"HZNU 校赛游记","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/03/19/HZNU-PC/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/03/19/HZNU-PC/","keywords":"cpc"}</script>
+    <meta name="description" content="杭师大校赛。ZJU (cjb) 出题。因为奇奇怪怪的原因，XJ、杭二、填海等校都派队参加，然后变成省选模拟。 我校阵容：（按照终榜排名）(AwD, zzy), (wzz, jxc, cxt), (xtr, qxj, yn), (app, czx, me), (yzy, zkc, fx) 反正马上就要退役了，多打打现场赛玩一玩。。。">
+<meta name="keywords" content="cpc">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Codeforces Global Round 1">
-<meta property="og:url" content="jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/index.html">
+<meta property="og:title" content="HZNU 校赛游记">
+<meta property="og:url" content="jhdjames37.github.io/2019/03/19/HZNU-PC/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
-<meta property="og:description" content="新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。">
+<meta property="og:description" content="杭师大校赛。ZJU (cjb) 出题。因为奇奇怪怪的原因，XJ、杭二、填海等校都派队参加，然后变成省选模拟。 我校阵容：（按照终榜排名）(AwD, zzy), (wzz, jxc, cxt), (xtr, qxj, yn), (app, czx, me), (yzy, zkc, fx) 反正马上就要退役了，多打打现场赛玩一玩。。。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-13T13:13:22.470Z">
+<meta property="og:updated_time" content="2019-03-20T09:41:27.033Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Codeforces Global Round 1">
-<meta name="twitter:description" content="新鲜出炉的 Global Round （其实就是个 Div1 + Div2）。">
+<meta name="twitter:title" content="HZNU 校赛游记">
+<meta name="twitter:description" content="杭师大校赛。ZJU (cjb) 出题。因为奇奇怪怪的原因，XJ、杭二、填海等校都派队参加，然后变成省选模拟。 我校阵容：（按照终榜排名）(AwD, zzy), (wzz, jxc, cxt), (xtr, qxj, yn), (app, czx, me), (yzy, zkc, fx) 反正马上就要退役了，多打打现场赛玩一玩。。。">
     
     
         
@@ -225,27 +225,27 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Codeforces Global Round 1
+            HZNU 校赛游记
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-02-13T20:58:05+08:00">
+    <time datetime="2019-03-19T22:03:15+08:00">
 	
-		    2019-02-13
+		    2019-03-19
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solution/">solution</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/review/">review</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2019-02-13T21:13:22+08:00">
+    <time datetime="2019-03-20T17:41:27+08:00">
 	
-		    2019-02-13
+		    2019-03-20
     	
     </time>
 </div>
@@ -256,14 +256,39 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>新鲜出炉的 <a href="https://codeforces.com/contest/1110" target="_blank" rel="noopener">Global Round</a> （其实就是个 Div1 + Div2）。</p>
+            <p>杭师大校赛。ZJU (cjb) 出题。因为奇奇怪怪的原因，XJ、杭二、填海等校都派队参加，然后<del>变成省选模拟</del>。</p>
+<p>我校阵容：（按照终榜排名）<br>(AwD, zzy), (wzz, jxc, cxt), (xtr, qxj, yn), (app, czx, me), (yzy, zkc, fx)</p>
+<p><del>反正马上就要退役了，多打打现场赛玩一玩。。。</del></p>
 <a id="more"></a>
-<p>A B 略，C $2^n - 1$ 直接打表。</p>
-<p>D 经典问题（似乎是 ZJOI2006 弱化版），每种顺子最多两个。写起来有点烦。</p>
-<p>E 结论题，只要去观察差分数组就做完了。</p>
-<p>F 题挺讨厌的，有一个在线倍增的做法（超级难写，各种分讨，比赛时就在搞这玩意自闭），<del>（赛后一躺下来就想到）</del>也有一个离线 DFS 时维护每个点 LCA 深度做法（超级好写，第二天 15 分钟写完。。。）</p>
-<p>G 题很容易想到一回合定胜负的分讨（也还好写）。其实还有一种【打劫】（套用围棋中的话）方式：两个距离为奇数的白点，因为你可以在路径上隔一个位置放一个棋子，这样对方只能先堵那个 $2$，同时规模缩小。对于度数为 $3$ 的点，也有类似的结论，只需要在分叉旁边的位置放一个，对手只能放分叉，然后就转化成为上述情况。</p>
-<p>H 题本质还是数位 DP。每个在 $[l, r]$ 之间的数可以表示成 $\text{num} + ? \times k$ （$?$ 为通配符）的形式。建出 AC 机跑 DP，每个匹配在 $\text{num}$ 的终止结点处计算贡献。</p>
+<p>早上到的时候，app 已经签完到，然后已经过了测 RP 题（一发。。。）。</p>
+<p>然后推了个两圆求交（公式各种抄错），然后阅读 T3，app 在认真的列了张表后，发现了事情的真相。然后练习赛 rk1。zzy T2 死活过不去，以为标算爆了，然后晚上研究了一下，发现是 $\pi$ 他没取 $3.1415$。</p>
+<hr>
+<p>去食堂等 czx。然后和碰到了范老师他们俩，一起去买饭。（感觉价格还挺平价的，不知道某些二十块的是怎么吃出来的）吃饭的时候几个人和 cjb 谈笑风生，比如听说好多高中来然后疯狂加题的故事，比如拿到了题面里有 app 的重要信息。（cjb 疯狂吐槽广二集训队 16 17 18 名，“搞个营员交流不行呀”）。</p>
+<hr>
+<p>进赛场，以为走错到了 (NOI)WC，刚想喷谁把小黄鸭带到赛场，然后发现桌子上有三只小粉猪（以下习惯起见还是叫鸭子）。广播里一直在说不要捏鸭子，然后鸭子声还是整场没停。</p>
+<p>发题面，其他队伍都有三份题面，就我们只有一份，然后不得不把题面拆开看。</p>
+<hr>
+<p>前 5 分钟我一脸懵逼，app 和 czx 一开一道签到题(ADJ)，然后我一道签到题都没开到。然后从他们的手上拿到了道可做题(H)。然后（因为一些原因）被拉上去写，然后手抖 WA 了一发。</p>
+<p>然后被拉过去确认 I 题题面，4 个黑体词 3 个不认识，看解释理解了它是个双射，然后让 app 写，然后 WA。眼查不出来，先让 czx 写 K。回头我又看了一遍题意，看到一个黑体词 <code>deducted</code>，猜测它是推断的意思，然后让 app 把 25 推 26 加上就过了。之后 cjb 走过来问候我们，“这个 I 题是签到题里最坑的”。</p>
+<p>之后推了 B 的小范围结论（然后一发范围不够，一发爆 <code>int</code>），让 app 打了发 M 的 SG 表，终于基本追平了榜。还剩 CEFGL。CEG 有提交。</p>
+<p>然后 G 题是个 DP 优化，稍微写了一下 1A (91min)。然后分头想 CE。</p>
+<p>他们对着 E 题的表想了半天，我一开始 C 题以为是区间操作。不知道谁喊了句“C 题五万估计带根号”，然后我搞出个分块 + trie 合并（分块可以搞成线段树，然后我以为这个东西复杂度不对又超级难写），然后感觉很难写。但是他们打出 E 的表之后就把我扔上去写了。写了半个多小时就写出来了，然后爆了两发 + 对拍正确性对了，然后 T 了。。。</p>
+<p>开始卡常，乱调块大小，减少 <code>vector</code> 使用都加上还 T。然后看着杭二一群数据结构大师过了此题。然后封榜了。然后把动态开点变成静态，又快了一点，然后又枚举了一波块大小。修改数据存储方式无效，然后最后手动定义中间变量，居然跑快了。。。</p>
+<p>（中间想到可以用主席 trie，然后不会合并，又来不及改，于是放弃）</p>
+<p>最后开始疯狂乱交，枚举块大小交。然后比赛结束，还有两发没有评出来。等我们收拾完东西准备离开的时候，我随手点了一发刷新，然后 A 了？！！离场的时候感觉十分快乐。（感觉像吉老师 WF 绝杀）</p>
+<p>最后出场的时候问了一下，说只要每次变化的时候直接整体重构就行了。。。</p>
+<hr>
+<p>填海队三个半小时 AK，不知道派了谁，然后范老师队封榜后（在 cjb 的注视下）也 AK 了。wzz 队差一题 AK。我们因为前场罚时少，总罚时 1000 多一点，好像能干过好多队。</p>
+<hr>
+<p>看滚榜。前面浙大教授又开始吹浙江高中选手。cjb 讲题，特意提到了 app，然后说也算是给 ZJOI 加油吧。。。</p>
+<blockquote>
+<p><strong>Applese has just passed his 17-th birthday, we wish him and his friends very good luck in the future study and programming competitions.</strong></p>
+</blockquote>
+<p>接着是滚榜，看到了 20 发 30 发 40 发提交的选手，余姚小哥硬是打成 OI 赛制，封榜后过 4 题，翻到前榜。凭借前场罚时苟在 Cu，骗到一些奖品。</p>
+<hr>
+<p>参加这种比赛最大的还是快乐吧。（zrf 说这是 XJ 第一次没拿 rk1，我倒不怎么 care）包括前面一周的准备，其实也是挺好玩的。</p>
+<p>希望还有机会参加之后的浙大校赛。</p>
+<p>感受了一下，感觉我们还是数据结构不行。平时 VP 的话数据结构题不多。另外，windows 是真的不能打代码。感觉那个编译器也挺沙雕的，在我电脑上最后几发实际上效率没啥区别。<del>要是省选没退役的话，确实还要认真研究研究卡常数。。。</del></p>
 
             
 
@@ -274,7 +299,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/Codeforces/">Codeforces</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/cpc/">cpc</a>
 
             </div>
         
@@ -285,7 +310,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/19/HZNU-PC/" data-tooltip="HZNU 校赛游记" aria-label="上一篇: HZNU 校赛游记">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/23/ZJOI2019-Round1/" data-tooltip="【终章？（上）】 - ZJOI2019 Round1" aria-label="上一篇: 【终章？（上）】 - ZJOI2019 Round1">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -294,7 +319,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/UOJ-Goodbye-Wuxu/" data-tooltip="UOJ Goodbye Wuxu" aria-label="下一篇: UOJ Goodbye Wuxu">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/13/Codeforces-Global-Round-1/" data-tooltip="Codeforces Global Round 1" aria-label="下一篇: Codeforces Global Round 1">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -312,7 +337,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/03/19/HZNU-PC/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -320,7 +345,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/&amp;title=Codeforces Global Round 1" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/03/19/HZNU-PC/&amp;title=HZNU 校赛游记" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -328,7 +353,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/03/19/HZNU-PC/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -386,7 +411,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/19/HZNU-PC/" data-tooltip="HZNU 校赛游记" aria-label="上一篇: HZNU 校赛游记">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/23/ZJOI2019-Round1/" data-tooltip="【终章？（上）】 - ZJOI2019 Round1" aria-label="上一篇: 【终章？（上）】 - ZJOI2019 Round1">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -395,7 +420,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/UOJ-Goodbye-Wuxu/" data-tooltip="UOJ Goodbye Wuxu" aria-label="下一篇: UOJ Goodbye Wuxu">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/13/Codeforces-Global-Round-1/" data-tooltip="Codeforces Global Round 1" aria-label="下一篇: Codeforces Global Round 1">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -413,7 +438,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/03/19/HZNU-PC/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -421,7 +446,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/&amp;title=Codeforces Global Round 1" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/03/19/HZNU-PC/&amp;title=HZNU 校赛游记" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -429,7 +454,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/03/19/HZNU-PC/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -462,7 +487,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/03/19/HZNU-PC/">
                     <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
@@ -470,7 +495,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/&amp;title=Codeforces Global Round 1">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/03/19/HZNU-PC/&amp;title=HZNU 校赛游记">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -478,7 +503,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/13/Codeforces-Global-Round-1/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/03/19/HZNU-PC/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -529,7 +554,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'Codeforces Global Round 1',
+                        id: 'HZNU 校赛游记',
                         owner: 'jhdjames37',
                         repo: 'jhdjames37.github.io',
                         oauth: {
