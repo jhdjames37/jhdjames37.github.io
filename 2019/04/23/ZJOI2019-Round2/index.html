@@ -6,24 +6,24 @@
     <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="jhdjames37&#39;s blog">
-    <title>UOJ Goodbye Wuxu - jhdjames37&#39;s blog</title>
+    <title>【终章？（下）】ZJOI2019 Round 2 - jhdjames37&#39;s blog</title>
     <meta name="author" content="jhdjames37">
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"不说比赛的时候的尴尬场景。（E 题忘记读 subtask 编号爆零。。。A 题 1:40 过，B，C 题脑子一片糨糊。。。）\n\nProblem A - 新年的拯救计划一开始一直在想用链构造。。。\n最后我的构造是左右两个菊花，菊花的根用一条边相连，每个点先作为一侧的叶子，然后轮流做根，然后在作为另一侧的叶子。code\nProblem B - 新年的Dog划分一开始没有搞清楚返回的是整张图连通。。。\n枚举每一条边能不能删，最后能形成一棵生成树。显然可以二分优化。\n然后判断二分图，把除了树边以外连接两部分的边删了，然后依次删去树边，判断图是否连通。\ncode\nProblem C - 新年的小黄鸭$O(n^2)$ DP 需要记录根节点向上的重链长度（我居然比赛的时候没有想到。。。）\n根据题解（其实写的有点迷），显然第二维可以记录取 $\\log$ 之后的值，然后转移就是枚举子树内向下 $2^{x}$ 层的结点（或叶结点），它们之间为重链，然后将两侧轻边及其子树的贡献加上（可以预处理）。其中转移到非叶子结点一共 $O(n \\log n)$ 个，叶子结点用 $O(\\log n)$ 个线段树维护。\n具体实现的时候【轻边及其子树的贡献】部分会对一个子树产生贡献，用线段树维护。\n然后将权值拆分计算贡献。其实在这一步之后 DP 的意义就变成了 $f_i$ 表示 $i$ 子树的答案，然后转移枚举根节点向下延伸的重链到了哪个叶结点。其中旁边的轻链和之前一样计算，然后重链的贡献转换成 重链上的 $\\log$ 个点处产生贡献。然后就也变成子树加。所以都可以用线段树维护。\n其实核心代码就一个 DFS (我的 dfs2)。 code\n","dateCreated":"2019-02-11T16:57:45+08:00","dateModified":"2019-02-11T17:19:45+08:00","datePublished":"2019-02-11T16:57:45+08:00","description":"不说比赛的时候的尴尬场景。（E 题忘记读 subtask 编号爆零。。。A 题 1:40 过，B，C 题脑子一片糨糊。。。）","headline":"UOJ Goodbye Wuxu","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/","keywords":"UOJ"}</script>
-    <meta name="description" content="不说比赛的时候的尴尬场景。（E 题忘记读 subtask 编号爆零。。。A 题 1:40 过，B，C 题脑子一片糨糊。。。）">
-<meta name="keywords" content="UOJ">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"},"articleBody":"退役记下篇\nDay 1 的总结没有写，简单 BB 一下，两个字：卡常。三题都存在同复杂度卡状态数的选手。。。\n$552 / 600 \\times 0.3 + 120 / 220 \\times 0.3 = 43.9636$\n卡队线（17）卡校线（6），可能是没得救了。。。\n\n先胡扯几句对于高二来说，省选的意义不言而喻。虽然说在一年前有所感受，但是当这一天真的来临的时候，还是有点无法接受。\n前段时间在看几个省的省选的时候，一方面关注了题目的质量以及各省的队线，但另一方面也没有忘记，虽然只有题目被挂到了 OJ 上（甚至连赛场得分情况都没有），但题目的背后，是一个省（甚至是十二个省）选手的命运。名单上也有许多卡三分之一线选手，他们并非实力不够（也有非常优秀的选手），但是依然因为各种各样的原因被卡。。。\n许多省的省选或是在命题上，或是在组织上存在令人诟病的地方，但是这些我们并不能掌握，除了吐槽（喷）以外，别无选择。\n\n无边的海洋里漂流的小船，不知何时就会被狂风所倾覆；而小船上平凡的我们，也只能怀着渺茫的希望，跟随着舵手指引的航向前行吧。 —— 十二省联考 D2T3 题面\n\n然而面对现实，只有你能成为那个舵手，只有你才能带领自己突破迷雾，走向光明。\nApr. 23rd - Day 0昨天（也许）是退役前的最后一个晚自习，然而真的啥事没干。。。\n早上又啥事没干了一个上午，下午到余姚。。。\n晚上组团出去吃饭，人多菜少，然而吃得挺开心的。。。。\nApr. 24th - Day 1上午 zzy，课件之前扫过几眼。下课播计算鸭可还行。\n下午 samjia 和 zzq，然而根本没有心思去想这些题目。。。\n\n晚上试机，又是老爷机，1e6 FFT 3s。\n","dateCreated":"2019-04-23T20:46:58+08:00","dateModified":"2019-04-24T20:28:15+08:00","datePublished":"2019-04-23T20:46:58+08:00","description":"退役记下篇\nDay 1 的总结没有写，简单 BB 一下，两个字：卡常。三题都存在同复杂度卡状态数的选手。。。\n$552 / 600 \\times 0.3 + 120 / 220 \\times 0.3 = 43.9636$\n卡队线（17）卡校线（6），可能是没得救了。。。","headline":"【终章？（下）】ZJOI2019 Round 2","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"/jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/"},"publisher":{"@type":"Organization","name":"jhdjames37","sameAs":["https://github.com/jhdjames37","http://wpa.qq.com/msgrd?uin=1285959811"],"image":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/2d1d811a1320ec6dec962daa36118477"}},"url":"/jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/","keywords":"ZJOI"}</script>
+    <meta name="description" content="退役记下篇 Day 1 的总结没有写，简单 BB 一下，两个字：卡常。三题都存在同复杂度卡状态数的选手。。。 $552 / 600 \times 0.3 + 120 / 220 \times 0.3 = 43.9636$ 卡队线（17）卡校线（6），可能是没得救了。。。">
+<meta name="keywords" content="ZJOI">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="UOJ Goodbye Wuxu">
-<meta property="og:url" content="jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/index.html">
+<meta property="og:title" content="【终章？（下）】ZJOI2019 Round 2">
+<meta property="og:url" content="jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/index.html">
 <meta property="og:site_name" content="jhdjames37&#39;s blog">
-<meta property="og:description" content="不说比赛的时候的尴尬场景。（E 题忘记读 subtask 编号爆零。。。A 题 1:40 过，B，C 题脑子一片糨糊。。。）">
+<meta property="og:description" content="退役记下篇 Day 1 的总结没有写，简单 BB 一下，两个字：卡常。三题都存在同复杂度卡状态数的选手。。。 $552 / 600 \times 0.3 + 120 / 220 \times 0.3 = 43.9636$ 卡队线（17）卡校线（6），可能是没得救了。。。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-02-11T09:19:45.178Z">
+<meta property="og:updated_time" content="2019-04-24T12:28:15.516Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UOJ Goodbye Wuxu">
-<meta name="twitter:description" content="不说比赛的时候的尴尬场景。（E 题忘记读 subtask 编号爆零。。。A 题 1:40 过，B，C 题脑子一片糨糊。。。）">
+<meta name="twitter:title" content="【终章？（下）】ZJOI2019 Round 2">
+<meta name="twitter:description" content="退役记下篇 Day 1 的总结没有写，简单 BB 一下，两个字：卡常。三题都存在同复杂度卡状态数的选手。。。 $552 / 600 \times 0.3 + 120 / 220 \times 0.3 = 43.9636$ 卡队线（17）卡校线（6），可能是没得救了。。。">
     
     
         
@@ -225,27 +225,27 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            UOJ Goodbye Wuxu
+            【终章？（下）】ZJOI2019 Round 2
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2019-02-11T16:57:45+08:00">
+    <time datetime="2019-04-23T20:46:58+08:00">
 	
-		    2019-02-11
+		    2019-04-23
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/solution/">solution</a>
+    <a class="category-link" href="/categories/oi/">oi</a>, <a class="category-link" href="/categories/oi/review/">review</a>
 
 
     
     <span>, 最后更新于 </span>
-    <time datetime="2019-02-11T17:19:45+08:00">
+    <time datetime="2019-04-24T20:28:15+08:00">
 	
-		    2019-02-11
+		    2019-04-24
     	
     </time>
 </div>
@@ -256,19 +256,25 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>不说比赛的时候的尴尬场景。（E 题忘记读 subtask 编号爆零。。。A 题 1:40 过，B，C 题脑子一片糨糊。。。）</p>
+            <p><del>退役记下篇</del></p>
+<p>Day 1 的总结没有写，简单 BB 一下，两个字：卡常。三题都存在同复杂度卡状态数的选手。。。</p>
+<p>$552 / 600 \times 0.3 + 120 / 220 \times 0.3 = 43.9636$</p>
+<p>卡队线（17）卡校线（6），可能是没得救了。。。</p>
 <a id="more"></a>
-<h2 id="Problem-A-新年的拯救计划"><a href="#Problem-A-新年的拯救计划" class="headerlink" title="Problem A - 新年的拯救计划"></a>Problem A - 新年的拯救计划</h2><p>一开始一直在想用链构造。。。</p>
-<p>最后我的构造是左右两个菊花，菊花的根用一条边相连，每个点先作为一侧的叶子，然后轮流做根，然后在作为另一侧的叶子。<a href="http://uoj.ac/submission/321711" target="_blank" rel="noopener">code</a></p>
-<h2 id="Problem-B-新年的Dog划分"><a href="#Problem-B-新年的Dog划分" class="headerlink" title="Problem B - 新年的Dog划分"></a>Problem B - 新年的Dog划分</h2><p>一开始没有搞清楚返回的是整张图连通。。。</p>
-<p>枚举每一条边能不能删，最后能形成一棵生成树。显然可以二分优化。</p>
-<p>然后判断二分图，把除了树边以外连接两部分的边删了，然后依次删去树边，判断图是否连通。</p>
-<p><a href="http://uoj.ac/submission/323072" target="_blank" rel="noopener">code</a></p>
-<h2 id="Problem-C-新年的小黄鸭"><a href="#Problem-C-新年的小黄鸭" class="headerlink" title="Problem C - 新年的小黄鸭"></a>Problem C - 新年的小黄鸭</h2><p>$O(n^2)$ DP 需要记录根节点向上的重链长度（我居然比赛的时候没有想到。。。）</p>
-<p>根据题解（其实写的有点迷），显然第二维可以记录取 $\log$ 之后的值，然后转移就是枚举子树内向下 $2^{x}$ 层的结点（或叶结点），它们之间为重链，然后将两侧轻边及其子树的贡献加上（可以预处理）。其中转移到非叶子结点一共 $O(n \log n)$ 个，叶子结点用 $O(\log n)$ 个线段树维护。</p>
-<p>具体实现的时候【轻边及其子树的贡献】部分会对一个子树产生贡献，用线段树维护。</p>
-<p>然后将权值拆分计算贡献。其实在这一步之后 DP 的意义就变成了 $f_i$ 表示 $i$ 子树的答案，然后转移枚举根节点向下延伸的重链到了哪个叶结点。其中旁边的轻链和之前一样计算，然后重链的贡献转换成 重链上的 $\log$ 个点处产生贡献。然后就也变成子树加。所以都可以用线段树维护。</p>
-<p>其实核心代码就一个 DFS (我的 <code>dfs2</code>)。 <a href="http://uoj.ac/submission/323137" target="_blank" rel="noopener">code</a></p>
+<h3 id="先胡扯几句"><a href="#先胡扯几句" class="headerlink" title="先胡扯几句"></a>先胡扯几句</h3><p>对于高二来说，省选的意义不言而喻。虽然说在一年前有所感受，但是当这一天真的来临的时候，还是有点无法接受。</p>
+<p>前段时间在看几个省的省选的时候，一方面关注了题目的质量以及各省的队线，但另一方面也没有忘记，虽然只有题目被挂到了 OJ 上（甚至连赛场得分情况都没有），但题目的背后，是一个省（甚至是十二个省）选手的命运。名单上也有许多卡三分之一线选手，他们并非实力不够（也有非常优秀的选手），但是依然因为各种各样的原因被卡。。。</p>
+<p>许多省的省选或是在命题上，或是在组织上存在令人诟病的地方，但是这些我们并不能掌握，除了吐槽（喷）以外，别无选择。</p>
+<blockquote>
+<p>无边的海洋里漂流的小船，不知何时就会被狂风所倾覆；而小船上平凡的我们，也只能怀着渺茫的希望，跟随着舵手指引的航向前行吧。 —— 十二省联考 D2T3 题面</p>
+</blockquote>
+<p>然而面对现实，只有你能成为那个舵手，只有你才能带领自己突破迷雾，走向光明。</p>
+<h2 id="Apr-23rd-Day-0"><a href="#Apr-23rd-Day-0" class="headerlink" title="Apr. 23rd - Day 0"></a>Apr. 23rd - Day 0</h2><p>昨天（也许）是退役前的最后一个晚自习，然而真的啥事没干。。。</p>
+<p>早上又啥事没干了一个上午，下午到余姚。。。</p>
+<p>晚上组团出去吃饭，人多菜少，然而吃得挺开心的。。。。</p>
+<h2 id="Apr-24th-Day-1"><a href="#Apr-24th-Day-1" class="headerlink" title="Apr. 24th - Day 1"></a>Apr. 24th - Day 1</h2><p>上午 zzy，课件之前扫过几眼。<del>下课播计算鸭可还行。</del></p>
+<p>下午 samjia 和 zzq，然而根本没有心思去想这些题目。。。</p>
+<hr>
+<p>晚上试机，又是老爷机，1e6 FFT 3s。</p>
 
             
 
@@ -279,7 +285,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/UOJ/">UOJ</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/ZJOI/">ZJOI</a>
 
             </div>
         
@@ -289,8 +295,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/13/Codeforces-Global-Round-1/" data-tooltip="Codeforces Global Round 1" aria-label="上一篇: Codeforces Global Round 1">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -299,7 +304,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/06/WC-2019-Problems/" data-tooltip="WC 2019 补题记录" aria-label="下一篇: WC 2019 补题记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/14/ZJUPC-2019/" data-tooltip="ZJUPC 2019 游记" aria-label="下一篇: ZJUPC 2019 游记">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -317,7 +322,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -325,7 +330,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/&amp;title=UOJ Goodbye Wuxu" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/&amp;title=【终章？（下）】ZJOI2019 Round 2" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -333,7 +338,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -390,8 +395,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/13/Codeforces-Global-Round-1/" data-tooltip="Codeforces Global Round 1" aria-label="上一篇: Codeforces Global Round 1">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -400,7 +404,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/06/WC-2019-Problems/" data-tooltip="WC 2019 补题记录" aria-label="下一篇: WC 2019 补题记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/14/ZJUPC-2019/" data-tooltip="ZJUPC 2019 游记" aria-label="下一篇: ZJUPC 2019 游记">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -418,7 +422,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/" title="分享到 Weibo">
                     <i class="fa fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -426,7 +430,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/&amp;title=UOJ Goodbye Wuxu" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/&amp;title=【终章？（下）】ZJOI2019 Round 2" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -434,7 +438,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -467,7 +471,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/">
+                <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/">
                     <i class="fa fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                 </a>
             </li>
@@ -475,7 +479,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/&amp;title=UOJ Goodbye Wuxu">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/&amp;title=【终章？（下）】ZJOI2019 Round 2">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -483,7 +487,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/02/11/UOJ-Goodbye-Wuxu/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=jhdjames37.github.io/2019/04/23/ZJOI2019-Round2/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -534,7 +538,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'UOJ Goodbye Wuxu',
+                        id: '【终章？（下）】ZJOI2019 Round 2',
                         owner: 'jhdjames37',
                         repo: 'jhdjames37.github.io',
                         oauth: {
