@@ -1,9 +1,0 @@
-.DS_Store
-Thumbs.db
-db.json
-*.log
-node_modules/
-public/
-.deploy*/
-*~
-node_module_for_blog.zip
