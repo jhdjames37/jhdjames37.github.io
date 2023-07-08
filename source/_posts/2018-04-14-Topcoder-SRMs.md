@@ -18,7 +18,7 @@ UPD: 民间题解：[集训队作业](https://github.com/Mulab11/cntt2016-hw1)
 
 另外，TopCoder 的插件中，moj 做得不错，[repo](https://github.com/lovrop/topcoder-moj) （最新版浮点数 spj 在 c++11 下不会 CE 了， Emacs 选手可能需要手动调整缩进，当然有 java 编译器的可以自己动手改～）
 
-<!--- more --->
+<!-- more -->
 
 <!-- toc -->
 

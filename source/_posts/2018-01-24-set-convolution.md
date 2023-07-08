@@ -12,7 +12,7 @@ date: 2018-01-24 21:43:00
 
 （前置知识 : 准备一份 2015 年国家集训队论文，翻到最后一篇文章。）
 
-<!--- more --->
+<!-- more -->
 
 例题： [CF914G](http://codeforces.com/contest/914/problem/G)
 

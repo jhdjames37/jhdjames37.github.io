@@ -10,7 +10,7 @@ tags:
 
 新鲜出炉的 [Global Round](https://codeforces.com/contest/1110) （其实就是个 Div1 + Div2）。
 
-<!--- more --->
+<!-- more -->
 
 A B 略，C $2^n - 1$ 直接打表。
 
