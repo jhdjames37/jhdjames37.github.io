@@ -31,9 +31,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Use git modification time as mtime
         # See: https://github.com/Dream4ever/Knowledge-Base/issues/69
         run: |
+          git config core.quotepath false &&
           git ls-tree -r --name-only HEAD | while read filename; do
           touch -t `git log -1 --pretty=format:"%ad" --date=format:"%Y%m%d%H%M" -- $filename` $filename;
           done
