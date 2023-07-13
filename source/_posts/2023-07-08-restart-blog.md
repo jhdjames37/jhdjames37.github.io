@@ -33,4 +33,9 @@ sticky: true
 由于距离上一次更新已经过去了很久，hexo 相关生态有了很多的变化，曾经的依赖库也有很多已经处于停止维护状态。
 
 + 关于主题：我原来使用（并进行过深度魔改）的主题目前更新缓慢，且确实有许多不舒服的地方。因此需要进行重新选型和调整。
+  - 目前选用的是 [Volantis](https://github.com/volantis-x/hexo-theme-volantis) theme.
+  - 稍微进行了一些修改以适配。
+  - 少部分内容渲染不正常（主要体现在删除线上），暂时不想修复
 + 关于数学：之前使用的 Mathjax 解决方案似乎已经不再是 best practice。需要重新进行研究。
+  - 目前采用的是[这里](https://blog.dearxuan.com/2023/01/07/Volantis%E9%AD%94%E6%94%B9%E6%95%99%E7%A8%8B/#katex%E5%85%AC%E5%BC%8F%E6%B8%B2%E6%9F%93%E9%80%9A%E7%94%A8)的解决方案。
+  - 有个别公式由于 Mathjax 和 KaTeX 具体规则不兼容的问题无法正常渲染。暂时不想修复。

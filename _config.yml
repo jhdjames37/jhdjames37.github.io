@@ -7,7 +7,7 @@ title: jhdjames37's blog
 subtitle: A normal CS student. Was an OIer's blog
 description: This is a blog to express my thoughts and summary.
 author: jhdjames37
-language: zh-cn
+language: zh-CN
 timezone:
 start: 2017
 
@@ -74,5 +74,11 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
-#theme: tranquilpeak2
+# theme: landscape
+theme: volantis
+
+import:
+  head_end:
+    - <link rel="stylesheet" href="https://unpkg.com/katex@0.16.4/dist/katex.min.css" />
+    - <script defer src="https://unpkg.com/katex@0.16.4/dist/katex.min.js"></script>
+    - <script defer src="https://unpkg.com/katex@0.16.4/dist/contrib/auto-render.min.js"></script>
