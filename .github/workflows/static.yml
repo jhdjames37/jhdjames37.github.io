@@ -35,7 +35,7 @@ jobs:
         # See: https://github.com/Dream4ever/Knowledge-Base/issues/69
         run: |
           git ls-tree -r --name-only HEAD | while read filename; do
-          touch -t `git log -1 --pretty=format:"%ad" --date=format:"%Y%m%d%H%M" -- $filename`;
+          touch -t `git log -1 --pretty=format:"%ad" --date=format:"%Y%m%d%H%M" -- $filename` $filename;
           done
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.7.0
